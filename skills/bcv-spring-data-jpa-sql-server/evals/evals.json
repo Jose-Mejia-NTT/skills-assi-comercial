@@ -1,0 +1,75 @@
+{
+  "skill_name": "bcv-spring-data-jpa-sql-server",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Necesito crear una entidad JPA PaymentPromise en el schema Disbursement. Campos: id (Long, PK), expedientNumber (String, único), amount (BigDecimal), status (String), processedAt (LocalDateTime). Usa package base pe.interbank.bcv.disb.business y arquitectura hexagonal.",
+      "expected_output": "Genera estructura multi-módulo Maven con entidad JPA, repository, BaseEntity con auditoría, configuración datasource y tests.",
+      "files": [],
+      "expectations": [
+        "Se genera pom.xml raíz con parent spring-boot-starter-parent",
+        "Se generan módulos core, out, app",
+        "Se genera pe/interbank/bcv/disb/business/core/domain/entity/BaseEntity.java con @CreatedBy, @CreatedDate, @LastModifiedBy, @LastModifiedDate, @Version",
+        "Se genera pe/interbank/bcv/disb/business/out/database/entity/PaymentPromise.java con @Table(schema = \"Disbursement\")",
+        "PaymentPromise extiende BaseEntity",
+        "Se genera PaymentPromiseRepository extends JpaRepository<PaymentPromise, Long>",
+        "Repository incluye findByExpedientNumber",
+        "Se genera JpaAuditingConfig con @EnableJpaAuditing",
+        "Se genera application.yml con datasource HikariCP y dialect SQLServer2012Dialect",
+        "application.yml tiene spring.jpa.hibernate.ddl-auto: none",
+        "Se genera .env.example con SQLSERVER_URL, SQLSERVER_USERNAME, SQLSERVER_PASSWORD",
+        "Se generan tests de entidad y repository",
+        "El pom.xml del módulo -out contiene spring-boot-starter-data-jpa, mssql-jdbc, HikariCP",
+        "El pom.xml del módulo -core NO contiene spring-boot-starter-data-jpa",
+        "annotationProcessorPaths tiene Lombok ANTES de MapStruct"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Tengo un proyecto existente con módulos bcv-disb-business-service-core y bcv-disb-business-service-app. Quiero agregar una entidad Document en el schema Disbursement con campos id, paymentPromiseId, fileName, documentType. El proyecto ya usa arquitectura hexagonal.",
+      "expected_output": "Detecta estructura, pregunta ubicación, agrega entidad y repository respetando módulos existentes, actualiza pom.xml.",
+      "files": [
+        "evals/fixtures/pom-example.xml"
+      ],
+      "expectations": [
+        "Detecta estructura hexagonal existente",
+        "Pregunta al usuario en qué módulo colocar la entidad/repository",
+        "NO genera estructura completa desde cero",
+        "Agrega Document.java en el módulo de persistencia",
+        "Agrega DocumentRepository.java extends JpaRepository",
+        "Actualiza pom.xml del módulo de persistencia con mssql-jdbc y HikariCP si faltan",
+        "Actualiza application.yml con datasource config si no existe",
+        "NO sobrescribe archivos existentes sin confirmar"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Create a JPA entity for SQL Server in my existing monolithic Spring Boot project. Entity: Customer with id (Long), ruc (String), name (String), createdAt (LocalDateTime). Package: com.example.myapp.",
+      "expected_output": "Detecta proyecto single-module, genera entidad y repository dentro de la estructura existente, no crea módulos separados.",
+      "files": [],
+      "expectations": [
+        "Detecta que es proyecto single-module",
+        "Genera packages dentro de src/main/java/com/example/myapp/",
+        "NO genera módulos Maven separados",
+        "Actualiza pom.xml existente con spring-boot-starter-data-jpa y mssql-jdbc",
+        "Genera Customer.java con @Entity y @Table",
+        "Genera CustomerRepository.java extends JpaRepository",
+        "Actualiza o crea application.yml con datasource config"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Necesito agregar Always Encrypted a la columna accountNumber de la entidad BankAccount en schema Disbursement. También quiero auditoría completa.",
+      "expected_output": "Genera entidad con @Column para accountNumber, documenta configuración Always Encrypted en application.yml y referencias, genera BaseEntity con auditoría.",
+      "files": [],
+      "expectations": [
+        "Genera BankAccount.java con @Column(name = \"account_number\")",
+        "Incluye comentario/documentación sobre Always Encrypted",
+        "Genera BaseEntity con campos de auditoría",
+        "BankAccount extiende BaseEntity",
+        "application.yml menciona columnEncryptionSetting=Enabled en URL o comentario",
+        "Se genera referencia always-encrypted.md o nota en output"
+      ]
+    }
+  ]
+}

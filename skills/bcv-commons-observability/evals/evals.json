@@ -1,0 +1,45 @@
+{
+  "skill_name": "bcv-commons-observability",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "¿Cómo agrego observabilidad a un nuevo servicio en bcv-disb-business-service?",
+      "expected_output": "Confirma la dependencia en el módulo app, coloca @ObservableService en la clase y @ObservableOperation en los métodos públicos, y da un snippet de test.",
+      "files": [],
+      "expectations": [
+        "Menciona la dependencia bcv-commons-observability en el módulo ejecutable/app",
+        "Coloca @ObservableService en la clase de implementación",
+        "Coloca @ObservableOperation en los métodos públicos del servicio",
+        "Indica que la anotación va en la implementación, no en la interfaz",
+        "Incluye un snippet de unit test que verifica la presencia de las anotaciones"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Las alertas de Teams no llegan cuando hay excepciones en producción en bcv-disb-business-service. ¿Qué reviso?",
+      "expected_output": "Checklist de configuración: enabled, webhook desde Key Vault, secret-keys en bootstrap.yml, no hardcodear URL, acceso de red, excepciones no tragadas.",
+      "files": [],
+      "expectations": [
+        "Verifica bcv.observability.alerting.enabled: true",
+        "Confirma que bcv-webhook-url-teams se resuelve desde Key Vault",
+        "Muestra bootstrap.yml con secret-keys que incluya bcv-webhook-url-teams y bcv-observability-token",
+        "Advierte contra commons.exception.teams.webhook.endpoint hardcodeado",
+        "Sugiere rotar el webhook si estuvo en el repo",
+        "Menciona verificar acceso de red desde AKS al webhook de Teams"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "How do I enable data masking for PII such as DNI and RUC in the logs of a BCV service?",
+      "expected_output": "Habilita bcv.observability.data-masking.enabled: true, explica que el masking se maneja por reglas de la librería y advierte no loggear PII en texto plano.",
+      "files": [],
+      "expectations": [
+        "Muestra la propiedad bcv.observability.data-masking.enabled: true",
+        "Explica que las reglas de masking están en bcv-commons-observability",
+        "Advierte no loggear PII en mensajes propios",
+        "Muestra un ejemplo de log antes/después del enmascaramiento",
+        "Menciona que reglas adicionales requieren actualizar la librería"
+      ]
+    }
+  ]
+}
