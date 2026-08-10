@@ -1,234 +1,127 @@
 ---
 name: bcv-hexagonal-architecture
 description: |
-    Use this skill when the user wants to add a new feature, use case, or endpoint to a
-    BCV H2H service that follows a hexagonal architecture pattern (core/input/output/app).
-    Triggers: "add use case", "new endpoint", "new feature", "agregar caso de uso",
-    "nuevo endpoint", "nueva funcionalidad", "necesito que el servicio pueda...",
-    "quiero agregar...", or any natural language description of a new capability in
-    a BCV H2H domain.
-    Do NOT use for: modifying existing use cases, generating tests (use bcv-pitest-mutation),
-    generating OpenAPI (use bcv-openapi-design), or Azure Service Bus events (use bcv-azure-service-bus).
+  Use this skill when the user asks to add a new use case, endpoint, or feature
+  in a Java service that follows a hexagonal architecture style (core/input/output/app
+  or equivalent ports-and-adapters layering).
+  Triggers: "add use case", "new endpoint", "new feature", "agregar caso de uso",
+  "nuevo endpoint", "nueva funcionalidad", "quiero agregar...", "necesito que el servicio pueda...".
+  Do NOT use for OpenAPI-first design, test generation, or messaging-only changes.
 applyTo: "**"
 ---
 
 # bcv-hexagonal-architecture
 
-# Objetivo
+## Objective
 
-Generate a complete hexagonal vertical slice for a new use case in
-the current BCV H2H project, following the existing project patterns exactly.
-One skill invocation = one use case = one complete slice.
+Generate one complete hexagonal vertical slice for one new use case,
+following the conventions detected in the current repository.
 
-## Project module structure
+One invocation = one use case = one full slice.
 
-```
-*-core/    ← Domain: entities, value objects, use case interfaces, service implementations
-*-input/   ← Driving adapter: REST controllers, DTOs, mappers, application services
-*-output/  ← Driven adapter: persistence adapters, repositories, entities, mappers
-*-app/     ← Wiring: @Bean configuration in UseCaseConfig
-```
+## Expected input
 
-Base package: discover from project source tree (do not hardcode).
+Natural language feature request or DHU with acceptance criteria and business rules.
 
-## Project alignment (mandatory before generation)
+## Expected output
 
-Before generating code, inspect the current repository and infer:
+A complete vertical slice, including:
+- core port/in interface
+- core use case service
+- core port/out interface when persistence is needed
+- input DTOs and mapper updates
+- input command/query service updates
+- input controller endpoint update
+- output persistence adapter update
+- app UseCaseConfig bean registration
 
-1. Base package root used by Java sources.
-2. Exact module names for `*-core`, `*-input`, `*-output`, `*-app`.
-3. Existing package conventions for:
-    - `core.port.in` (with or without domain subfolder)
-    - `output` adapter path (for example `out/database/adapter` or `out/adapter`)
-    - controller path style and API naming
-4. Existing exception strategy in persistence adapters:
-    - if the project uses `DatabaseIOException` (or equivalent), follow it.
-    - if not, preserve current project style.
+## Compatibility gate (mandatory)
 
-If any of the above cannot be inferred confidently, ask up to 3 clarifying questions.
+Before generation, verify the repository has enough hexagonal signals:
+1. Core/input/output/app modules or equivalent package layering.
+2. Port-based boundaries (port.in and/or port.out style).
+3. UseCaseConfig or equivalent explicit wiring point.
 
-# Input esperado
+If these signals are weak or absent, stop and explain why this skill should not be used.
 
-Natural language description of the new feature. Examples:
-- "Necesito que el servicio pueda reabrir un expediente anulado"
-- "Add an endpoint to reassign an expedient to another user with justification"
-- A DHU section with acceptance criteria and business rules
+## Project alignment (mandatory before code generation)
 
-# Output esperado
+Infer from code, do not hardcode:
+1. Base Java package.
+2. Exact module names.
+3. Current path conventions for ports, adapters, controller DTOs, and mappers.
+4. Persistence exception strategy already used by existing adapters.
 
-For a use case named `{Xxx}`:
+If confidence is low, ask up to 3 clarifying questions.
 
-| File | Action | Module |
-|------|--------|--------|
-| `core/port/in/{domain}/{Xxx}UseCase.java` | CREATE | core |
-| `core/usecase/{Xxx}Service.java` | CREATE | core |
-| `core/port/out/{Xxx}PersistencePort.java` | CREATE if new persistence needed | core |
-| `input/app/in/dto/request/{Xxx}RequestDto.java` | CREATE | input |
-| `input/app/in/dto/response/{Xxx}ResponseDto.java` | CREATE if response needed | input |
-| `input/app/in/mapper/{Xxx}ControllerMapper.java` | CREATE or UPDATE | input |
-| `input/app/application/{Xxx}CommandService.java` or `QueryService` | CREATE or UPDATE | input |
-| `input/app/in/controller/{Existing}Controller.java` | ADD METHOD | input |
-| `output/<project-output-adapter-path>/{Xxx}PersistenceAdapter.java` | CREATE or UPDATE | output |
-| `app/config/UseCaseConfig.java` | ADD @Bean | app |
+## Workflow
 
-# Flujo de trabajo
+### SDD
 
-## SDD — Spec Driven Development
+1. Specify: transform request into structured use case spec.
+2. Validate: check missing data and ask up to 3 questions.
+3. Generate: create slice in order core -> input -> output -> app.
+4. Verify: enforce dependency rules and wiring registration.
 
-| Phase | Action |
-|-------|--------|
-| **Especificar** | Parse the user input (natural language or DHU) and produce an internal structured spec: action verb, entity, inputs, outputs, business rules, Command vs. Query. |
-| **Validar** | Verify the spec is complete. If missing critical information, ask at most 3 clarifying questions (see section below). Score must pass before generating. |
-| **Generar** | Only when the spec is approved, generate all files of the hexagonal slice in order: core → input → output → app. |
-| **Verificar** | Check layer dependency rules and `UseCaseConfig` registration. Report any violation before delivering the output. |
+### BMAD
 
-## BMAD — Build phase detail
+1. Understand: action, entity, inputs, outputs, business rules.
+2. Design: names, signatures, DTOs, endpoint contract.
+3. Build: create or update required files by layer.
+4. Validate: architectural consistency and annotation checklist.
 
-### Understand
-1. Parse the user request — identify: action verb, domain entity, required inputs, expected output, business rules.
-2. Map to the existing domain entities and value objects already present in the current project.
-3. Identify which existing ports/adapters can be reused vs. what needs to be created.
-4. Determine if the use case is a Command (mutates state) or Query (reads state).
+## Mandatory implementation rules
 
-### Design
-5. Name the use case following the convention: `{Action}{Entity}UseCase` → `{Action}{Entity}Service`.
-6. Define the port/in interface method signature using existing value objects when possible.
-7. Define required DTOs (record classes) and mapper methods.
-8. Identify the HTTP method and path following the existing controller pattern used by the project.
+1. Use cases are plain Java classes: no @Service, no @Component.
+2. Services depend on ports/interfaces, never on concrete adapters.
+3. Controller methods must include @Operation, @ApiResponses (200/400/500), and @ObservableOperation.
+4. DTOs must be Java records (no Lombok on DTOs).
+5. Persistence adapters must follow existing project exception style.
+6. Register new use case bean in UseCaseConfig.
 
-### Build
-9. Generate files in order: core → input → output → app (wiring).
-10. Apply all mandatory patterns (see Rules section).
+## Layer dependency rules
 
-### Validate
-11. Verify no layer imports from a layer it should not know about.
-12. Verify `UseCaseConfig` has the new @Bean registered.
-13. Verify controller uses `@ObservableOperation` on the new method.
+Allowed:
+- input -> core
+- output -> core
+- app -> all (wiring only)
 
-## Mandatory patterns
+Forbidden:
+- core -> input
+- core -> output
+- input -> output
 
-### core — UseCase interface
-```java
-package <project-base-package>.core.port.in.<domain-or-root>;
+## Reference loading policy
 
-public interface {Xxx}UseCase {
-    {ReturnType} {methodName}({params});
-}
-```
+Load only what is needed for the current request:
+1. references/project-alignment-checklist.md
+2. references/controller-api-conventions.md
+3. references/error-handling-patterns.md
+4. references/hexagonal-rules.md
 
-### core — Service implementation
-```java
-@Slf4j
-@RequiredArgsConstructor
-public class {Xxx}Service implements {Xxx}UseCase {
+Prefer detected repository conventions over generic examples.
 
-    // inject only port/out interfaces, never adapters or Spring beans
-    private final {Yyy}PersistencePort {yyy}Port;
+## When not to use this skill
 
-    @Override
-    public {ReturnType} {methodName}({params}) {
-        try {
-            // business logic
-        } catch (DomainException de) {
-            log.warn("...", de.getMessage());
-            throw de;
-        } catch (Exception e) {
-            log.error("...", e.getMessage());
-            throw new UnexpectedException(0, e);
-        }
-    }
-}
-```
+1. Project is not hexagonal-compatible (no clear core/input/output/app or equivalent).
+2. Request is mainly OpenAPI design from scratch.
+3. Request is mainly automated test generation.
+4. Request is mainly Azure Service Bus publisher/subscriber changes.
+5. Request is infrastructure-only (CI/CD, IaC, deployment).
+6. Request requires deep refactor of existing use cases rather than adding one new slice.
 
-> Use cases are plain Java — NO `@Service`, NO `@Component`. Wired exclusively via `UseCaseConfig`.
-
-### input — Controller method
-```java
-@ObservableOperation
-@PostMapping(path = "/{id}/action",
-             consumes = MediaType.APPLICATION_JSON_VALUE,
-             produces = MediaType.APPLICATION_JSON_VALUE)
-public ResponseEntity<{Xxx}ResponseDto> {methodName}(
-        @PathVariable Long id,
-        @RequestBody {Xxx}RequestDto requestDto) {
-    // delegate to CommandService or QueryService
-}
-```
-
-> Always add `@Operation`, `@ApiResponses` (200, 400, 500) and `@ObservableOperation`.
-
-### input — DTOs
-```java
-// Use Java records. No lombok on DTOs.
-public record {Xxx}RequestDto(
-    @JsonProperty("field") String field
-) {}
-```
-
-### output — Persistence adapter
-```java
-@Component
-@RequiredArgsConstructor
-@Slf4j
-public class {Xxx}PersistenceAdapter implements {Xxx}PersistencePort {
-    private final {Xxx}Repository repository;
-
-    @Override
-    public void {methodName}({params}) {
-        // follow current project persistence exception strategy
-    }
-}
-```
-
-### app — UseCaseConfig bean registration
-```java
-@Bean
-public {Xxx}UseCase {xxxUseCase}({dependencies}) {
-    return new {Xxx}Service({dependencies});
-}
-```
-
-## Clarification questions (ask only if missing)
-
-Ask at most 3 questions before generating:
-
-1. What is the action and domain entity? (if not clear from the request)
-2. Should this mutate state (Command) or only read (Query)?
-3. Does it require a new persistence operation or can it reuse an existing port?
-
-If the user provides a DHU, extract answers from criteria sections and rules before asking.
-
-## Layer dependency rules (enforce strictly)
-
-```
-input  → core (allowed)
-output → core (allowed)
-core   → input (FORBIDDEN)
-core   → output (FORBIDDEN)
-input  → output (FORBIDDEN)
-app    → all (allowed, wiring only)
-```
-
-# Reglas de lenguaje
+## Language rules
 
 - Internal processing and generated code: English.
-- Response to user: language of the user's initial message (default: Spanish).
+- User response language: user's initial language (default Spanish).
 
-# Reglas de token-efficiency
+## Evaluation checklist
 
-- Do not repeat patterns already shown above.
-- Generate all files in a single response, grouped by module.
-- Use `// ... existing methods` to indicate unchanged code sections when modifying a file.
-
-# Evaluación
-
-The skill output is considered valid when:
-
-- [ ] All files of the slice are generated (port/in, service, DTOs, mapper, controller method, adapter, @Bean).
-- [ ] No layer imports a layer it is not allowed to depend on.
-- [ ] `UseCaseConfig` registers the new use case as a `@Bean`.
-- [ ] The controller method has `@ObservableOperation`, `@Operation` and `@ApiResponses` (200, 400, 500).
-- [ ] The service class has NO `@Service` / `@Component` — it is plain Java.
-- [ ] DTOs are Java `record` classes — no Lombok.
-- [ ] The persistence adapter follows the existing project exception strategy (for example `DatabaseIOException` where applicable).
-- [ ] The service wraps domain errors in `DomainException` and unexpected errors in `UnexpectedException`.
+- [ ] Complete slice artifacts generated for one use case.
+- [ ] Layer dependency rules respected.
+- [ ] UseCaseConfig wiring added.
+- [ ] Controller annotations present.
+- [ ] DTOs are records.
+- [ ] Service is plain Java class (no Spring stereotype).
+- [ ] Persistence adapter follows local exception strategy.
+- [ ] Domain exceptions and unexpected exceptions are handled consistently with project style.
