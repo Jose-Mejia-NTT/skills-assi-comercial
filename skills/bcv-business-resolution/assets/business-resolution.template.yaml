@@ -35,7 +35,7 @@ ambiguities:
 resolution_status: "CANDIDATES_FOUND"
 
 handoff:
-  to_skill: "bcv-graphify-impact-analysis"
+  to_skill: "bcv-technical-impact-and-story"
   original_request_summary: ""
   acceptance_criteria: []
   candidate_verification_questions: []

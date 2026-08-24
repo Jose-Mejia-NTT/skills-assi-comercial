@@ -26,7 +26,7 @@ an evidence-based list of business capabilities and candidate microservices.
 
 This skill reduces the technical search space. It does not select a final implementation
 service, read architecture graph artifacts, inspect source code, generate a technical impact
-analysis, or modify files.
+analysis, or modify source code.
 
 ## Mandatory BCV business context bootstrap
 
@@ -76,7 +76,8 @@ For the BCV BACC pilot, load only when relevant:
 Treat the pilot catalog as versioned working knowledge, not as a final ownership decision.
 
 This skill implements only **Step 1: Functional Resolution** from the HU/HAB to HT-enriched flow.
-Step 2 (technical impact) and Step 3 (technical story enrichment) are downstream.
+The technical phase (impact analysis + technical story) is downstream and is owned by
+`bcv-technical-impact-and-story`.
 
 ## Output expected
 
@@ -103,6 +104,22 @@ when the user asks for a human-readable analysis.
 
 Default output artifact name: `business-resolution.yaml`.
 Reference template: `assets/business-resolution.template.yaml`.
+
+## Output location
+
+Write the completed YAML automatically before responding:
+
+- `docs/historial/<hu-slug>-business-resolution.yaml`
+
+Derive `<hu-slug>` from the HU/HAB title or request summary using lowercase ASCII words separated
+by hyphens. If no stable title exists, use `business-resolution`.
+
+When the user explicitly requests a human-readable analysis, also write:
+
+- `docs/historial/<hu-slug>-business-resolution.md`
+
+Use the YAML as the source of truth for the optional Markdown summary. Report every written path
+and the `resolution_status` in the user response.
 
 Output contract (required top-level keys):
 
@@ -142,7 +159,7 @@ Any additional key must be optional and justified by explicit user need.
 
 1. **Understand**: identify the business goal, actors, entities, actions, systems and constraints.
 2. **Design**: define normalized capabilities, aliases and candidate service roles.
-3. **Build**: produce the structured business-resolution output.
+3. **Build**: write the structured business-resolution YAML artifact.
 4. **Validate**: confirm that every candidate has evidence and that uncertain results are gated.
 
 ## Extraction rules
@@ -189,7 +206,7 @@ A `CANDIDATES_FOUND` result still represents candidates, not implementation appr
 
 ## Handoff contract
 
-The next phase, `bcv-graphify-impact-analysis`, should receive:
+The next phase, `bcv-technical-impact-and-story`, should receive:
 
 - the original HU/HAB;
 - this business-resolution result;
@@ -210,7 +227,8 @@ change candidate resolution. Otherwise, proceed and mark uncertainty explicitly.
 
 ## Guardrails
 
-1. Do not inspect or modify source files as part of this skill.
+1. Do not inspect or modify source files as part of this skill. Writing the declared output artifacts
+  under `docs/historial/` is required and is the only allowed file modification.
 2. Do not read anything under `graphify-out/` (`GRAPH_REPORT.md`, `graph.json`, `graph.html`),
    do not run graph queries or graph path commands, and do not load
    `docs/.agent-context/graphify-query-playbook.md`. Graph evidence belongs to Step 2 only.
@@ -262,6 +280,7 @@ The output is valid when it:
 4. `resolution_status` is consistent with ambiguity and evidence strength.
 5. Handoff includes concrete verification questions for technical impact analysis.
 6. No Step 2 or Step 3 facts are presented as confirmed outcomes.
+7. The YAML artifact was written automatically and its path was reported to the user.
 
 ## Activation quick check
 

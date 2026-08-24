@@ -1,6 +1,8 @@
 analysis_scope:
+  hu_slug: ""
   request_summary: ""
   candidate_services_input: []
+  execution_mode: "full"
 
 primary_service:
   service: ""

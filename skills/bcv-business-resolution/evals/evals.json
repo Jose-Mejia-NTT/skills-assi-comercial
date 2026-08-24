@@ -12,7 +12,8 @@
         "Conserva los limites inclusivos del rango y las exclusiones",
         "No inventa APIs, tablas, eventos ni clases",
         "Usa REVIEW_REQUIRED o BLOCKED cuando la evidencia no permite elegir un servicio exacto",
-        "No emite conclusiones de impacto tecnico (impacted_apis, impacted_events, impacted_persistence)"
+        "No emite conclusiones de impacto tecnico (impacted_apis, impacted_events, impacted_persistence)",
+        "Escribe automaticamente docs/historial/<hu-slug>-business-resolution.yaml y reporta la ruta"
       ]
     },
     {

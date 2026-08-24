@@ -1,0 +1,92 @@
+{
+  "skill_name": "bcv-technical-impact-and-story",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Recibe una HU de apertura de cuenta y un business-resolution.yaml con candidatos PLM, customer y reporting. Ejecuta el analisis tecnico y genera la HT enriquecida.",
+      "expected_output": "Modo full. Primero technical-impact-analysis.yaml completo con gate, luego technical-story-enriched.md derivada de ese YAML. Ambos en docs/historial con el prefijo del hu-slug.",
+      "files": [],
+      "assertions": [
+        "Declara explicitamente el modo de ejecucion full",
+        "Emite el YAML completo antes de redactar cualquier seccion de la historia",
+        "Reporta technical_status al usuario antes de continuar a la fase B",
+        "Escribe ambos artefactos en docs/historial con el prefijo hu-slug",
+        "La historia referencia la ruta y el status del YAML consumido",
+        "Mantiene el split confirmed/candidate en ambos artefactos"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "El analisis tecnico resulta en technical_status=BLOCKED por falta de evidencia defendible sobre el servicio dueno.",
+      "expected_output": "Solo se entrega el YAML con BLOCKED y los prerequisitos faltantes. No se genera technical-story-enriched.md.",
+      "files": [],
+      "assertions": [
+        "No genera la historia tecnica",
+        "No fabrica decision de servicio principal ni matriz de impacto",
+        "Lista los prerequisitos tecnicos faltantes",
+        "No eleva el status para poder continuar"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "El analisis tecnico resulta en technical_status=REVIEW_REQUIRED con ownership ambiguo entre dos servicios y eventos solo candidate.",
+      "expected_output": "Historia generada con el bloque Pending Architecture Review al inicio, conflictos abiertos e impactos candidate listados.",
+      "files": [],
+      "assertions": [
+        "El bloque de revision pendiente aparece al inicio del documento, no al final",
+        "Mantiene los conflictos abiertos sin resolverlos artificialmente",
+        "Distingue hechos confirmados de hipotesis candidate",
+        "Incluye pendientes de validacion externa"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Se entrega un technical-impact-analysis.yaml ya corregido a mano por arquitectura y se pide solo la HT enriquecida.",
+      "expected_output": "Modo story-only. Genera unicamente el .md a partir del YAML provisto, sin re-ejecutar descubrimiento tecnico.",
+      "files": [],
+      "assertions": [
+        "Declara explicitamente el modo story-only",
+        "No lee graphify-out ni ejecuta graph query o graph path",
+        "No carga graphify-query-playbook.md",
+        "Respeta el YAML provisto como unica verdad tecnica, incluso si difiere de lo que el grafo diria",
+        "No regenera el YAML"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Se pide solo validar candidatos e identificar APIs y eventos impactados, sin generar historia tecnica.",
+      "expected_output": "Modo impact-only. Entrega unicamente technical-impact-analysis.yaml con gate.",
+      "files": [],
+      "assertions": [
+        "Declara explicitamente el modo impact-only",
+        "No genera secciones de plan de tareas ni checklist de aceptacion",
+        "Incluye todas las claves top-level requeridas",
+        "Reporta evidence_freshness explicitamente"
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "Durante la fase A se descubre una integracion externa relevante que no quedo registrada en el YAML. Genera la HT.",
+      "expected_output": "El hallazgo se agrega primero al YAML y recien despues aparece en la historia; no se introduce directamente en el .md.",
+      "files": [],
+      "assertions": [
+        "No introduce en la historia ningun item ausente del YAML",
+        "Actualiza el YAML antes de reflejar el hallazgo en la historia",
+        "Mantiene la trazabilidad de evidencia del item agregado"
+      ]
+    },
+    {
+      "id": 7,
+      "prompt": "Aplica el bootstrap obligatorio antes de analizar una HU BCV y respeta la disciplina de consultas.",
+      "expected_output": "Contexto cargado en orden graph-index -> service-map -> graphify-query-playbook -> cross-service-patterns, con consultas acotadas a un objetivo por vez.",
+      "files": [],
+      "assertions": [
+        "Aplica el orden de bootstrap indicado",
+        "Resuelve ownership desde index y mapa antes de abrir GRAPH_REPORT.md",
+        "Lee solo Summary y God Nodes del servicio candidato",
+        "Una consulta por objetivo, sin queries exploratorias amplias",
+        "No escanea servicios no relacionados"
+      ]
+    }
+  ]
+}

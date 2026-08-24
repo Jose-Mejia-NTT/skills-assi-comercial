@@ -1,5 +1,15 @@
 # Technical Story Enriched
 
+> Source impact analysis: `docs/historial/<hu-slug>-technical-impact-analysis.yaml`
+> Technical status consumed: READY | REVIEW_REQUIRED
+
+<!-- Include this block only when the gate is REVIEW_REQUIRED. Keep it at the top. -->
+## 0. Pending Architecture Review
+
+- Open conflicts:
+- Candidate-only impacts blocking a final decision:
+- Required external validation:
+
 ## 1. Functional Context Summary
 
 - HU/HAB summary:
@@ -11,8 +21,8 @@
 
 - Primary service:
 - Supporting services:
-- Decision rationale (evidence):
-- Technical status input (READY | REVIEW_REQUIRED | BLOCKED):
+- Decision rationale (evidence reference in the YAML):
+- Deviations from the impact analysis (must be empty or justified):
 
 ## 3. Technical Impact Matrix
 
@@ -69,4 +79,5 @@
 - [ ] Non-regression checks defined
 - [ ] HU -> HT -> tasks traceability complete
 - [ ] Confirmed vs candidate split is explicit
+- [ ] Every technical item traces back to the source impact analysis
 - [ ] Open review items identified (if any)
