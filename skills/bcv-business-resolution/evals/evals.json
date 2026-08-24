@@ -18,13 +18,13 @@
     {
       "id": 2,
       "prompt": "Usa esta HU sobre apertura de cuenta negocio y el siguiente catalogo: Apertura de cuenta -> bcv-bacc-party-lifecycle-management-service como owner; Cliente -> bcv-bacc-customer-service como data_owner; Reporting Teradata -> bcv-bacc-account-opening-reporting-service como possible_downstream. Devuelve el resultado para handoff tecnico.",
-      "expected_output": "YAML con capacidades normalizadas, candidatos con roles diferenciados, evidencia del catalogo, confianza cualitativa, ambiguedades y handoff para Graphify impact analysis.",
+      "expected_output": "YAML con capacidades normalizadas, candidatos con roles diferenciados, evidencia del catalogo, confianza cualitativa, ambiguedades y handoff para el analisis de impacto tecnico.",
       "files": [],
       "assertions": [
         "Distingue owner, data_owner y possible_downstream",
         "Incluye el catalogo como evidencia",
         "Incluye el HU original y acceptance criteria en el handoff",
-        "No consulta Graphify ni presenta APIs o tablas como confirmadas",
+        "No lee artefactos de graphify-out ni presenta APIs o tablas como confirmadas",
         "Incluye trazabilidad de evidencia por candidato (fuente + confianza cualitativa)",
         "Respeta la estructura del template business-resolution"
       ]
@@ -45,12 +45,13 @@
     {
       "id": 4,
       "prompt": "Antes de resolver una HU BCV, aplica el bootstrap obligatorio de contexto y luego devuelve candidatos funcionales sin analisis tecnico.",
-      "expected_output": "La salida referencia que se uso el contexto de graph-index, service-map y graphify-query-playbook en ese orden, mantiene foco en Paso 1 y evita conclusiones tecnicas.",
+      "expected_output": "La salida referencia que se uso el catalogo de capacidades, graph-index y service-map en ese orden, mantiene foco en Paso 1 y evita conclusiones tecnicas.",
       "files": [],
       "assertions": [
-        "Aplica el orden de contexto graph-index -> service-map -> graphify-query-playbook",
+        "Aplica el orden de contexto capability-catalog -> graph-index -> service-map",
         "Mantiene el alcance de resolucion funcional (Paso 1)",
-        "No usa Graphify query ni graph path",
+        "No lee GRAPH_REPORT.md ni graph.json, ni usa graph query o graph path",
+        "No carga graphify-query-playbook.md",
         "Produce candidatos con evidencia y estado de resolucion"
       ]
     }

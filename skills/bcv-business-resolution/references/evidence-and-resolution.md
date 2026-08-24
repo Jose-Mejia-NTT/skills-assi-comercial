@@ -11,7 +11,7 @@ Prefer sources in this order:
 1. Current business capability catalog with owner and verification metadata.
 2. Approved functional HU/HAB or domain decision.
 3. Current service documentation and service-context reports.
-4. Current source code, Graphify report or architecture graph for technical confirmation.
+4. Current source code or architecture graph artifacts, used for technical confirmation in Step 2 only.
 5. README or draft snapshot documents.
 6. Name similarity or generic entity matching.
 

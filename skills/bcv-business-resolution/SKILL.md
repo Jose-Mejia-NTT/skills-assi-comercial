@@ -5,7 +5,7 @@ description: |
   or functional request and needs its business concepts mapped to business capabilities
   and candidate microservices. Triggers: "analizar HU", "analizar HAB", "extraer capacidades",
   "identificar servicios afectados", "microservicios candidatos", "resolver capacidad de negocio",
-  "enriquecer requerimiento". Do NOT use for Graphify architectural impact analysis,
+  "enriquecer requerimiento". Do NOT use for Step 2 technical impact analysis,
   technical story generation, API design, implementation, database changes, messaging changes,
   or test generation.
 argument-hint: "HU/HAB + optional capability catalog"
@@ -25,27 +25,30 @@ Transform a BCV HU, HAB or functional requirement into a normalized business con
 an evidence-based list of business capabilities and candidate microservices.
 
 This skill reduces the technical search space. It does not select a final implementation
-service, query Graphify, inspect source code, generate a technical impact analysis, or modify files.
+service, read architecture graph artifacts, inspect source code, generate a technical impact
+analysis, or modify files.
 
-## Mandatory BCV context bootstrap
+## Mandatory BCV business context bootstrap
 
 Before resolving any BCV HU/HAB, load context in this strict order:
 
-1. `docs/.agent-context/graph-index.md`
-2. `docs/.agent-context/service-map.md`
-3. `docs/.agent-context/graphify-query-playbook.md`
+1. `references/bcv-bacc-capability-catalog.yaml` when the request belongs to the BACC pilot.
+2. `docs/.agent-context/graph-index.md` — read only the service and capability columns.
+3. `docs/.agent-context/service-map.md`
 4. `docs/cross-service-patterns.md` when available; otherwise use `docs/.agent-context/cross-service-patterns.md`.
 
 Purpose of each source:
 
-- `graph-index.md`: fast capability-to-service orientation and relevant concept hotspots.
+- `bcv-bacc-capability-catalog.yaml`: authoritative capability-to-service ownership for the pilot.
+- `graph-index.md`: fast capability-to-service orientation. Use it as a curated capability index only;
+  ignore the node columns and never follow it into `graphify-out/` artifacts.
 - `service-map.md`: ownership boundaries, dependencies and cross-service interactions.
-- `graphify-query-playbook.md`: handoff contract for the next technical phase and query style.
 - `cross-service-patterns.md`: shared cross-service vocabulary and interaction patterns used only
   to standardize wording in handoff (no technical confirmation in Step 1).
 
-This bootstrap is mandatory for BCV workspace consistency. It does not authorize Graphify
-queries in this skill; it only grounds business resolution with shared context.
+These are curated business-context documents. This bootstrap grounds candidate resolution with
+shared vocabulary and ownership; it never authorizes reading graph reports or running graph
+queries, which belong exclusively to Step 2.
 
 ## Input expected
 
@@ -195,8 +198,9 @@ The next phase, `bcv-graphify-impact-analysis`, should receive:
 - ambiguities and unresolved questions;
 - the requested scope and acceptance criteria.
 
-The next phase must validate candidates against Graphify and current repository evidence before
-identifying affected APIs, persistence, events, dependencies or implementation files.
+The next phase must validate candidates against architecture graph artifacts and current
+repository evidence before identifying affected APIs, persistence, events, dependencies or
+implementation files.
 
 For the BACC pilot, include the source snapshot or commit when it is available. Documents marked
 as draft, snapshot or `NEEDS_REVIEW` must lower confidence or produce `REVIEW_REQUIRED`.
@@ -207,7 +211,9 @@ change candidate resolution. Otherwise, proceed and mark uncertainty explicitly.
 ## Guardrails
 
 1. Do not inspect or modify source files as part of this skill.
-2. Do not query `GRAPH_REPORT.md`, `graph.json`, `graph.html` or Graphify MCP.
+2. Do not read anything under `graphify-out/` (`GRAPH_REPORT.md`, `graph.json`, `graph.html`),
+   do not run graph queries or graph path commands, and do not load
+   `docs/.agent-context/graphify-query-playbook.md`. Graph evidence belongs to Step 2 only.
 3. Do not generate a technical story, implementation plan or production code.
 4. Do not hide missing catalog entries or unsupported terms.
 5. Mark assumptions as `ASSUMED` and risks as `RISK`.
@@ -242,11 +248,11 @@ The output is valid when it:
 5. Preserves multiple candidates when ownership is ambiguous.
 6. Uses the correct resolution status.
 7. Produces a complete handoff for technical impact analysis.
-8. Does not query Graphify or claim technical evidence it did not inspect.
+8. Does not read graph artifacts or claim technical evidence it did not inspect.
 9. Uses the BACC reference catalog consistently when the request belongs to the pilot scope.
 10. Distinguishes an orchestrator from a data owner and a downstream reporting service.
 11. Shows evidence provenance and resolution rationale per candidate.
-12. Reflects the mandatory BCV context bootstrap order before candidate resolution.
+12. Reflects the mandatory BCV business context bootstrap order before candidate resolution.
 
 ## Completion checklist (Definition of Done)
 
