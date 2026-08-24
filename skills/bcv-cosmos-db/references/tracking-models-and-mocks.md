@@ -1,57 +1,57 @@
-# Modelos de tracking y estrategia mocks-first para Cosmos DB
+# Tracking Models and Mock-First Strategy for Cosmos DB
 
-## Propósito
+## Purpose
 
-Este documento ayuda al skill `bcv-cosmos-db` a decidir:
+This document helps the `bcv-cosmos-db` skill decide:
 
-- cómo modelar documentos de tracking/workflow
-- cuándo usar event log, snapshot o híbrido
-- cómo aplicar **mocks-first** cuando Cosmos no está disponible
-- qué artefactos producir para implementación y review
-
----
-
-## Regla BCV para este skill
-
-El objetivo principal no es persistencia documental genérica, sino **tracking operacional y de workflow**.
-
-Eso implica que el skill debe favorecer modelos alineados a:
-
-- identificadores de tracking
-- estados de workflow
-- fechas de registro/cambio
-- identificadores de negocio relacionados
-- auditoría mínima
-- troubleshooting y trazabilidad
+- how to model tracking/workflow documents
+- when to use event log, snapshot, or hybrid models
+- how to apply **mock-first** when Cosmos is unavailable
+- which artifacts to produce for implementation and review
 
 ---
 
-## Preguntas obligatorias de modelado
+## BCV Rule for This Skill
 
-Antes de proponer el documento final, el skill debe aclarar:
+The primary target is not generic document persistence, but **operational tracking and workflow persistence**.
 
-1. ¿Se necesita historial completo de cada cambio?
-2. ¿Importa más consultar el **estado actual** o la **traza histórica**?
-3. ¿Se consulta por expediente, correlación, cliente u otro identificador?
-4. ¿Se necesita ver el tracking ordenado por fecha?
-5. ¿Hay retención limitada o auditoría prolongada?
-6. ¿El tracking será consumido solo por el servicio o también por soporte/operaciones?
+That means the skill should favor models aligned with:
+
+- tracking identifiers
+- workflow status transitions
+- registration/update timestamps
+- related business identifiers
+- minimum audit metadata
+- troubleshooting and traceability needs
 
 ---
 
-## Opción 1 — Event log
+## Required Modeling Questions
 
-## Descripción
+Before proposing the final document model, the skill must clarify:
 
-Cada cambio relevante del workflow se guarda como un evento independiente.
+1. Is full change history required?
+2. Is **current state** more important than **historical trace**?
+3. Are reads driven by expedient, correlation, customer, or another key?
+4. Is time-ordered tracking retrieval required?
+5. Is retention short-lived or audit-heavy?
+6. Is tracking consumed only by the service or also by support/operations?
 
-### Cuándo conviene
+---
 
-- cuando se requiere trazabilidad detallada
-- cuando auditoría y reconstrucción histórica son importantes
-- cuando el proceso tiene múltiples transiciones que deben preservarse
+## Option 1 - Event Log
 
-### Ejemplo conceptual de campos
+## Description
+
+Each relevant workflow change is stored as a separate event document.
+
+### Best when
+
+- detailed traceability is required
+- audit/reconstruction is critical
+- workflow has many transitions that must be preserved
+
+### Conceptual fields
 
 - `id`
 - `trackingId`
@@ -64,33 +64,33 @@ Cada cambio relevante del workflow se guarda como un evento independiente.
 - `createdBy`
 - `schemaVersion`
 
-### Ventajas
+### Advantages
 
-- historial completo
-- alta auditabilidad
-- más flexibilidad para reconstruir secuencias
+- full history
+- strong auditability
+- flexible sequence reconstruction
 
-### Riesgos
+### Risks
 
-- más lecturas para conocer el estado actual
-- mayor costo si se consulta constantemente “último estado”
-- más complejidad para agregación
+- more reads to obtain current state
+- higher cost for frequent “latest status” reads
+- higher aggregation complexity
 
 ---
 
-## Opción 2 — Snapshot actualizable
+## Option 2 - Updatable Snapshot
 
-## Descripción
+## Description
 
-Un documento representa el estado actual del tracking y se actualiza con cada cambio.
+One document represents current tracking state and is updated on each transition.
 
-### Cuándo conviene
+### Best when
 
-- cuando el acceso principal es al estado actual
-- cuando importa la velocidad de lectura
-- cuando el historial fino no es obligatorio
+- current-state reads dominate
+- read speed is a priority
+- fine-grained history is not mandatory
 
-### Ejemplo conceptual de campos
+### Conceptual fields
 
 - `id`
 - `trackingId`
@@ -102,56 +102,56 @@ Un documento representa el estado actual del tracking y se actualiza con cada ca
 - `attributes`
 - `schemaVersion`
 
-### Ventajas
+### Advantages
 
-- lectura simple y rápida
-- menor esfuerzo para consultas del estado vigente
-- menor cantidad de documentos
+- simple and fast reads
+- less overhead for current-state queries
+- fewer documents overall
 
-### Riesgos
+### Risks
 
-- pérdida de historial detallado si no se complementa
-- menor auditabilidad
-- riesgo de sobreescritura si no se controla concurrencia lógica
-
----
-
-## Opción 3 — Híbrido
-
-## Descripción
-
-Se conserva:
-
-- un documento snapshot con el estado actual
-- y eventos separados para la historia relevante
-
-### Cuándo conviene
-
-- cuando el negocio necesita estado actual y trazabilidad
-- cuando soporte u operaciones necesitan investigar secuencias
-- cuando el tracking tiene valor operativo y forense
-
-### Ventajas
-
-- balance entre lectura rápida e historial
-- mejor soporte a troubleshooting
-- más alineado con escenarios de tracking complejos
-
-### Riesgos
-
-- mayor complejidad de consistencia
-- más decisiones de diseño
-- potencial duplicación controlada de datos
-
-### Recomendación general del skill
-
-Para tracking BCV, el skill puede considerar el modelo **híbrido** como candidato frecuente, pero debe justificarlo según el caso.
+- historical detail can be lost if not complemented
+- weaker auditability
+- overwrite risks without logical concurrency control
 
 ---
 
-## Auditoría mínima recomendada
+## Option 3 - Hybrid
 
-Si no existe otro estándar explícito, el skill debe sugerir campos conceptuales como:
+## Description
+
+Store both:
+
+- a snapshot document for current state
+- event documents for relevant history
+
+### Best when
+
+- business needs current state and traceability
+- support/operations need sequence analysis
+- tracking has both operational and forensic value
+
+### Advantages
+
+- balance between fast reads and rich history
+- stronger troubleshooting support
+- good fit for complex tracking scenarios
+
+### Risks
+
+- higher consistency complexity
+- more design decisions
+- controlled data duplication
+
+### General skill recommendation
+
+For BCV tracking, **hybrid** is often a strong candidate, but the skill must justify it from explicit access patterns.
+
+---
+
+## Recommended Minimum Audit Metadata
+
+If there is no explicit service standard, the skill should suggest conceptual fields such as:
 
 - `createdAt`
 - `updatedAt`
@@ -159,88 +159,88 @@ Si no existe otro estándar explícito, el skill debe sugerir campos conceptuale
 - `updatedBy`
 - `schemaVersion`
 - `sourceSystem`
-- `traceId` o `correlationId`
+- `traceId` or `correlationId`
 
-No debe imponer nombres exactos si el servicio ya tiene convenciones propias.
-
----
-
-## Versionado del documento
-
-El skill debe recomendar versionado cuando:
-
-- el documento puede evolucionar
-- hay más de un consumidor
-- existe riesgo de cambios de estructura entre releases
-
-### Sugerencia conceptual
-
-- incluir `schemaVersion`
-- evitar cambios destructivos sin compatibilidad
-- documentar campos obligatorios y opcionales
+The skill should not force exact names when service conventions already exist.
 
 ---
 
-## Estrategia mocks-first
+## Document Versioning
 
-Si Cosmos no está disponible o no hay acceso a credenciales/entorno:
+The skill should recommend versioning when:
 
-1. definir una interfaz/puerto de persistencia
-2. crear un adapter fake o in-memory
-3. validar contratos funcionales
-4. recién después preparar la integración real
+- the document may evolve
+- multiple consumers exist
+- release-to-release structure changes are likely
 
-Esto sigue el lineamiento general:
+### Conceptual guidance
 
-> dependencias externas = mock primero
-
----
-
-## Qué debe producir el skill en modo mock
-
-Cuando el usuario pide implementación pero no hay Cosmos disponible, el skill debe generar:
-
-- interfaz del repositorio/adapter
-- implementación fake/in-memory
-- fixtures de documentos de tracking
-- pruebas de contrato simples
-- guía de reemplazo por adapter real
+- include `schemaVersion`
+- avoid destructive schema changes without compatibility strategy
+- document required vs optional fields
 
 ---
 
-## Reglas para el fake/in-memory
+## Mock-First Strategy
 
-El fake debe:
+If Cosmos is unavailable or credentials/network access are missing:
 
-- imitar los casos principales del adapter real
-- soportar búsquedas por identificador de tracking
-- soportar filtros por estado si eso es parte del caso
-- conservar orden temporal si la lógica lo requiere
-- no inventar comportamiento no soportado por el contrato real
+1. define a persistence interface/port
+2. create a fake or in-memory adapter
+3. validate behavioral contracts
+4. then prepare real Cosmos integration
 
----
+This follows the core rule:
 
-## Qué validar antes de pasar de mock a Cosmos real
-
-- modelo documental confirmado
-- consultas prioritarias confirmadas
-- decisión de partition key documentada
-- decisión de TTL documentada
-- política de retries/timeout definida
-- manejo de errores 429 y disponibilidad contemplado
+> external dependencies must be mocked first
 
 ---
 
-## Ejemplo de decisión que debería producir el skill
+## What the Skill Should Produce in Mock Mode
 
-### Caso
+When the user requests implementation but Cosmos is unavailable, the skill should generate:
 
-“Necesito guardar tracking de un flujo H2H y consultar por correlación, estado y fecha.”
+- repository/adapter interface
+- fake/in-memory implementation
+- tracking document fixtures
+- simple contract tests
+- migration guidance to swap fake with real adapter
 
-### Respuesta esperada del skill
+---
 
-- identificar si el acceso principal es por correlación o por expediente
-- decidir si conviene snapshot, eventos o híbrido
-- advertir costo potencial de consultas por estado global
-- si no hay Cosmos disponible, generar adapter fake primero
-- solo después proponer adapter real con Spring Data Cosmos o SDK directo
+## Fake/In-Memory Rules
+
+The fake should:
+
+- mimic key real-adapter behaviors
+- support tracking identifier lookups
+- support status filters when required by the use case
+- preserve temporal ordering when business logic depends on it
+- avoid invented behaviors outside the real contract
+
+---
+
+## Validation Before Switching to Real Cosmos
+
+- document model confirmed
+- priority queries confirmed
+- partition key decision documented
+- TTL decision documented
+- retry/timeout policy defined
+- 429 handling and availability strategy defined
+
+---
+
+## Example Decision Output
+
+### Scenario
+
+“Need to persist H2H workflow tracking and query by correlation, status, and date.”
+
+### Expected skill response
+
+- identify whether correlation-centric or expedient-centric access dominates
+- choose event, snapshot, or hybrid model with justification
+- warn about potential cost of global status queries
+- generate fake adapter first when Cosmos is unavailable
+- then propose real adapter using reactive Spring Data Cosmos or direct SDK

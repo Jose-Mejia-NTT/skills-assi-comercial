@@ -1,130 +1,130 @@
-# Cosmos stacks soportados en BCV
+# Cosmos Stacks Supported in BCV
 
-## Propósito
+## Purpose
 
-Este documento describe los dos patrones detectados en BCV para integrar Azure Cosmos DB:
+This document describes the two Cosmos integration patterns currently used in BCV services:
 
-1. **Spring Data Cosmos reactivo** con wrapper interno común
-2. **Azure Cosmos Java SDK directo** con configuración/registry propio
+1. **Reactive Spring Data Cosmos** with a shared internal wrapper
+2. **Direct Azure Cosmos Java SDK** with custom configuration/registry
 
-El skill `bcv-cosmos-db` debe soportar ambos y elegir según el servicio, la base instalada y la necesidad del cambio.
-
----
-
-## Stack A — Spring Data Cosmos reactivo
-
-### Cuándo preferirlo
-
-Usar este enfoque cuando el servicio:
-
-- ya está construido sobre Spring Boot reactivo
-- ya usa `Spring Data Cosmos`
-- ya tiene wrappers/adapters internos basados en abstracciones comunes
-- requiere rapidez para CRUD, consultas derivadas o integración idiomática con Spring
-
-### Ventajas
-
-- integración natural con Spring
-- repositorios y abstracciones conocidas por equipos Java/Spring
-- buen fit para flujos reactivos
-- menor boilerplate en escenarios simples
-
-### Riesgos
-
-- esconder detalles importantes de performance si el equipo no revisa particionamiento y queries
-- abstraer demasiado la configuración de Cosmos
-- inducir a pensar que Cosmos funciona igual que una base relacional o JPA
-
-### Recomendaciones del skill
-
-- validar siempre la `partitionKey` antes de proponer el modelo final
-- revisar qué consultas hace realmente el negocio
-- no asumir que los repositorios derivados son suficientes para queries de tracking complejas
-- encapsular acceso a Cosmos detrás de puertos/adapters si el proyecto usa hexagonal o clean architecture
-- usar el wrapper interno `bcv-commons-cosmos` cuando el servicio ya esté alineado a ese patrón
+The `bcv-cosmos-db` skill must support both patterns and choose based on service context, existing stack, and change scope.
 
 ---
 
-## Stack B — Azure Cosmos Java SDK directo
+## Stack A - Reactive Spring Data Cosmos
 
-### Cuándo preferirlo
+### When to prefer it
 
-Usar este enfoque cuando el servicio:
+Use this approach when the service:
 
-- ya usa el SDK oficial directamente
-- necesita control fino sobre clientes, contenedores, queries y diagnósticos
-- requiere tuning de performance, retries, timeouts o medición de RU/s
-- tiene una capa de persistencia propia o un registry/config centralizado
+- is already built with reactive Spring Boot
+- already uses `Spring Data Cosmos`
+- already has internal wrappers/adapters around common abstractions
+- needs fast delivery for CRUD, derived queries, or idiomatic Spring integration
 
-### Ventajas
+### Advantages
 
-- mayor control técnico
-- mejor visibilidad para troubleshooting
-- mayor precisión al diseñar queries, options y diagnósticos
-- mejor ajuste para casos donde Cosmos es parte crítica del flujo
+- natural Spring integration
+- familiar repository abstractions for Java/Spring teams
+- good fit for reactive flows
+- less boilerplate in simple scenarios
 
-### Riesgos
+### Risks
 
-- más boilerplate
-- más posibilidad de inconsistencias entre servicios si no existe estándar común
-- mayor curva de aprendizaje para el equipo
+- hiding critical performance details when partitioning and queries are not reviewed
+- over-abstracting Cosmos configuration
+- treating Cosmos like relational/JPA persistence
 
-### Recomendaciones del skill
+### Skill recommendations
 
-- estandarizar creación/configuración de clientes
-- centralizar retries, timeouts y manejo de 429
-- unificar criterios de serialización y versionado documental
-- revisar siempre el costo en RU/s de las queries relevantes
-- generar adapters claros para que el acceso a Cosmos no quede disperso
-
----
-
-## Wrapper interno `bcv-commons-cosmos`
-
-El skill debe tratar `bcv-commons-cosmos` como una **abstracción común de persistencia/infraestructura**, sin depender de un repo específico.
-
-### Capacidades esperadas
-
-Puede proveer una o varias de estas capacidades:
-
-- creación/configuración de clientes Cosmos
-- helpers para acceso a contenedores
-- abstracciones de repositorio
-- políticas de retry/timeout
-- logging y telemetry
-- serialización común
-- helpers de queries
-- convenciones de auditoría o metadatos
-
-### Regla para el skill
-
-- si el servicio ya usa `bcv-commons-cosmos`, el skill debe respetarlo y construir encima
-- si no está disponible en el contexto entregado, el skill puede describir cómo integrarlo sin asumir detalles internos no confirmados
-- no inventar APIs concretas de la librería si el usuario no las comparte
+- always validate `partitionKey` before confirming the final model
+- verify real business query patterns first
+- do not assume derived repositories are enough for complex tracking queries
+- encapsulate Cosmos access behind ports/adapters for hexagonal/clean architecture services
+- use the internal `bcv-commons-cosmos` wrapper when the service already follows that pattern
 
 ---
 
-## Criterio de selección entre stacks
+## Stack B - Direct Azure Cosmos Java SDK
 
-El skill debe evaluar esta tabla antes de proponer implementación:
+### When to prefer it
 
-| Criterio | Spring Data Cosmos reactivo | SDK directo |
-|---------|------------------------------|-------------|
-| Servicio ya usa Spring Data Cosmos | Sí | No necesariamente |
-| Necesidad de bajo boilerplate | Alta | Media |
-| Necesidad de control fino técnico | Media | Alta |
-| Troubleshooting avanzado | Media | Alta |
-| Tuning de RU/s y diagnósticos | Media | Alta |
-| Alineación con wrappers internos | Alta | Alta, si el wrapper lo soporta |
+Use this approach when the service:
+
+- already uses the official SDK directly
+- needs fine-grained control over clients, containers, queries, and diagnostics
+- requires tuning for performance, retries, timeouts, or RU/s measurement
+- has a dedicated persistence layer or central configuration registry
+
+### Advantages
+
+- stronger technical control
+- better troubleshooting visibility
+- more precise query/options/diagnostics design
+- better fit when Cosmos is a critical path dependency
+
+### Risks
+
+- more boilerplate
+- higher inconsistency risk across services without a shared standard
+- steeper learning curve
+
+### Skill recommendations
+
+- standardize client creation/configuration
+- centralize retry, timeout, and 429 handling policies
+- unify serialization and document versioning criteria
+- always review RU/s cost for key queries
+- generate explicit adapters so Cosmos access is not scattered
 
 ---
 
-## Regla final de decisión
+## Internal Wrapper `bcv-commons-cosmos`
 
-Si el stack ya existe en el servicio, **preferir consistencia con la base instalada**.
+The skill should treat `bcv-commons-cosmos` as a **shared persistence/infrastructure abstraction**, without binding to a specific repository.
 
-Solo proponer migración entre stacks si:
+### Expected capabilities
 
-- hay evidencia técnica clara
-- el usuario lo pide explícitamente
-- el beneficio supera el costo de cambio
+It may provide one or more of the following:
+
+- Cosmos client creation/configuration
+- container access helpers
+- repository abstractions
+- retry/timeout policies
+- logging and telemetry support
+- shared serialization
+- query helpers
+- audit metadata conventions
+
+### Skill rule
+
+- if the service already uses `bcv-commons-cosmos`, the skill must extend that pattern
+- if the wrapper is not available in the provided context, the skill may describe integration at a capability level
+- never invent concrete wrapper APIs when the user has not provided them
+
+---
+
+## Stack Selection Criteria
+
+The skill should evaluate this matrix before proposing implementation:
+
+| Criterion | Reactive Spring Data Cosmos | Direct SDK |
+| --- | --- | --- |
+| Service already uses Spring Data Cosmos | Yes | Not required |
+| Need low boilerplate | High | Medium |
+| Need fine-grained technical control | Medium | High |
+| Advanced troubleshooting | Medium | High |
+| RU/s tuning and diagnostics | Medium | High |
+| Internal wrapper alignment | High | High, if wrapper supports it |
+
+---
+
+## Final Decision Rule
+
+If a stack is already established in the service, **prefer consistency with the existing codebase**.
+
+Only propose stack migration when:
+
+- there is clear technical evidence
+- the user explicitly requests migration
+- the benefit is greater than migration cost

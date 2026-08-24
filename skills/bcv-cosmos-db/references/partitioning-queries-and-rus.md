@@ -1,260 +1,254 @@
-# Particionamiento, queries y RU/s para tracking en Cosmos DB
+# Partitioning, Queries, and RU/s for Cosmos Tracking
 
-## Propósito
+## Purpose
 
-Este documento guía las decisiones de diseño para persistencia de tracking/workflow en Azure Cosmos DB dentro de BCV, con énfasis en:
+This reference guides design decisions for tracking/workflow persistence in Azure Cosmos DB within BCV, with emphasis on:
 
-- elección de `partitionKey`
-- consultas principales
-- ordenamiento por fechas
-- control de costo en **RU/s**
-- reducción de queries cross-partition
-
----
-
-## Regla base del skill
-
-El skill **no debe asumir** una `partitionKey` obligatoria ni TTL si el usuario no lo confirma.
-
-En su lugar, debe:
-
-1. preguntar por las consultas principales
-2. preguntar por volumen esperado
-3. preguntar si hay regla corporativa de particionamiento
-4. proponer opciones con trade-offs
+- `partitionKey` selection
+- core query patterns
+- date-based ordering
+- RU/s cost control
+- reducing unnecessary cross-partition queries
 
 ---
 
-## Patrones de acceso detectados
+## Core Skill Rule
 
-A partir del contexto BCV, los accesos más probables son:
+The skill must **not assume** a mandatory `partitionKey` or TTL when the user has not confirmed them.
 
-1. búsquedas por identificadores de tracking
-2. búsquedas por estados de workflow
-3. orden por fecha de registro
-4. búsquedas por identificadores de negocio relacionados
-   - expediente
-   - cliente
-   - correlación
-   - operación
+Instead, it must:
 
-El skill debe validar cuáles de estos son realmente prioritarios.
+1. ask for main query patterns
+2. ask for expected volume
+3. ask whether there is a corporate partitioning rule
+4. propose options with explicit trade-offs
 
 ---
 
-## Checklist para diseñar la partition key
+## Typical Access Patterns
 
-Antes de recomendar una `partitionKey`, responder:
+Based on BCV context, common patterns include:
 
-- ¿Cuál es la consulta más frecuente?
-- ¿Cuál es la consulta más costosa si cae cross-partition?
-- ¿Los datos se consultan por una clave de negocio estable?
-- ¿Existe riesgo de hotspot?
-- ¿El volumen por partición puede crecer de forma desbalanceada?
-- ¿Se requiere orden por fecha dentro de una misma partición?
-- ¿Habrá multi-tenant?
-- ¿Hay procesos batch o replays masivos?
+1. lookups by tracking identifiers
+2. lookups by workflow status
+3. ordering by registration date
+4. lookups by business identifiers such as:
+   - expedient
+   - customer
+   - correlation
+   - operation
 
----
-
-## Candidatos típicos de partition key
-
-### Opción 1 — `/trackingId` o `/correlationId`
-
-### Cuándo puede servir
-
-- cuando el tracking se consulta principalmente por identificador único
-- cuando las operaciones son lookups puntuales o actualizaciones sobre un mismo flujo
-- cuando se quiere agrupar todos los eventos de un mismo proceso
-
-### Ventajas
-
-- muy buen acceso puntual
-- simplifica recuperación de historial del flujo
-- reduce cross-partition para lectura por correlación
-
-### Riesgos
-
-- pobre soporte para consultas globales por estado
-- puede requerir queries costosas para análisis transversales
-- si una correlación concentra demasiados eventos, puede tensionar una sola partición lógica
+The skill must validate which patterns are actually priority in the current use case.
 
 ---
 
-### Opción 2 — `/expedientId` o identificador de negocio principal
+## Partition Key Design Checklist
 
-### Cuándo puede servir
+Before recommending a `partitionKey`, answer:
 
-- cuando el expediente es la clave natural del dominio
-- cuando el negocio consulta tracking principalmente por expediente
-- cuando múltiples eventos del proceso deben verse juntos por entidad de negocio
-
-### Ventajas
-
-- alinea persistencia con lenguaje del dominio
-- útil para auditoría por expediente
-- reduce joins mentales entre tracking y negocio
-
-### Riesgos
-
-- no siempre optimiza consultas por estado global
-- si algunos expedientes concentran mucho tráfico, puede haber skew
+- What is the highest-frequency query?
+- Which query becomes most expensive if cross-partition?
+- Are reads centered on a stable business key?
+- Is there hotspot risk?
+- Can data growth become uneven across partitions?
+- Is in-partition time ordering required?
+- Is multi-tenant support required?
+- Are there heavy batch/replay workloads?
 
 ---
 
-### Opción 3 — `/workflowStatus`
+## Typical Partition Key Candidates
 
-### Cuándo puede servir
+### Option 1 - `/trackingId` or `/correlationId`
 
-- rara vez como primera opción
-- solo cuando casi todas las consultas están agrupadas por estado y el volumen por estado es estable
+### When it can work
 
-### Riesgos importantes
+- main access path is by unique flow identifier
+- operations are point lookups or updates within the same flow
+- all events of one process should be grouped together
 
-- alto riesgo de particiones muy calientes
-- desbalance si ciertos estados concentran la mayoría del tráfico
-- mala opción para reconstruir historial por flujo individual
+### Advantages
 
-> El skill debe ser conservador y no recomendar esta opción como default.
+- excellent point-read behavior
+- simpler flow history reconstruction
+- fewer cross-partition reads for correlation-based access
+
+### Risks
+
+- weak support for global status queries
+- expensive cross-cutting analytics queries
+- potential stress when one correlation accumulates too many events
 
 ---
 
-### Opción 4 — clave compuesta lógica derivada
+### Option 2 - `/expedientId` or main business identifier
 
-Ejemplos conceptuales:
+### When it can work
+
+- expedient is the natural domain key
+- tracking is mostly queried by expedient
+- multiple workflow events must be grouped per business entity
+
+### Advantages
+
+- aligns persistence with domain language
+- useful for expedient-level auditing
+- reduces mental joins between tracking and business data
+
+### Risks
+
+- not always optimal for global status queries
+- possible skew if some expedients become too hot
+
+---
+
+### Option 3 - `/workflowStatus`
+
+### When it can work
+
+- rarely as the primary option
+- only when most queries are status-grouped and traffic per status is stable
+
+### Key risks
+
+- high hotspot risk
+- uneven distribution if a few statuses dominate
+- poor fit for per-flow history reconstruction
+
+The skill should be conservative and avoid this option as a default recommendation.
+
+---
+
+### Option 4 - derived composite logical key
+
+Conceptual examples:
 
 - `businessId#period`
 - `correlationId#month`
 - `tenant#businessId`
 
-### Cuándo puede servir
+### When it can work
 
-- cuando hay alto volumen
-- cuando se necesita controlar distribución
-- cuando existe patrón temporal o multi-tenant claro
+- high-volume workloads
+- explicit need to control distribution
+- clear time-based or multi-tenant access pattern
 
-### Ventajas
+### Advantages
 
-- mejor balance potencial
-- permite controlar crecimiento por partición lógica
-- útil para tracking con gran volumen
+- potentially better balance
+- controlled growth per logical partition
+- useful for high-volume tracking
 
-### Riesgos
+### Risks
 
-- más complejidad operativa
-- mayor carga cognitiva para queries y soporte
-- requiere disciplina de diseño y naming
+- more operational complexity
+- higher query/support cognitive load
+- requires strict design and naming discipline
 
 ---
 
-## Consultas por estado + fecha
+## Status + Date Queries
 
-El contexto BCV sugiere este patrón como relevante:
+A recurring BCV pattern is:
 
-- búsqueda por `workflowStatus`
-- orden o filtro por fecha de registro
+- filter by `workflowStatus`
+- filter/order by registration date
 
-### Recomendaciones del skill
+### Skill recommendations
 
-- modelar un campo temporal consistente, por ejemplo:
+- model a consistent time field, for example:
   - `registeredAt`
   - `statusChangedAt`
-- distinguir entre:
-  - fecha de creación del documento
-  - fecha del evento de negocio
-  - fecha del último cambio
-- evitar diseñar queries globales por estado que barran todo el contenedor si el volumen puede crecer
+- distinguish clearly between:
+  - document creation time
+  - business event time
+  - last update time
+- avoid global status queries that scan the full container when volume may grow
 
-### Señal de alerta
+### Warning signal
 
-Si el usuario necesita:
-
-- “dame todos los tracking en estado X ordenados por fecha”
-- sobre un volumen alto
-- y sin una partición alineada a ese acceso,
-
-el skill debe advertir explícitamente sobre costo y escalabilidad.
+If the user asks for queries like “all tracking records in status X ordered by date” over high volume without partition alignment, the skill must explicitly warn about scalability and RU/s impact.
 
 ---
 
-## Estrategia de RU/s
+## RU/s Strategy
 
-## Qué debe evaluar el skill
+### What the skill should evaluate
 
-Para cualquier propuesta, el skill debe revisar:
+For any proposal, evaluate:
 
-- cantidad de lecturas esperadas
-- proporción lecturas/escrituras
-- tamaño estimado del documento
-- frecuencia de actualizaciones
-- queries con filtros múltiples
-- ordenamientos
-- crecimiento histórico del tracking
-- necesidad de TTL
-
----
-
-## Recomendaciones de diseño para reducir RU/s
-
-- preferir **point reads** cuando sea posible
-- alinear `partitionKey` con accesos críticos
-- evitar queries cross-partition innecesarias
-- reducir documentos excesivamente grandes
-- evitar almacenar información duplicada que no aporte valor
-- separar tracking operacional de analítica, si el caso lo exige
-- revisar si conviene almacenar eventos o snapshots según el patrón del negocio
+- expected read volume
+- read/write ratio
+- estimated document size
+- update frequency
+- multi-filter query complexity
+- ordering requirements
+- tracking history growth
+- TTL requirement
 
 ---
 
-## Eventos vs snapshot
+## Design Recommendations to Reduce RU/s
 
-El skill debe evaluar cuál modelo conviene más:
-
-| Modelo | Cuándo conviene | Riesgos |
-|--------|------------------|---------|
-| **Event log** | Cuando se necesita historial completo y auditoría detallada | Más lecturas para reconstruir estado |
-| **Snapshot actualizable** | Cuando importa más el estado actual y consultas rápidas | Menor trazabilidad histórica |
-| **Híbrido** | Cuando se necesita estado actual + historia acotada | Más complejidad de consistencia |
-
-Para tracking BCV, el skill debe considerar **híbrido** como opción frecuente si el negocio necesita estado actual y trazabilidad.
+- prefer point reads when possible
+- align `partitionKey` with critical access patterns
+- avoid unnecessary cross-partition queries
+- keep documents reasonably sized
+- avoid non-value duplicate data
+- separate operational tracking from analytics when needed
+- choose events vs snapshots based on real business access
 
 ---
 
-## TTL y retención
+## Events vs Snapshot
 
-Si el usuario no lo confirma, el skill debe preguntar:
+The skill should evaluate the best model for the use case:
 
-- ¿El tracking expira?
-- ¿Se debe conservar por días, meses o años?
-- ¿Hay requerimientos regulatorios?
+| Model | Best when | Risks |
+| --- | --- | --- |
+| **Event log** | full history and audit detail are required | more reads to rebuild current state |
+| **Updatable snapshot** | current-state reads are priority | lower historical traceability |
+| **Hybrid** | both current state and constrained history are required | higher consistency complexity |
 
-### Recomendación
-
-- no activar TTL automáticamente
-- explicar que TTL impacta retención y costo
-- si el tracking es puramente operativo, TTL puede ser una opción
-- si hay auditoría/regulación, validar antes de proponer expiración
+For BCV tracking scenarios, **hybrid** is often a strong candidate when both operational state and traceability are needed.
 
 ---
 
-## Señales para escalar el diseño
+## TTL and Retention
 
-El skill debe elevar advertencias cuando detecte:
+If not confirmed, the skill must ask:
 
-- volumen no confirmado pero queries globales pesadas
-- consultas frecuentes por estado sobre muchas particiones
-- necesidad de ordenamientos amplios sin estrategia clara
-- mezcla de tracking operacional y reporting analítico
-- riesgo de hotspot por una clave demasiado concentrada
+- Does tracking expire?
+- Is retention measured in days, months, or years?
+- Are there regulatory requirements?
+
+### Recommendation
+
+- do not enable TTL by default
+- explain retention/cost impact of TTL
+- TTL can fit purely operational tracking
+- validate before proposing expiration in regulated/audit-heavy contexts
 
 ---
 
-## Formato recomendado de decisión en respuestas del skill
+## Signals to Escalate Design Risk
 
-Cuando proponga una `partitionKey`, usar una tabla como esta:
+The skill should raise warnings when it detects:
 
-| Opción | Favorece | Riesgos | Veredicto |
-|-------|----------|---------|-----------|
-| `/correlationId` | historial por flujo | consultas globales por estado caras | recomendada si el acceso principal es por flujo |
-| `/expedientId` | consultas por expediente | skew por entidades calientes | recomendada si el expediente es la clave dominante |
-| `/workflowStatus` | filtro directo por estado | hotspots, mala distribución | no recomendada como default |
+- unknown volume with heavy global queries
+- frequent status queries across many partitions
+- broad ordering requirements without clear strategy
+- mixed operational tracking and analytical reporting in one model
+- hotspot risk from overly concentrated keys
+
+---
+
+## Recommended Decision Output Format
+
+When proposing a `partitionKey`, use a table like this:
+
+| Option | Supports | Risks | Verdict |
+| --- | --- | --- | --- |
+| `/correlationId` | per-flow history | expensive global status queries | recommended when flow-centric access dominates |
+| `/expedientId` | expedient-centric access | skew from hot entities | recommended when expedient is the dominant key |
+| `/workflowStatus` | direct status filtering | hotspots and poor distribution | not recommended as default |

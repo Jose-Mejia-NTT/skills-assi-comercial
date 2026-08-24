@@ -22,6 +22,7 @@ One invocation = one use case = one full slice.
 ## Expected input
 
 Natural language feature request or DHU with acceptance criteria and business rules.
+Optionally, a repository-generated `GRAPH_REPORT.md` with architectural and dependency information.
 
 ## Expected output
 
@@ -34,6 +35,17 @@ A complete vertical slice, including:
 - input controller endpoint update
 - output persistence adapter update
 - app UseCaseConfig bean registration
+- concise impact summary identifying affected components, integrations, and assumptions
+
+## Graphify context (optional)
+
+When `GRAPH_REPORT.md` exists in the repository, use it as the first architectural map before broad repository exploration.
+
+1. Locate the report and identify its generation date or version when available.
+2. Extract only information relevant to the requested use case: modules, dependency paths, producers and consumers, events, contracts, and candidate files.
+3. Treat the report as a navigation aid, not as an authority. Confirm every critical assumption in the current source code, build files, configuration, and tests before generating code.
+4. If the report is missing, stale, incomplete, or inconsistent with the repository, continue from the repository and state the discrepancy in the impact summary. Do not invent Graphify data or stop solely because the report is unavailable.
+5. Use the report to prioritize inspection and impact analysis; it does not override the compatibility gate, project alignment rules, layer dependency rules, or local conventions.
 
 ## Compatibility gate (mandatory)
 
@@ -43,6 +55,8 @@ Before generation, verify the repository has enough hexagonal signals:
 3. UseCaseConfig or equivalent explicit wiring point.
 
 If these signals are weak or absent, stop and explain why this skill should not be used.
+
+When Graphify identifies apparently affected modules or integration points, include them in this gate and verify that they belong to the same hexagonal boundary being changed. A graph connection alone is not evidence that a new slice belongs in the target service.
 
 ## Project alignment (mandatory before code generation)
 
@@ -54,7 +68,21 @@ Infer from code, do not hardcode:
 
 If confidence is low, ask up to 3 clarifying questions.
 
+When `GRAPH_REPORT.md` provides candidate paths or conventions, use them to narrow discovery, then confirm them against nearby implementations. Prefer current code over report metadata when they disagree.
+
 ## Workflow
+
+### Architectural impact analysis
+
+Before SDD, use the available `GRAPH_REPORT.md` and targeted repository inspection to record:
+
+1. Target service and bounded context.
+2. Affected core, input, output, and app components.
+3. Relevant inbound and outbound integrations, events, consumers, and producers.
+4. Contracts or persistence models that may change.
+5. Files inspected, report discrepancies, and unresolved assumptions.
+
+Keep this analysis proportional to the request. For a local use case with no discovered integrations, say so explicitly rather than expanding exploration unnecessarily.
 
 ### SDD
 
@@ -69,6 +97,15 @@ If confidence is low, ask up to 3 clarifying questions.
 2. Design: names, signatures, DTOs, endpoint contract.
 3. Build: create or update required files by layer.
 4. Validate: architectural consistency and annotation checklist.
+
+### Graphify-aware verification
+
+After generation, verify that the implementation matches both the repository and the architectural facts used from `GRAPH_REPORT.md`:
+
+1. Recheck affected dependency paths and integration points in source code.
+2. Confirm no newly referenced module or adapter violates the layer dependency rules.
+3. Confirm any affected event or external contract has a corresponding compatibility decision.
+4. Report whether the graph reduced exploration, was partially useful, or was contradicted by the repository. This is an observation about the run, not a guarantee of token or time savings.
 
 ## Mandatory implementation rules
 
