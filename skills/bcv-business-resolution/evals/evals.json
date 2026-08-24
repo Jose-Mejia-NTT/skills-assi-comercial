@@ -1,0 +1,58 @@
+{
+  "skill_name": "bcv-business-resolution",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Analiza esta HU: Asignar el codigo de sectorista de Mediana Empresa a clientes nuevos que aperturen una Cuenta Negocios y declaren ingresos entre S/ 5,000,000 y S/ 100,000,000. Fuera del rango continua la logica vigente, sin rango aplica BPE y las empresas antiguas no se actualizan.",
+      "expected_output": "Un resultado estructurado que extrae cliente nuevo, Cuenta Negocios, ingresos, sectorista, segmentacion y apertura; registra las reglas de rango, default BPE y exclusion de empresas antiguas; propone candidatos con evidencia y no afirma un microservicio exacto sin catalogo o evidencia tecnica.",
+      "files": [],
+      "assertions": [
+        "Separa business_context, capabilities y candidates",
+        "Incluye las llaves obligatorias: business_context, capabilities, candidates, ambiguities, resolution_status, handoff",
+        "Conserva los limites inclusivos del rango y las exclusiones",
+        "No inventa APIs, tablas, eventos ni clases",
+        "Usa REVIEW_REQUIRED o BLOCKED cuando la evidencia no permite elegir un servicio exacto",
+        "No emite conclusiones de impacto tecnico (impacted_apis, impacted_events, impacted_persistence)"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Usa esta HU sobre apertura de cuenta negocio y el siguiente catalogo: Apertura de cuenta -> bcv-bacc-party-lifecycle-management-service como owner; Cliente -> bcv-bacc-customer-service como data_owner; Reporting Teradata -> bcv-bacc-account-opening-reporting-service como possible_downstream. Devuelve el resultado para handoff tecnico.",
+      "expected_output": "YAML con capacidades normalizadas, candidatos con roles diferenciados, evidencia del catalogo, confianza cualitativa, ambiguedades y handoff para Graphify impact analysis.",
+      "files": [],
+      "assertions": [
+        "Distingue owner, data_owner y possible_downstream",
+        "Incluye el catalogo como evidencia",
+        "Incluye el HU original y acceptance criteria en el handoff",
+        "No consulta Graphify ni presenta APIs o tablas como confirmadas",
+        "Incluye trazabilidad de evidencia por candidato (fuente + confianza cualitativa)",
+        "Respeta la estructura del template business-resolution"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Analiza una HU que menciona una capacidad desconocida y no se proporciona catalogo de capacidades. No intentes decidir el microservicio.",
+      "expected_output": "El skill extrae el contexto de negocio, indica que no hay mapeo disponible, marca BLOCKED o REVIEW_REQUIRED y solicita el catalogo o informacion funcional faltante.",
+      "files": [],
+      "assertions": [
+        "No inventa un microservicio",
+        "Reporta la ausencia del catalogo como limitacion",
+        "Incluye preguntas de aclaracion enfocadas",
+        "Entrega un handoff explicando que falta para continuar",
+        "Marca explicitamente la necesidad de validacion en la fase de impacto tecnico"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Antes de resolver una HU BCV, aplica el bootstrap obligatorio de contexto y luego devuelve candidatos funcionales sin analisis tecnico.",
+      "expected_output": "La salida referencia que se uso el contexto de graph-index, service-map y graphify-query-playbook en ese orden, mantiene foco en Paso 1 y evita conclusiones tecnicas.",
+      "files": [],
+      "assertions": [
+        "Aplica el orden de contexto graph-index -> service-map -> graphify-query-playbook",
+        "Mantiene el alcance de resolucion funcional (Paso 1)",
+        "No usa Graphify query ni graph path",
+        "Produce candidatos con evidencia y estado de resolucion"
+      ]
+    }
+  ]
+}

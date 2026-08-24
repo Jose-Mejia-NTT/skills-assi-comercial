@@ -1,0 +1,39 @@
+{
+  "skill_name": "bcv-technical-story-enricher",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Con una HU, business-resolution.yaml y technical-impact-analysis.yaml en READY, genera la technical-story-enriched.",
+      "expected_output": "Documento con las seis secciones minimas, matriz de impacto confirmed/candidate, plan de tareas por dominios y checklist de validacion.",
+      "files": [],
+      "assertions": [
+        "Incluye contexto funcional resumido, decision de servicios impactados, matriz de impacto, plan de tareas, riesgos/supuestos y checklist",
+        "Preserva trazabilidad HU -> HT -> tareas",
+        "No inventa APIs/eventos/persistencia fuera de la evidencia",
+        "No genera codigo de implementacion"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Recibe Step 2 con technical_status=REVIEW_REQUIRED y conflictos abiertos. Genera la HT enriquecida sin ocultar incertidumbre.",
+      "expected_output": "Documento util para refinamiento con pendientes de revision claramente marcados, riesgos y supuestos explicitos.",
+      "files": [],
+      "assertions": [
+        "Mantiene conflictos abiertos y no los resuelve artificialmente",
+        "Distingue hechos confirmados de hipotesis candidate",
+        "Incluye pendientes de validacion externa"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Se solicita generar HT enriquecida solo con una HU, sin business-resolution ni technical-impact-analysis.",
+      "expected_output": "Debe responder BLOCKED y pedir artefactos faltantes en lugar de fabricar la historia tecnica.",
+      "files": [],
+      "assertions": [
+        "No fabrica decision de servicio principal",
+        "No fabrica matriz de impacto tecnico",
+        "Solicita explicitamente business-resolution.yaml y technical-impact-analysis.yaml"
+      ]
+    }
+  ]
+}

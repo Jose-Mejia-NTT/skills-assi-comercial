@@ -1,0 +1,54 @@
+analysis_scope:
+  request_summary: ""
+  candidate_services_input: []
+
+primary_service:
+  service: ""
+  role: "owner_candidate"
+  confidence: "medium"
+  evidence:
+    - source: ""
+      statement: ""
+      freshness: ""
+      type: "confirmed"
+
+supporting_services:
+  - service: ""
+    role: "participant"
+    confidence: "medium"
+    evidence:
+      - source: ""
+        statement: ""
+        freshness: ""
+        type: "candidate"
+
+impacted_apis:
+  confirmed: []
+  candidate: []
+
+impacted_persistence:
+  confirmed: []
+  candidate: []
+
+impacted_events:
+  confirmed: []
+  candidate: []
+
+evidence_freshness:
+  graph_timestamp: ""
+  code_reference: ""
+  warnings: []
+
+conflicts: []
+
+risks:
+  - "RISK: "
+
+assumptions:
+  - "ASSUMED: "
+
+verification_notes:
+  open_questions: []
+  escalation_needed: false
+
+technical_status: "REVIEW_REQUIRED"

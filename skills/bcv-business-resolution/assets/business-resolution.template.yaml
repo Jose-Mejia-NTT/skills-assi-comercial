@@ -1,0 +1,45 @@
+business_context:
+  request_summary: ""
+  systems: []
+  entities: []
+  actions: []
+  events: []
+  rules: []
+  acceptance_criteria: []
+  scope:
+    in: []
+    out: []
+
+capabilities:
+  - id: ""
+    normalized_name: ""
+    evidence:
+      - source: ""
+        statement: ""
+        date: ""
+
+candidates:
+  - service: ""
+    role: "owner"
+    confidence: "high"
+    evidence:
+      - source: ""
+        statement: ""
+        date: ""
+
+ambiguities:
+  - type: ""
+    detail: ""
+    impact: ""
+
+resolution_status: "CANDIDATES_FOUND"
+
+handoff:
+  to_skill: "bcv-graphify-impact-analysis"
+  original_request_summary: ""
+  acceptance_criteria: []
+  candidate_verification_questions: []
+  assumptions:
+    - "ASSUMED: "
+  risks:
+    - "RISK: "
