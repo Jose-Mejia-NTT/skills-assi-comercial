@@ -91,6 +91,30 @@ impacted_events:
       producer: bcv-bacc-notification-service
       consumer: bcv-bacc-fraud-service
 
+impacted_files:
+  confirmed:
+    - path: src/main/java/com/bcv/notification/domain/SuspiciousAlertHandler.java
+      change: modify
+      reason: Agregar lógica de consumo del evento transaction.suspicious.alert.v1 y envío de notificación.
+      service: bcv-bacc-notification-service
+    - path: src/main/java/com/bcv/notification/application/SendNotificationUseCase.java
+      change: create
+      reason: Nuevo caso de uso para orquestar el envío por canal preferido.
+      service: bcv-bacc-notification-service
+    - path: src/main/resources/db/migration/V20260825__add_notification_channel_columns.sql
+      change: create
+      reason: Columnas para trazabilidad del envío y escalamiento.
+      service: bcv-bacc-notification-service
+  candidate:
+    - path: src/main/java/com/bcv/customer/domain/CustomerChannelPreference.java
+      change: modify
+      reason: Posible origen del canal preferido; confirmar ownership en IMP-000.
+      service: bcv-bacc-customer-preferences-service
+    - path: src/main/java/com/bcv/fraud/application/AlertEscalationPublisher.java
+      change: create
+      reason: Publicar evento de escalamiento si se confirma mecanismo por evento.
+      service: bcv-bacc-fraud-service
+
 evidence_freshness:
   graph_timestamp: "2026-08-24T10:00:00Z"
   code_reference: main@a1b2c3d
@@ -356,6 +380,8 @@ graph LR
   - Aprobación de arquitectura de canales y fraude.
 - **Deployment considerations:**
   - Ninguna; esta tarea es de clarificación previa al desarrollo.
+- **Files affected:**
+  - Ninguno; esta tarea es de clarificación.
 - **Security / compliance notes:**
   - Confirmar que el canal preferido no expone PII adicional al necesario.
 
@@ -381,8 +407,50 @@ graph LR
 - **Deployment considerations:**
   - Desplegar consumer antes que producer para no perder eventos.
   - Agregar alerta de lag del consumer.
+- **Files affected:**
+  - `src/main/java/com/bcv/notification/domain/SuspiciousAlertHandler.java` (modify)
+  - `src/main/java/com/bcv/fraud/application/AlertPublisher.java` (modify, candidate)
 - **Security / compliance notes:**
   - El evento no debe incluir datos sensibles del cliente en claro.
+
+## 10. Repository File Impact
+
+### Files to create
+
+- `src/main/java/com/bcv/notification/application/SendNotificationUseCase.java` — nuevo caso de uso para envío de notificación (bcv-bacc-notification-service)
+- `src/main/resources/db/migration/V20260825__add_notification_channel_columns.sql` — migración para trazabilidad (bcv-bacc-notification-service)
+- `src/main/java/com/bcv/fraud/application/AlertEscalationPublisher.java` — publicador de escalamiento (bcv-bacc-fraud-service, candidate)
+
+### Files to modify
+
+- `src/main/java/com/bcv/notification/domain/SuspiciousAlertHandler.java` — agregar consumo del evento y envío (bcv-bacc-notification-service)
+- `src/main/java/com/bcv/customer/domain/CustomerChannelPreference.java` — posible origen del canal preferido (bcv-bacc-customer-preferences-service, candidate)
+
+### Domains / entities affected
+
+- `Notification` domain — envío de notificaciones por canal preferido
+- `CustomerChannelPreference` entity — origen del canal preferido (candidate)
+- `FraudAlert` domain — publicación de alerta y escalamiento
+
+### Migrations / configuration
+
+- Migration: `V20260825__add_notification_channel_columns.sql` — columnas de trazabilidad
+- Config: `application.yml` — topic names y retry policies
+
+## 11. Developer Review & Sign-off
+
+- [ ] El plan cubre todos los criterios de aceptación de la HU.
+- [ ] Cada tarea es entendible y ejecutable sin inventar requisitos.
+- [ ] Las dependencias y estados BLOCKED son correctos.
+- [ ] Cada tarea BLOCKED tiene una condición de desbloqueo clara.
+- [ ] Se cubren escenarios de error y casos límite.
+- [ ] Las decisiones técnicas son razonables y están documentadas.
+- [ ] Se identifican archivos del repo a crear/modificar/eliminar.
+- [ ] No falta configuración, migración o documentación.
+
+**Reviewer:** _________________  
+**Date:** _________________  
+**Approved:** [ ] Sí  [ ] No — comentarios:
 
 ## Example 2: Story-only mode
 

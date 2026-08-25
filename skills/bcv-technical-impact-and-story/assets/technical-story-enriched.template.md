@@ -161,17 +161,64 @@ Do not include estimates, assignments or code snippets.
   - Access, approvals, third-party systems, environment availability.
 - **Deployment considerations:**
   - Order of deployment, feature flags, rollback strategy, monitoring.
+- **Files affected:**
+  - `path/to/file` (create | modify | delete) — reason
 - **Security / compliance notes:**
   - PII, audit, encryption, data retention considerations.
 
 ### IMP-001: <Task title>
 
 - **Recommended skill category:** see `references/skill-mapping.md` (map to user's available skill)
-- **Definition of Ready (DoR):
+- **Definition of Ready (DoR):**
 - **Definition of Done (DoD):**
 - **Technical acceptance criteria:**
 - **Test cases:**
 - **Error scenarios:**
 - **External dependencies:**
 - **Deployment considerations:**
+- **Files affected:**
 - **Security / compliance notes:**
+
+## 10. Repository File Impact
+
+List the concrete files in the repository that must be created, modified or deleted.
+Derive this list from `impacted_files` in the source impact analysis.
+Mark candidate files explicitly.
+
+### Files to create
+
+- `path/to/new/file.ext` — purpose and owning service
+
+### Files to modify
+
+- `path/to/existing/file.ext` — change description and owning service
+
+### Files to delete
+
+- `path/to/obsolete/file.ext` — reason
+
+### Domains / entities affected
+
+- `DomainName` / `EntityName` — impact description
+
+### Migrations / configuration
+
+- Migration file: `path/to/migration.sql` — purpose
+- Configuration: `path/to/config.yml` — change
+
+## 11. Developer Review & Sign-off
+
+Use this section for a developer to validate the plan before execution.
+
+- [ ] The plan covers all HU acceptance criteria.
+- [ ] Every task is understandable and executable without inventing requirements.
+- [ ] Task dependencies and BLOCKED statuses are correct.
+- [ ] Every BLOCKED task has a clear unblock condition.
+- [ ] Error scenarios and edge cases are covered.
+- [ ] Technical decisions are reasonable and documented.
+- [ ] Repository files to create/modify/delete are identified.
+- [ ] No missing configuration, migration or documentation is evident.
+
+**Reviewer:** _________________  
+**Date:** _________________  
+**Approved:** [ ] Sí  [ ] No — comentarios:

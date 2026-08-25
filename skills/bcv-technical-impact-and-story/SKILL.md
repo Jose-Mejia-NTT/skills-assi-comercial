@@ -112,7 +112,7 @@ Ambiguity and conflict handling: `references/ambiguity-and-conflict-handling.md`
 1. Load the source `business-resolution.yaml` and record its path and `resolution_status`.
 2. Verify evidence freshness: graph timestamp, commit/version, draft/snapshot/needs-review warnings.
 3. Analyze candidate services: controllers/subscribers/use cases, inbound and outbound integrations,
-   events published/consumed, persistence likely impacted.
+   events published/consumed, persistence likely impacted, concrete files likely created or modified.
 4. Assign technical roles: probable technical owner, probable data owner, participants, downstreams.
 5. Detect conflicts: ambiguous ownership, contradictory evidence, externally-owned dependencies,
    plus unresolved ambiguities inherited from business resolution.
@@ -121,7 +121,7 @@ Ambiguity and conflict handling: `references/ambiguity-and-conflict-handling.md`
 Required top-level keys: `primary_service`, `supporting_services`, `impacted_apis`,
 `impacted_persistence`, `impacted_events`, `risks`, `assumptions`, `technical_status`.
 Recommended for traceability: `evidence_freshness`, `analysis_scope`, `inherited_ambiguities`,
-`conflicts`, `verification_notes`.
+`conflicts`, `impacted_files`, `verification_notes`.
 
 ### Gate barrier (mandatory between phases)
 
@@ -154,14 +154,17 @@ Completion checks: `references/evaluation-criteria.md`.
 4. Render the implementation architecture as a Mermaid diagram showing repositories/domains,
    microservices, APIs, events and persistence. Mark candidate items explicitly.
 5. Build the detailed action plan: for each task define DoR, DoD, technical acceptance criteria,
-   test cases, error scenarios, external dependencies, deployment considerations and security/compliance notes.
-   Do not include estimates, assignments or code snippets.
-6. Register assumptions (`ASSUMED`) and risks (`RISK`).
-7. Define technical acceptance: rule coverage, non-regression expectations, HU -> HT -> tasks traceability.
+   test cases, error scenarios, external dependencies, deployment considerations, files affected and
+   security/compliance notes. Do not include estimates, assignments or code snippets.
+6. Render the repository file impact: files to create, modify or delete, domains/entities affected,
+   migrations and configuration changes.
+7. Register assumptions (`ASSUMED`) and risks (`RISK`).
+8. Define technical acceptance: rule coverage, non-regression expectations, HU -> HT -> tasks traceability.
+9. Include the developer review & sign-off section.
 
 Minimum sections: functional context summary, impacted-services decision, technical impact matrix,
 numbered technical task plan, risks and assumptions, validation checklist, implementation architecture diagram,
-detailed action plan.
+detailed action plan, repository file impact, developer review & sign-off.
 
 ## Language Handling and Output Policy
 

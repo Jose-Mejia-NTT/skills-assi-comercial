@@ -38,6 +38,18 @@ impacted_events:
   confirmed: []
   candidate: []
 
+impacted_files:
+  confirmed:
+    - path: ""
+      change: "create | modify | delete"
+      reason: ""
+      service: ""
+  candidate:
+    - path: ""
+      change: "create | modify | delete"
+      reason: ""
+      service: ""
+
 evidence_freshness:
   graph_timestamp: ""
   code_reference: ""

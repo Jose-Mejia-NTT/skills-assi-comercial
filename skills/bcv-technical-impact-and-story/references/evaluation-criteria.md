@@ -46,9 +46,19 @@ Deterministic checks before declaring the technical story ready for refinement.
 
 8. **Detailed action plan quality**
    - Every task in the technical task plan has DoR, DoD and technical acceptance criteria.
-   - Test cases, error scenarios, external dependencies and deployment considerations are documented.
+   - Test cases, error scenarios, external dependencies, deployment considerations and files affected are documented.
    - Security and compliance notes are included when PII, audit or sensitive data is involved.
    - The plan does not include estimates, assignments or code snippets.
+
+9. **Repository file impact quality**
+   - Files to create, modify and delete are listed with owning service and reason.
+   - Candidate files are marked explicitly.
+   - Domains/entities affected and migrations/configuration changes are documented.
+
+10. **Developer review section**
+    - The story includes the developer review & sign-off checklist.
+    - The checklist covers HU coverage, executability, dependencies, BLOCKED tasks, error scenarios,
+      technical decisions, file impact and missing configuration/documentation.
 
 ### Escalation rules
 
