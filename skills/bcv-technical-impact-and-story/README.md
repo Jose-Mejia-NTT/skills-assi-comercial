@@ -4,10 +4,12 @@ Technical-analysis skill for the BCV HU/HAB flow.
 
 ## Purpose
 
-Turns a validated business resolution into two linked artifacts:
+Turns a validated business resolution into linked artifacts:
 
 1. `technical-impact-analysis.yaml` — evidence-graded technical impact matrix plus a gate status.
-2. `technical-story-enriched.md` — implementation-ready technical story with numbered, traceable tasks.
+2. `technical-story-enriched.md` — implementation-ready technical story with numbered, traceable tasks,
+   architecture diagram and detailed action plan (DoR, DoD, test cases, error scenarios, deployment notes).
+3. `technical-architecture-diagram.mmd` — Mermaid source of the implementation architecture.
 
 This is **Step 2** of the pipeline:
 

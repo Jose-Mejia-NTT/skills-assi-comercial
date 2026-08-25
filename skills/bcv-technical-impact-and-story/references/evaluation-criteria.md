@@ -40,6 +40,12 @@ Deterministic checks before declaring the technical story ready for refinement.
    - The diagram source is written to `docs/historial/<hu-slug>-technical-architecture-diagram.mmd`.
    - The diagram does not introduce elements absent from the impact analysis.
 
+8. **Detailed action plan quality**
+   - Every task in the technical task plan has DoR, DoD and technical acceptance criteria.
+   - Test cases, error scenarios, external dependencies and deployment considerations are documented.
+   - Security and compliance notes are included when PII, audit or sensitive data is involved.
+   - The plan does not include estimates, assignments or code snippets.
+
 ### Escalation rules
 
 - Gate `BLOCKED`: do not emit a story.

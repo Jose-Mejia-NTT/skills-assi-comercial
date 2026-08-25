@@ -294,6 +294,58 @@ graph LR
     style DB1 fill:#f9f,stroke:#333,stroke-dasharray: 5 5
 ```
 
+## 8. Detailed Action Plan
+
+### IMP-000: Resolver ambigüedades heredadas de business resolution
+
+- **Definition of Ready (DoR):**
+  - Equipo de arquitectura disponible para validar ownership del canal preferido.
+  - Documentación actualizada de service-map y customer-preferences-service accesible.
+- **Definition of Done (DoD):**
+  - Se confirma quién es data_owner del canal preferido.
+  - Se define el mecanismo de escalamiento al área de fraude (evento/ticket/bandeja).
+  - El technical-impact-analysis.yaml se actualiza con evidencia confirmada.
+- **Technical acceptance criteria:**
+  - El contrato de lectura del canal preferido está acordado.
+  - El evento o API de escalamiento tiene owner y contrato definido.
+- **Test cases:**
+  - Verificar que notification-service puede obtener el canal preferido del owner correcto.
+  - Simular timeout de 24h y confirmar que el escalamiento llega al destino acordado.
+- **Error scenarios:**
+  - Si el owner del canal preferido no responde, mantener el item como REVIEW_REQUIRED.
+  - Si el mecanismo de escalamiento no existe, documentar como dependencia externa.
+- **External dependencies:**
+  - Aprobación de arquitectura de canales y fraude.
+- **Deployment considerations:**
+  - Ninguna; esta tarea es de clarificación previa al desarrollo.
+- **Security / compliance notes:**
+  - Confirmar que el canal preferido no expone PII adicional al necesario.
+
+### IMP-001: Acordar contrato del evento `transaction.suspicious.alert.v1`
+
+- **Definition of Ready (DoR):**
+  - Equipos de fraud-service y notification-service alineados.
+  - Schema registry o contrato de eventos disponible.
+- **Definition of Done (DoD):**
+  - Schema del evento documentado y versionado.
+  - Ambos servicios validan el contrato.
+- **Technical acceptance criteria:**
+  - El evento incluye identificador de transacción, timestamp y nivel de riesgo.
+  - El producer y consumer están acordados.
+- **Test cases:**
+  - Publicar evento de prueba y verificar que notification-service lo consume.
+  - Validar schema con payload mínimo y completo.
+- **Error scenarios:**
+  - Evento con schema inválido: descartar y loggear error.
+  - Consumer caído: evento queda en cola con reintentos configurados.
+- **External dependencies:**
+  - Schema registry / Kafka / broker de eventos.
+- **Deployment considerations:**
+  - Desplegar consumer antes que producer para no perder eventos.
+  - Agregar alerta de lag del consumer.
+- **Security / compliance notes:**
+  - El evento no debe incluir datos sensibles del cliente en claro.
+
 ## Example 2: Story-only mode
 
 ### Input

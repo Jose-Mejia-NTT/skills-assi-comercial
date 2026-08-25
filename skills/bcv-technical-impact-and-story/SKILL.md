@@ -140,11 +140,15 @@ Completion checks: `references/evaluation-criteria.md`.
    Do not include estimates, assignments or code snippets.
 4. Render the implementation architecture as a Mermaid diagram showing repositories/domains,
    microservices, APIs, events and persistence. Mark candidate items explicitly.
-5. Register assumptions (`ASSUMED`) and risks (`RISK`).
-6. Define technical acceptance: rule coverage, non-regression expectations, HU -> HT -> tasks traceability.
+5. Build the detailed action plan: for each task define DoR, DoD, technical acceptance criteria,
+   test cases, error scenarios, external dependencies, deployment considerations and security/compliance notes.
+   Do not include estimates, assignments or code snippets.
+6. Register assumptions (`ASSUMED`) and risks (`RISK`).
+7. Define technical acceptance: rule coverage, non-regression expectations, HU -> HT -> tasks traceability.
 
 Minimum sections: functional context summary, impacted-services decision, technical impact matrix,
-numbered technical task plan, risks and assumptions, validation checklist, implementation architecture diagram.
+numbered technical task plan, risks and assumptions, validation checklist, implementation architecture diagram,
+detailed action plan.
 
 ## Language Handling and Output Policy
 

@@ -119,3 +119,39 @@ graph LR
     SVC_A -->|action: event or API| SVC_B
     SVC_B --> DB_B
 ```
+
+## 8. Detailed Action Plan
+
+For each numbered task in the technical task plan, define the readiness, completion, testing,
+error handling, dependencies and deployment considerations.
+Do not include estimates, assignments or code snippets.
+
+### IMP-000: <Task title>
+
+- **Definition of Ready (DoR):**
+  - Prerequisites that must be satisfied before starting this task.
+- **Definition of Done (DoD):**
+  - Conditions that must be met to consider this task complete.
+- **Technical acceptance criteria:**
+  - Specific, verifiable criteria for this task.
+- **Test cases:**
+  - Happy path, edge cases and error scenarios.
+- **Error scenarios:**
+  - Expected failures, retry policies, fallback behavior.
+- **External dependencies:**
+  - Access, approvals, third-party systems, environment availability.
+- **Deployment considerations:**
+  - Order of deployment, feature flags, rollback strategy, monitoring.
+- **Security / compliance notes:**
+  - PII, audit, encryption, data retention considerations.
+
+### IMP-001: <Task title>
+
+- **Definition of Ready (DoR):**
+- **Definition of Done (DoD):**
+- **Technical acceptance criteria:**
+- **Test cases:**
+- **Error scenarios:**
+- **External dependencies:**
+- **Deployment considerations:**
+- **Security / compliance notes:**
