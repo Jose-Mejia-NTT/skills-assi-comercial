@@ -1,6 +1,6 @@
 # bcv-business-resolution
 
-Business-discovery skill for the BCV HU/HAB flow.
+Business-discovery skill for the BCV HU/HAB flow, configured for GitHub Copilot.
 
 ## Purpose
 

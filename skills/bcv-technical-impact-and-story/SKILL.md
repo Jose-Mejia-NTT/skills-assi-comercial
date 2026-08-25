@@ -70,8 +70,13 @@ In `story-only` mode, load only `service-map.md` and `cross-service-patterns.md`
 3. Optional `technical-impact-analysis.yaml` (switches the run to `story-only`).
 4. Optional constraints: expected endpoint, event, persistence object, error code.
 5. Optional architecture review notes when a previous gate returned `REVIEW_REQUIRED`.
-6. Optional `available_skills` mapping: user's skill name per category (`contract-design`, `backend-dev`, `database-dev`, etc.).
-   If not provided, the skill outputs **skill categories** and lets the user map them later.
+6. Optional `available_skills` mapping (Copilot): user's skill name per category (`contract-design`, `backend-dev`, `database-dev`, etc.).
+   In Copilot the user must provide this list manually in the chat prompt or via `user_skills_path`.
+7. Optional `user_skills_path` (Copilot): workspace-relative or absolute path to a directory containing the user's skills.
+   If provided, the skill reads filenames from that path and maps them to task categories.
+   If the path cannot be read, the skill asks the user to paste the list manually.
+   If neither `available_skills` nor `user_skills_path` is provided, the skill outputs **skill categories**.
+   See `references/skill-mapping.md` for the preferred input format and mapping rules.
 
 Minimum to run without blocking:
 

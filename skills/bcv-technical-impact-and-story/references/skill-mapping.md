@@ -1,14 +1,37 @@
-# Skill mapping for implementation tasks
+# Skill mapping for implementation tasks (Copilot)
 
 This reference maps each task type in the technical task plan to a **skill category**.
-Each user must map these categories to the actual skills available in their assistant ecosystem.
+In Copilot, the user must provide their available skills manually; the skill then
+maps categories to those names.
 
-## How to use this mapping
+## How Copilot provides skills
 
-1. When generating the technical task plan, assign a `Recommended skill category` to each task.
-2. If the user provides a list of available skills, replace the category with the matching skill name.
-3. If no skill list is available, keep the category and add a note like:
-   `Replace with the user's skill for [category]`.
+GitHub Copilot does not expose a standard skills directory or automatic skill list.
+The user must provide their available skills in the chat prompt.
+
+### Preferred input format
+
+The user can write a message like:
+
+```text
+Mis skills disponibles en Copilot son:
+- api-design
+- bcv-java-spring-boot
+- bcv-spring-data-jpa-sql-server
+- bcv-azure-service-bus
+- test-writer
+```
+
+Or as structured YAML:
+
+```yaml
+available_skills:
+  contract-design: api-design
+  backend-dev: bcv-java-spring-boot
+  database-dev: bcv-spring-data-jpa-sql-server
+  messaging-dev: bcv-azure-service-bus
+  testing-dev: test-writer
+```
 
 ## Task type → skill category
 
@@ -48,7 +71,47 @@ Then a `domain` task in a Java/Spring service would show:
 - **Recommended skill:** `bcv-java-spring-boot`
 ```
 
-## Default behavior
+## Reading skills from a path
 
-If no mapping is provided, use the category name as a placeholder and keep the
-recommendation generic. Do not invent skill names that the user has not confirmed.
+If the user wants the skill to read the skill list from a path, they can provide it explicitly:
+
+```text
+Mis skills están en ./skills/
+```
+
+Supported path types in Copilot:
+
+1. **Workspace-relative path** (recommended)
+   - Example: `./skills/`, `.github/copilot-skills/`, `docs/skills/`
+   - The skill can list files in that directory if it is inside the open workspace.
+   - Skill names are inferred from file or folder names.
+
+2. **Absolute local path** (limited)
+   - Example: `C:\Users\me\skills\` or `/Users/me/skills/`
+   - Copilot may not have access outside the workspace.
+   - Use only if the assistant explicitly allows file-system access.
+
+3. **GitHub repository URL**
+   - Example: `https://github.com/my-org/copilot-skills`
+   - The skill cannot browse the web unless the assistant has a web tool.
+   - The user should paste the list instead.
+
+### Behavior when a path is provided
+
+1. List files or folders in the provided path.
+2. Extract skill names from filenames (e.g. `api-design.md` → `api-design`).
+3. Map those names to task categories using the table above.
+4. If a category has no matching skill, fall back to the category placeholder.
+
+If the path cannot be read, ask the user to paste the list manually.
+
+## When the user does not provide skills or a path
+
+If no skill list or path is provided, output **skill categories** and add a note like:
+
+```markdown
+- **Recommended skill category:** `backend-dev`
+  - Replace with your Copilot skill for backend implementation.
+```
+
+Do not invent skill names that the user has not confirmed.

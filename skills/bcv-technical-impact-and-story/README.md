@@ -1,6 +1,6 @@
 # bcv-technical-impact-and-story
 
-Technical-analysis skill for the BCV HU/HAB flow.
+Technical-analysis skill for the BCV HU/HAB flow, configured for GitHub Copilot.
 
 ## Purpose
 
@@ -60,6 +60,13 @@ Use this skill when the user asks to:
 This skill consumes the output of `bcv-business-resolution`:
 
 - `docs/historial/<hu-slug>-business-resolution.yaml`
+
+For Copilot, the user should also provide their available skills via:
+
+- `available_skills`: a manual list in the prompt.
+- `user_skills_path`: a path to a directory containing the user's skills (workspace-relative is recommended).
+
+If neither is provided, the plan outputs skill categories and the user maps them later.
 
 The impact analysis records:
 
