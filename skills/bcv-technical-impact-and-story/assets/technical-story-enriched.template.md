@@ -93,4 +93,29 @@ those ambiguities before the technical tasks that depend on them.
 - [ ] Confirmed vs candidate split is explicit
 - [ ] Every technical item traces back to the source impact analysis
 - [ ] Every task links to at least one HU criterion and one impact item
+- [ ] Architecture diagram reflects services, APIs, events and persistence from the impact matrix
 - [ ] Open review items identified (if any)
+
+## 7. Implementation Architecture Diagram
+
+Render the technical impact matrix as a Mermaid diagram.
+Use subgraphs for repositories or domains, nodes for microservices, arrows for APIs and events,
+and cylinders for persistence. Mark candidate items with dashed lines or `(candidate)` labels.
+
+Also write the diagram source to `docs/historial/<hu-slug>-technical-architecture-diagram.mmd`
+so it can be reused in wikis, PRs or documentation.
+
+```mermaid
+graph LR
+    subgraph "Domain / Repository A"
+        SVC_A[service-a]
+    end
+
+    subgraph "Domain / Repository B"
+        SVC_B[service-b]
+        DB_B[(persistence)]
+    end
+
+    SVC_A -->|action: event or API| SVC_B
+    SVC_B --> DB_B
+```

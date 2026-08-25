@@ -36,6 +36,7 @@ Use this skill when the user asks to:
 
 - `docs/historial/<hu-slug>-technical-impact-analysis.yaml`
 - `docs/historial/<hu-slug>-technical-story-enriched.md`
+- `docs/historial/<hu-slug>-technical-architecture-diagram.mmd`
 
 ## Key files
 

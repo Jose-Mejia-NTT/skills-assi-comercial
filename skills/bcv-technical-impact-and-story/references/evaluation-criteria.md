@@ -34,6 +34,12 @@ Deterministic checks before declaring the technical story ready for refinement.
    - The checklist includes coverage, non-regression and traceability checks.
    - Criteria are verifiable, not generic placeholders.
 
+7. **Architecture diagram quality**
+   - The Mermaid diagram reflects services, APIs, events and persistence from the impact matrix.
+   - Candidate items are visually distinguished (dashed lines or labels).
+   - The diagram source is written to `docs/historial/<hu-slug>-technical-architecture-diagram.mmd`.
+   - The diagram does not introduce elements absent from the impact analysis.
+
 ### Escalation rules
 
 - Gate `BLOCKED`: do not emit a story.

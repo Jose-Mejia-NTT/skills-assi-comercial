@@ -259,7 +259,39 @@ technical_status: REVIEW_REQUIRED
 - [ ] Confirmed vs candidate split is explicit
 - [ ] Every technical item traces back to the source impact analysis
 - [ ] Every task links to at least one HU criterion and one impact item
+- [ ] Architecture diagram reflects services, APIs, events and persistence from the impact matrix
 - [ ] Open review items identified
+
+## 7. Implementation Architecture Diagram
+
+Also written to: `docs/historial/alerta-sospechosa-notificacion-technical-architecture-diagram.mmd`
+
+```mermaid
+graph LR
+    subgraph "Dominio de Fraude"
+        FRAUD[bcv-bacc-fraud-service]
+        FRAUD -->|publishes| E1[transaction.suspicious.alert.v1]
+        FRAUD -->|receives escalation| E2[alert.escalated.v1 (candidate)]
+    end
+
+    subgraph "Dominio de Notificaciones"
+        NOTIF[bcv-bacc-notification-service]
+        NOTIF -->|consumes| E1
+        NOTIF -->|calls| API1[/notifications/send (confirmed)\]
+        NOTIF -->|publishes| E2
+    end
+
+    subgraph "Dominio de Cliente"
+        PREFS[bcv-bacc-customer-preferences-service]
+        DB1[(customer_channel_preference (candidate))]
+        PREFS --> DB1
+    end
+
+    NOTIF -.->|reads channel (candidate)| PREFS
+
+    style E2 stroke-dasharray: 5 5
+    style API1 stroke-width:2px
+    style DB1 fill:#f9f,stroke:#333,stroke-dasharray: 5 5
 ```
 
 ## Example 2: Story-only mode

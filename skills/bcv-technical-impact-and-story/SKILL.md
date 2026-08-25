@@ -80,16 +80,18 @@ If the minimum is missing, return `BLOCKED` with targeted questions and produce 
 
 ## Output location
 
-Write both artifacts to `docs/historial/` using the HU slug as prefix:
+Write artifacts to `docs/historial/` using the HU slug as prefix:
 
 - `docs/historial/<hu-slug>-technical-impact-analysis.yaml`
 - `docs/historial/<hu-slug>-technical-story-enriched.md`
+- `docs/historial/<hu-slug>-technical-architecture-diagram.mmd` (Mermaid source generated from the impact matrix)
 
 The `.md` must record the exact path and `technical_status` of the `.yaml` it consumed.
 
-Write each artifact automatically before responding. In `full` mode, write the YAML first and
-apply the gate barrier before creating the Markdown. In `impact-only` mode, write only the YAML.
-In `story-only` mode, write only the Markdown.
+Write each artifact automatically before responding.
+In `full` mode, write the YAML first, apply the gate barrier, then create the Markdown and the Mermaid diagram.
+In `impact-only` mode, write only the YAML.
+In `story-only` mode, write only the Markdown and the Mermaid diagram.
 
 ## Workflow
 
@@ -136,11 +138,13 @@ Completion checks: `references/evaluation-criteria.md`.
    domain/application, persistence/messaging, observability/security and testing.
    Each task must trace to at least one HU criterion and one impact item.
    Do not include estimates, assignments or code snippets.
-4. Register assumptions (`ASSUMED`) and risks (`RISK`).
-5. Define technical acceptance: rule coverage, non-regression expectations, HU -> HT -> tasks traceability.
+4. Render the implementation architecture as a Mermaid diagram showing repositories/domains,
+   microservices, APIs, events and persistence. Mark candidate items explicitly.
+5. Register assumptions (`ASSUMED`) and risks (`RISK`).
+6. Define technical acceptance: rule coverage, non-regression expectations, HU -> HT -> tasks traceability.
 
 Minimum sections: functional context summary, impacted-services decision, technical impact matrix,
-numbered technical task plan, risks and assumptions, validation checklist.
+numbered technical task plan, risks and assumptions, validation checklist, implementation architecture diagram.
 
 ## Language Handling and Output Policy
 
