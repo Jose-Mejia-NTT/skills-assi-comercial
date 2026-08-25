@@ -10,7 +10,7 @@ description: |
   or test generation.
 argument-hint: "HU/HAB + optional capability catalog"
 metadata:
-  version: "1.1.0"
+  version: "1.2.0"
   author: "BCV Architecture Team"
   language: "en"
   category: "business-discovery"
@@ -27,6 +27,27 @@ an evidence-based list of business capabilities and candidate microservices.
 This skill reduces the technical search space. It does not select a final implementation
 service, read architecture graph artifacts, inspect source code, generate a technical impact
 analysis, or modify source code.
+
+For detailed rules, examples and evaluation criteria, see the [References](#references) section.
+
+## When to use / When NOT to use
+
+Activate this skill when the request contains a HU, HAB or functional requirement and asks to:
+
+- extract business entities, actions or events;
+- identify capabilities;
+- map business language to candidate services;
+- identify possible affected microservices **before** technical analysis.
+
+Do **NOT** use for:
+
+- Step 2 technical impact analysis;
+- technical story generation;
+- API design;
+- implementation, database or messaging changes;
+- test generation.
+
+See `references/evaluation-criteria.md` for the full activation checklist.
 
 ## Mandatory BCV business context bootstrap
 
@@ -50,6 +71,8 @@ These are curated business-context documents. This bootstrap grounds candidate r
 shared vocabulary and ownership; it never authorizes reading graph reports or running graph
 queries, which belong exclusively to Step 2.
 
+For evidence ranking, roles and resolution gates, also load `references/evidence-and-resolution.md`.
+
 ## Input expected
 
 Provide one or more of:
@@ -59,8 +82,6 @@ Provide one or more of:
 3. Optional capability catalog, aliases, ownership and relationship mappings.
 4. Optional domain glossary or known business systems.
 
-If no catalog is available, extract concepts and report that service resolution is provisional.
-
 Minimum required input to run without blocking:
 
 1. Functional request text (HU/HAB or equivalent).
@@ -68,27 +89,25 @@ Minimum required input to run without blocking:
 
 If these minimums are missing, return `BLOCKED` with targeted questions.
 
-For the BCV BACC pilot, load only when relevant:
-
-- `references/bcv-bacc-capability-catalog.yaml` for the initial capability and service map.
-- `references/evidence-and-resolution.md` for evidence ranking, roles and resolution gates.
-
-Treat the pilot catalog as versioned working knowledge, not as a final ownership decision.
-
-This skill implements only **Step 1: Functional Resolution** from the HU/HAB to HT-enriched flow.
-The technical phase (impact analysis + technical story) is downstream and is owned by
-`bcv-technical-impact-and-story`.
+This skill implements only **Step 1: Functional Resolution**. Step 2 (technical impact) and
+Step 3 (technical story enrichment) are downstream.
 
 ## Output expected
 
-Return a concise structured result with these sections:
+Return a concise structured result with these required top-level keys:
 
-1. `business_context`: systems, entities, actions, events, rules and acceptance criteria.
+1. `business_context`: systems, entities, actions, events, rules, acceptance criteria and scope.
 2. `capabilities`: normalized capabilities matched from the request.
 3. `candidates`: possible services with role, confidence and evidence.
 4. `ambiguities`: unresolved business meanings or missing information.
 5. `resolution_status`: `CANDIDATES_FOUND`, `REVIEW_REQUIRED` or `BLOCKED`.
 6. `handoff`: exact questions and inputs required by the technical impact-analysis phase.
+
+Use YAML when the result will be consumed by another skill. Use Markdown with the same fields
+when the user asks for a human-readable analysis.
+
+Default output artifact name: `business-resolution.yaml`.
+Reference template: `assets/business-resolution.template.yaml`.
 
 Minimum handoff content:
 
@@ -99,38 +118,9 @@ Minimum handoff content:
 - ambiguities, assumptions (`ASSUMED`) and risks (`RISK`);
 - concrete verification questions for technical impact analysis.
 
-Use YAML when the result will be consumed by another skill. Use Markdown with the same fields
-when the user asks for a human-readable analysis.
-
-Default output artifact name: `business-resolution.yaml`.
-Reference template: `assets/business-resolution.template.yaml`.
-
-## Output location
-
-Write the completed YAML automatically before responding:
-
-- `docs/historial/<hu-slug>-business-resolution.yaml`
-
-Derive `<hu-slug>` from the HU/HAB title or request summary using lowercase ASCII words separated
-by hyphens. If no stable title exists, use `business-resolution`.
-
-When the user explicitly requests a human-readable analysis, also write:
-
-- `docs/historial/<hu-slug>-business-resolution.md`
-
-Use the YAML as the source of truth for the optional Markdown summary. Report every written path
-and the `resolution_status` in the user response.
-
-Output contract (required top-level keys):
-
-- `business_context`
-- `capabilities`
-- `candidates`
-- `ambiguities`
-- `resolution_status`
-- `handoff`
-
 Any additional key must be optional and justified by explicit user need.
+
+See `assets/examples.md` for concrete input/output examples.
 
 ## Workflow
 
@@ -162,48 +152,6 @@ Any additional key must be optional and justified by explicit user need.
 3. **Build**: write the structured business-resolution YAML artifact.
 4. **Validate**: confirm that every candidate has evidence and that uncertain results are gated.
 
-## Extraction rules
-
-Extract only concepts supported by the input or catalog:
-
-- `systems`: named business or external systems.
-- `entities`: business objects, roles and important data elements.
-- `actions`: business verbs and state transitions.
-- `events`: business events, triggers and outcomes.
-- `rules`: thresholds, eligibility, exclusions, defaults and invariants.
-- `scope`: explicit inclusions and exclusions.
-
-Normalize spelling and aliases without changing business meaning. Preserve original terms when
-normalization could lose meaning.
-
-## Capability-resolution rules
-
-1. Match by capability first; do not map an entity directly to a service without context.
-2. Use entity, action, event and system combinations to rank matches.
-3. Distinguish roles: `owner`, `orchestrator`, `participant`, `producer`, `consumer`, `data_owner`,
-   `integration_adapter` and `possible_downstream`.
-4. Include the catalog entry or business evidence supporting every candidate.
-5. Never invent APIs, tables, topics, classes, packages or technical dependencies.
-6. Do not claim that a candidate is the exact service. That decision belongs to technical impact analysis.
-7. If multiple candidates remain plausible, return all material candidates and set `REVIEW_REQUIRED`.
-8. If no candidate has sufficient evidence, set `BLOCKED` and state what catalog or business input is missing.
-9. Never use an arbitrary confidence percentage. Use `high`, `medium`, `low` and explain the evidence.
-10. Do not infer ownership from a generic entity such as `customer`, `account` or `email` alone.
-11. Prefer a capability plus action and business context over an isolated entity match.
-12. Preserve repository aliases exactly when the catalog or input provides them, including the
-  `bcv-bacc-*` service prefix.
-13. Record evidence source and date when available; stale, draft or snapshot sources lower confidence.
-14. If catalog ownership conflicts with service-map context, set `REVIEW_REQUIRED` and expose the conflict.
-
-## Resolution status
-
-- `CANDIDATES_FOUND`: at least one supported candidate exists and no material ambiguity blocks handoff.
-- `REVIEW_REQUIRED`: multiple plausible candidates, conflicting ownership, missing business meaning or
-  insufficient evidence prevents selecting a primary candidate.
-- `BLOCKED`: the request is not sufficiently specified or no capability mapping can be supported.
-
-A `CANDIDATES_FOUND` result still represents candidates, not implementation approval.
-
 ## Handoff contract
 
 The next phase, `bcv-technical-impact-and-story`, should receive:
@@ -225,27 +173,43 @@ as draft, snapshot or `NEEDS_REVIEW` must lower confidence or produce `REVIEW_RE
 If the request remains ambiguous after extraction, ask up to 3 targeted clarification questions that can
 change candidate resolution. Otherwise, proceed and mark uncertainty explicitly.
 
-## Guardrails
+## Language Handling and Output Policy
 
-1. Do not inspect or modify source files as part of this skill. Writing the declared output artifacts
-  under `docs/historial/` is required and is the only allowed file modification.
-2. Do not read anything under `graphify-out/` (`GRAPH_REPORT.md`, `graph.json`, `graph.html`),
-   do not run graph queries or graph path commands, and do not load
-   `docs/.agent-context/graphify-query-playbook.md`. Graph evidence belongs to Step 2 only.
-3. Do not generate a technical story, implementation plan or production code.
-4. Do not hide missing catalog entries or unsupported terms.
-5. Mark assumptions as `ASSUMED` and risks as `RISK`.
-6. Ask up to 3 focused clarification questions only when they can change the candidate mapping.
-7. Keep the output concise and suitable for handoff to another skill.
-8. Never output Step 2 conclusions (`impacted_apis`, `impacted_persistence`, `impacted_events`) as facts.
-9. Do not assert synchronous/asynchronous integration paths unless they are explicitly in provided
-  business input or reference catalog.
+The skill must clearly separate **internal processing language** from **user-facing output language**.
 
-## Language rules
+### Language Detection
 
-- Internal processing, structural reasoning and generated technical artifacts: English.
-- Response to the user: the language of the user's initial message; default to Spanish.
-- Preserve BCV names, business terms, service names and public identifiers exactly when supplied.
+1. At the start of every interaction, detect the language of the user's input.
+2. The **user-facing responses** must always be written in the user's language.
+3. If the user's language cannot be confidently detected, default to English.
+
+### Output Language (User-Facing)
+
+All content exposed to the user must be written in the user's language, including:
+
+- Explanations and confirmations
+- Functional specifications
+- Acceptance criteria
+- Error messages visible to consumers
+- Documentation intended for human readers
+- User-facing validation or confirmation messages
+
+### Internal Processing Language
+
+- For quality, consistency and technical accuracy, the skill may internally reason, plan, structure and code content in English.
+- Internal reasoning language must never leak into the user-facing output.
+
+### Technical Artifacts Language
+
+To follow industry standards and best practices:
+
+- **Source code**, **class names**, **method names**, **variable names** and **package names** must be written in English.
+- **OpenAPI fields**, **JSON keys**, and **HTTP-level constructs** must be written in English.
+- **Git commit messages** must be written in English unless the user explicitly requests otherwise.
+
+### Important Clarification
+
+The skill template and internal logic may be defined in English, but **all responses visible to the user must respect the detected user language**.
 
 ## Token-efficiency rules
 
@@ -255,38 +219,29 @@ change candidate resolution. Otherwise, proceed and mark uncertainty explicitly.
 - Do not repeat the original HU when a normalized field captures the same information.
 - Return only material candidates and ambiguities.
 
-## Evaluation
+## Guardrails (summary)
 
-The output is valid when it:
+- Do not inspect or modify source files as part of this skill.
+- Do not read anything under `graphify-out/` or run graph queries. Graph evidence belongs to Step 2.
+- Do not generate a technical story, implementation plan or production code.
+- Do not hide missing catalog entries or unsupported terms.
+- Mark assumptions as `ASSUMED` and risks as `RISK`.
+- Ask up to 3 focused clarification questions only when they can change the candidate mapping.
+- Keep the output concise and suitable for handoff to another skill.
+- Never output Step 2 conclusions (`impacted_apis`, `impacted_persistence`, `impacted_events`) as facts.
+- Do not assert synchronous/asynchronous integration paths unless explicitly in provided business input or reference catalog.
 
-1. Separates business concepts from technical candidates.
-2. Extracts entities, actions, events, rules and scope without inventing facts.
-3. Uses the capability catalog when available and reports missing mappings.
-4. Assigns candidate roles and explainable qualitative confidence.
-5. Preserves multiple candidates when ownership is ambiguous.
-6. Uses the correct resolution status.
-7. Produces a complete handoff for technical impact analysis.
-8. Does not read graph artifacts or claim technical evidence it did not inspect.
-9. Uses the BACC reference catalog consistently when the request belongs to the pilot scope.
-10. Distinguishes an orchestrator from a data owner and a downstream reporting service.
-11. Shows evidence provenance and resolution rationale per candidate.
-12. Reflects the mandatory BCV business context bootstrap order before candidate resolution.
+See `references/guardrails.md` for the full list.
 
-## Completion checklist (Definition of Done)
+## References
 
-1. All six required output keys are present.
-2. Every candidate has role, confidence and at least one evidence source.
-3. At least one ambiguity or explicit "none" statement is provided.
-4. `resolution_status` is consistent with ambiguity and evidence strength.
-5. Handoff includes concrete verification questions for technical impact analysis.
-6. No Step 2 or Step 3 facts are presented as confirmed outcomes.
-7. The YAML artifact was written automatically and its path was reported to the user.
-
-## Activation quick check
-
-Activate this skill when the request contains a HU, HAB or functional requirement and asks to:
-
-- extract business entities, actions or events;
-- identify capabilities;
-- map business language to candidate services;
-- identify possible affected microservices before technical analysis.
+| File                                          | Purpose                                                                             |
+| --------------------------------------------- | ----------------------------------------------------------------------------------- |
+| `assets/business-resolution.template.yaml`    | Output contract template with all required keys.                                    |
+| `assets/examples.md`                          | Concrete input/output examples, including a `REVIEW_REQUIRED` and a `BLOCKED` case. |
+| `references/bcv-bacc-capability-catalog.yaml` | Authoritative capability-to-service ownership for the BACC pilot.                   |
+| `references/evidence-and-resolution.md`       | Evidence hierarchy, candidate roles, confidence rules and discrepancy handling.     |
+| `references/extraction-rules.md`              | Rules and patterns for extracting business concepts from HU/HAB.                    |
+| `references/capability-resolution-rules.md`   | Detailed rules for matching capabilities, assigning roles and resolving status.     |
+| `references/guardrails.md`                    | Full list of restrictions and safety rules.                                         |
+| `references/evaluation-criteria.md`           | Output evaluation criteria, completion checklist and activation quick check.        |
