@@ -11,7 +11,7 @@ description: |
   API design, source code changes, or test generation.
 argument-hint: "HU/HAB + business-resolution.yaml (or an existing technical-impact-analysis.yaml)"
 metadata:
-  version: "1.0.0"
+  version: "1.1.0"
   author: "BCV Architecture Team"
   language: "en"
   category: "technical-analysis"
@@ -29,6 +29,8 @@ Turn a validated business resolution into two linked artifacts:
 
 This skill covers the technical phase of the HU/HAB -> HT flow. It does not perform business
 resolution and does not write implementation code.
+
+For detailed rules, examples and evaluation criteria, see the [References](#references) section.
 
 ## Execution modes
 
@@ -124,7 +126,7 @@ Do not soften it.
 ### Phase B — Technical story enrichment
 
 Reference template: `assets/technical-story-enriched.template.md`.
-Completion checks: `references/quality-checks.md`.
+Completion checks: `references/evaluation-criteria.md`.
 
 1. Consolidate technical scope: primary service, supporting services, explicit change boundaries.
 2. Document impacts: APIs, persistence, events, external integrations.
@@ -136,32 +138,48 @@ Completion checks: `references/quality-checks.md`.
 Minimum sections: functional context summary, impacted-services decision, technical impact matrix,
 technical task plan, risks and assumptions, validation checklist.
 
-## Rules and guardrails
+## Language Handling and Output Policy
 
-1. **Evidence isolation.** Phase B writes the story exclusively from the emitted YAML. Anything not
-   present in the YAML does not exist for the story. If Phase A discovered something worth keeping,
-   go back and add it to the YAML first.
-2. Graph evidence accelerates analysis but does not replace architecture judgment.
-3. Run graph queries only in Phase A. Phase B performs no discovery: no graph artifacts, no queries,
-   no source scanning. Missing evidence becomes an open item, not an improvised answer.
-4. Separate `confirmed` vs `candidate` in every impacted dimension, in both artifacts.
-5. Never present absolute conclusions with incomplete evidence.
-6. Mark assumptions with `ASSUMED` and risks with `RISK`.
-7. Do not perform business resolution: never invent capabilities or re-map ownership from scratch.
-8. Do not modify source code, and do not generate implementation code.
-9. Do not scan unrelated services when one owner candidate is strongly supported.
-10. If output depends mostly on draft or stale artifacts, downgrade the gate to `REVIEW_REQUIRED`.
-11. Carry Step 1 ambiguities and Phase A conflicts forward; never resolve them silently.
+The skill must clearly separate **internal processing language** from **user-facing output language**.
 
-## Language rules
+### Language Detection
 
-- Internal reasoning and YAML key names: English.
-- Narrative YAML values, generated Markdown content and the response to the user: the language of
-  the developer's initial message; default to Spanish.
-- Preserve status values, artifact paths, BCV names, business terms, service names and public
-  identifiers exactly as supplied.
+1. At the start of every interaction, detect the language of the user's input.
+2. The **user-facing responses** must always be written in the user's language.
+3. If the user's language cannot be confidently detected, default to English.
+
+### Output Language (User-Facing)
+
+All content exposed to the user must be written in the user's language, including:
+
+- Explanations and confirmations
+- Functional specifications
+- Acceptance criteria
+- Error messages visible to consumers
+- Documentation intended for human readers
+- User-facing validation or confirmation messages
+
+### Internal Processing Language
+
+- For quality, consistency and technical accuracy, the skill may internally reason, plan, structure and code content in English.
+- Internal reasoning language must never leak into the user-facing output.
+
+### Technical Artifacts Language
+
+To follow industry standards and best practices:
+
+- **Source code**, **class names**, **method names**, **variable names** and **package names** must be written in English.
+- **OpenAPI fields**, **JSON keys**, and **HTTP-level constructs** must be written in English.
+- **Git commit messages** must be written in English unless the user explicitly requests otherwise.
+
+### Important Clarification
+
+The skill template and internal logic may be defined in English, but **all responses visible to the user must respect the detected user language**.
+
+### Additional preservation rules
+
+- Preserve status values, artifact paths, BCV names, business terms, service names and public identifiers exactly as supplied.
 - Do not translate YAML keys or status values (`READY`, `REVIEW_REQUIRED`, `BLOCKED`).
-- Preserve BCV names, business terms, service names and public identifiers exactly as supplied.
 
 ## Token-efficiency rules
 
@@ -170,7 +188,23 @@ technical task plan, risks and assumptions, validation checklist.
 - One query per objective; never batch unrelated objectives into a broad query.
 - Prefer structured fields and short evidence statements over narrative repetition.
 
-## Completion checklist (Definition of Done)
+## Guardrails (summary)
+
+- Evidence isolation: Phase B writes the story exclusively from the emitted YAML.
+- Graph evidence accelerates analysis but does not replace architecture judgment.
+- Run graph queries only in Phase A. Phase B performs no discovery.
+- Separate `confirmed` vs `candidate` in every impacted dimension.
+- Never present absolute conclusions with incomplete evidence.
+- Mark assumptions with `ASSUMED` and risks with `RISK`.
+- Do not perform business resolution or re-map ownership from scratch.
+- Do not modify source code or generate implementation code.
+- Do not scan unrelated services when one owner candidate is strongly supported.
+- Downgrade the gate to `REVIEW_REQUIRED` when evidence is mostly draft or stale.
+- Carry Step 1 ambiguities and Phase A conflicts forward; never resolve them silently.
+
+See `references/guardrails.md` for the full list.
+
+## Completion checklist (summary)
 
 1. Execution mode is stated and consistent with the inputs.
 2. `.yaml` contains all required top-level keys and was written before the story.
@@ -184,11 +218,16 @@ technical task plan, risks and assumptions, validation checklist.
 9. The story references the YAML path and status it consumed.
 10. Generated narrative content and the user response use the developer's initial language.
 
-## Activation quick check
+See `references/evaluation-criteria.md` for the full completion checklist, quality checks and activation rules.
 
-Activate this skill when the request asks to:
+## References
 
-- validate business-resolution candidates against graph and repository evidence;
-- identify impacted APIs, persistence or events with probable technical ownership;
-- emit a `READY` / `REVIEW_REQUIRED` / `BLOCKED` technical gate;
-- produce an implementation-ready technical story from a validated impact analysis.
+| File | Purpose |
+|---|---|
+| `assets/technical-impact-analysis.template.yaml` | Template for the impact analysis YAML. |
+| `assets/technical-story-enriched.template.md` | Template for the enriched technical story. |
+| `assets/examples.md` | Concrete examples for `full`, `story-only` and `BLOCKED` modes. |
+| `references/evidence-and-gates.md` | Evidence grading and gate criteria for Phase A. |
+| `references/graphify-query-discipline.md` | Query budgets and escalation order (Phase A only). |
+| `references/guardrails.md` | Full list of restrictions and safety rules. |
+| `references/evaluation-criteria.md` | Quality checks, completion checklist and activation rules. |

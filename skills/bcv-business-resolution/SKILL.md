@@ -211,6 +211,11 @@ To follow industry standards and best practices:
 
 The skill template and internal logic may be defined in English, but **all responses visible to the user must respect the detected user language**.
 
+### Additional preservation rules
+
+- Preserve status values, artifact paths, BCV names, business terms, service names and public identifiers exactly as supplied.
+- Do not translate YAML keys or status values (`CANDIDATES_FOUND`, `REVIEW_REQUIRED`, `BLOCKED`).
+
 ## Token-efficiency rules
 
 - Read only the HU/HAB and the relevant catalog sections.
