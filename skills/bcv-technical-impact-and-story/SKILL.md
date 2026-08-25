@@ -70,6 +70,8 @@ In `story-only` mode, load only `service-map.md` and `cross-service-patterns.md`
 3. Optional `technical-impact-analysis.yaml` (switches the run to `story-only`).
 4. Optional constraints: expected endpoint, event, persistence object, error code.
 5. Optional architecture review notes when a previous gate returned `REVIEW_REQUIRED`.
+6. Optional `available_skills` mapping: user's skill name per category (`contract-design`, `backend-dev`, `database-dev`, etc.).
+   If not provided, the skill outputs **skill categories** and lets the user map them later.
 
 Minimum to run without blocking:
 
@@ -140,6 +142,8 @@ Completion checks: `references/evaluation-criteria.md`.
    domain/application, persistence/messaging, observability/security and testing.
    Start with `IMP-000` when `inherited_ambiguities` or `conflicts` exist.
    Block dependent tasks (`Status: BLOCKED`) until their unblock condition is met.
+   Assign a **recommended skill category** to each task using `references/skill-mapping.md`.
+   If the user provided an `available_skills` mapping, replace the category with the matching skill name.
    Each task must trace to at least one HU criterion and one impact item.
    Do not include estimates, assignments or code snippets.
 4. Render the implementation architecture as a Mermaid diagram showing repositories/domains,
@@ -246,5 +250,6 @@ See `references/evaluation-criteria.md` for the full completion checklist, quali
 | `references/evidence-and-gates.md` | Evidence grading and gate criteria for Phase A. |
 | `references/graphify-query-discipline.md` | Query budgets and escalation order (Phase A only). |
 | `references/ambiguity-and-conflict-handling.md` | How to handle inherited ambiguities and technical conflicts. |
+| `references/skill-mapping.md` | Maps task types to skill categories for user's own skill ecosystem. |
 | `references/guardrails.md` | Full list of restrictions and safety rules. |
 | `references/evaluation-criteria.md` | Quality checks, completion checklist and activation rules. |

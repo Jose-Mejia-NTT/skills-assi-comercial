@@ -51,6 +51,7 @@ Use this skill when the user asks to:
 | `references/evidence-and-gates.md`               | Evidence grading and gate criteria.                |
 | `references/graphify-query-discipline.md`        | Query budgets and escalation order (Phase A only). |
 | `references/ambiguity-and-conflict-handling.md`  | How to handle inherited ambiguities and technical conflicts. |
+| `references/skill-mapping.md`                    | Maps task types to skill categories; user maps categories to their own skills. |
 | `references/guardrails.md`                       | Restrictions and safety rules.                     |
 | `references/evaluation-criteria.md`              | Quality checks, DoD and activation rules.          |
 

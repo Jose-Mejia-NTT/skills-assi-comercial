@@ -58,6 +58,7 @@ unblock condition.
 
 - **Service:** arquitectura / equipo de negocio / servicios candidatos
 - **Type:** discovery
+- **Recommended skill category:** `hu-analysis` (map to the user's HU/impact-analysis skill)
 - **Description:** Investigar y resolver las ambigüedades del `business-resolution.yaml` y los conflictos técnicos detectados en el impact analysis antes de ejecutar tareas dependientes.
 - **Inherited ambiguities / conflicts:**
   - [Descripción] → [Acción requerida] → [Owner sugerido]
@@ -77,6 +78,7 @@ unblock condition.
 
 - **Service:** primary or supporting service responsible for the task
 - **Type:** contract | domain | persistence | observability | testing
+- **Recommended skill category:** see `references/skill-mapping.md` (map to user's available skill)
 - **Description:** what must be done and why
 - **HU traceability:** acceptance criterion or business rule covered
 - **Impact traceability:** impacted_apis / impacted_persistence / impacted_events item
@@ -88,6 +90,7 @@ unblock condition.
 
 - **Service:**
 - **Type:**
+- **Recommended skill(s):**
 - **Description:**
 - **HU traceability:**
 - **Impact traceability:**
@@ -143,7 +146,8 @@ Do not include estimates, assignments or code snippets.
 
 ### IMP-000: <Task title>
 
-- **Definition of Ready (DoR):**
+- **Recommended skill category:** `hu-analysis` (map to the user's HU/impact-analysis skill)
+- **Definition of Ready (DoR):
   - Prerequisites that must be satisfied before starting this task.
 - **Definition of Done (DoD):**
   - Conditions that must be met to consider this task complete.
@@ -162,7 +166,8 @@ Do not include estimates, assignments or code snippets.
 
 ### IMP-001: <Task title>
 
-- **Definition of Ready (DoR):**
+- **Recommended skill category:** see `references/skill-mapping.md` (map to user's available skill)
+- **Definition of Ready (DoR):
 - **Definition of Done (DoD):**
 - **Technical acceptance criteria:**
 - **Test cases:**

@@ -24,6 +24,8 @@ Deterministic checks before declaring the technical story ready for refinement.
    - The task plan includes numbered, actionable tasks (e.g. `IMP-001`).
    - If `inherited_ambiguities` or `conflicts` exist, the plan starts with `IMP-000` (discovery).
    - Tasks that depend on unresolved ambiguities are marked `BLOCKED` with an explicit unblock condition.
+   - Each task has a **recommended skill category** mapped from `references/skill-mapping.md`.
+   - If the user provided `available_skills`, the category is replaced by the matching skill name; otherwise the category is kept as a placeholder.
    - Tasks cover contract, domain/application, persistence/messaging, observability/security and testing.
    - Each task links to at least one HU criterion and one impact item.
    - Tasks do not include estimates, assignments or code snippets.

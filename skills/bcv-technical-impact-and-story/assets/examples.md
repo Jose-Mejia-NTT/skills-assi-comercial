@@ -191,6 +191,7 @@ technical_status: REVIEW_REQUIRED
 
 - **Service:** arquitectura / bcv-bacc-notification-service / bcv-bacc-customer-preferences-service / bcv-bacc-fraud-service
 - **Type:** discovery
+- **Recommended skill category:** `hu-analysis` (mapear al skill de análisis de HU/impacto disponible)
 - **Description:** Investigar y resolver las ambigüedades del business resolution y los conflictos técnicos detectados antes de ejecutar tareas dependientes.
 - **Inherited ambiguities / conflicts:**
   - `ownership-channel-preference`: ¿notification-service o customer-preferences-service es data_owner del canal preferido? → Validar con service-map y dueños de datos → Owner: arquitectura de datos.
@@ -213,6 +214,7 @@ technical_status: REVIEW_REQUIRED
 
 - **Service:** bcv-bacc-fraud-service / bcv-bacc-notification-service
 - **Type:** contract
+- **Recommended skill category:** `contract-design` (mapear al skill de diseño de contratos/APIs disponible)
 - **Description:** Definir el schema, claves y semántica del evento que notifica una transacción marcada como sospechosa.
 - **HU traceability:** Criterio 1 — recibir evento de alerta del motor de riesgo.
 - **Impact traceability:** impacted_events.confirmed.transaction.suspicious.alert.v1
@@ -224,6 +226,7 @@ technical_status: REVIEW_REQUIRED
 
 - **Service:** bcv-bacc-notification-service
 - **Type:** domain
+- **Recommended skill category:** `backend-dev` (mapear al skill de implementación backend disponible)
 - **Description:** Crear o extender el handler que recibe el evento y envía la notificación por el canal preferido del cliente.
 - **HU traceability:** Criterio 2 — enviar notificación por canal preferido.
 - **Impact traceability:** impacted_apis.confirmed.bcv-bacc-notification-service /notifications/send
@@ -235,6 +238,7 @@ technical_status: REVIEW_REQUIRED
 
 - **Service:** bcv-bacc-customer-preferences-service (candidate)
 - **Type:** persistence
+- **Recommended skill category:** `database-dev` (mapear al skill de base de datos disponible)
 - **Description:** Validar si el canal preferido se lee desde customer-preferences-service o si notification-service ya lo posee.
 - **HU traceability:** Criterio 2 — enviar notificación por canal preferido.
 - **Impact traceability:** impacted_persistence.candidate.customer_channel_preference
@@ -246,6 +250,7 @@ technical_status: REVIEW_REQUIRED
 
 - **Service:** bcv-bacc-notification-service / bcv-bacc-fraud-service
 - **Type:** domain
+- **Recommended skill category:** `backend-dev` (mapear al skill de implementación backend disponible)
 - **Description:** Modelar la publicación del evento alert.escalated.v1 cuando el cliente no responde en 24 horas.
 - **HU traceability:** Criterio 3 — escalar al área de fraude tras 24 horas sin respuesta.
 - **Impact traceability:** impacted_events.candidate.alert.escalated.v1
@@ -257,6 +262,7 @@ technical_status: REVIEW_REQUIRED
 
 - **Service:** bcv-bacc-notification-service
 - **Type:** observability
+- **Recommended skill category:** `observability-dev` (mapear al skill de observabilidad/ops disponible)
 - **Description:** Instrumentar el envío de notificación y el escalamiento para observabilidad.
 - **HU traceability:** Regla de negocio — tiempo máximo de espera de 24 horas.
 - **Impact traceability:** impacted_events.confirmed + candidate
@@ -268,6 +274,7 @@ technical_status: REVIEW_REQUIRED
 
 - **Service:** bcv-bacc-notification-service
 - **Type:** testing
+- **Recommended skill category:** `testing-dev` (mapear al skill de testing disponible)
 - **Description:** Tests de integración para envío por correo, SMS y push, más escenario de escalamiento por timeout.
 - **HU traceability:** Todos los criterios de aceptación.
 - **Impact traceability:** impacted_apis.confirmed + impacted_events.confirmed/candidate
