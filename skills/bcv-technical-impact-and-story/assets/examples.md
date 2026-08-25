@@ -96,6 +96,14 @@ evidence_freshness:
   code_reference: main@a1b2c3d
   warnings: []
 
+inherited_ambiguities:
+  - type: ownership-channel-preference
+    detail: No queda claro si el canal preferido es gestionado por notification-service o customer-preferences-service.
+    source: business-resolution.yaml
+  - type: escalation-mechanism
+    detail: La HU menciona escalar al área de fraude pero no define si es un ticket, un evento o una bandeja.
+    source: business-resolution.yaml
+
 conflicts:
   - channel_preference_owner: notification-service vs customer-preferences-service
   - escalation_mechanism: not defined in available docs
@@ -131,12 +139,17 @@ technical_status: REVIEW_REQUIRED
 - Open conflicts:
   - Canal preferido: notification-service vs customer-preferences-service.
   - Mecanismo de escalamiento al área de fraude no definido.
+- Inherited ambiguities from business resolution:
+  - `ownership-channel-preference`: data_owner del canal preferido no confirmado.
+  - `escalation-mechanism`: mecanismo de escalamiento al área de fraude no definido.
 - Candidate-only impacts blocking a final decision:
   - Persistencia del canal preferido.
   - Evento alert.escalated.v1.
 - Required external validation:
   - Confirmar owner del canal preferido.
   - Definir contrato de escalamiento.
+- Discovery tasks (IMP-000) blocking technical implementation:
+  - IMP-002, IMP-004, IMP-005, IMP-006
 
 ## 1. Functional Context Summary
 
@@ -174,13 +187,25 @@ technical_status: REVIEW_REQUIRED
 
 ## 4. Technical Task Plan
 
-### IMP-000: Resolver ambigüedades heredadas de business resolution
+### IMP-000: Resolver ambigüedades y conflictos heredados (Discovery)
 
-- **Service:** arquitectura / bcv-bacc-notification-service / bcv-bacc-customer-preferences-service
-- **Type:** domain
-- **Description:** Confirmar quién es el data_owner del canal preferido y definir el mecanismo de escalamiento al área de fraude antes de implementar las tareas técnicas dependientes.
+- **Service:** arquitectura / bcv-bacc-notification-service / bcv-bacc-customer-preferences-service / bcv-bacc-fraud-service
+- **Type:** discovery
+- **Description:** Investigar y resolver las ambigüedades del business resolution y los conflictos técnicos detectados antes de ejecutar tareas dependientes.
+- **Inherited ambiguities / conflicts:**
+  - `ownership-channel-preference`: ¿notification-service o customer-preferences-service es data_owner del canal preferido? → Validar con service-map y dueños de datos → Owner: arquitectura de datos.
+  - `escalation-mechanism`: ¿El escalamiento es un evento, ticket o bandeja? → Definir contrato con área de fraude → Owner: arquitectura / fraude.
+- **Clarification questions:**
+  - ¿Dónde se almacena el canal preferido del cliente actualmente?
+  - ¿Cómo se modela el evento de alerta del motor de riesgo?
+  - ¿Qué mecanismo de escalamiento al área de fraude existe actualmente?
+- **Impact if unresolved:**
+  - IMP-002 e IMP-005 quedan bloqueadas por el canal preferido.
+  - IMP-004 e IMP-005 quedan bloqueadas por el mecanismo de escalamiento.
+- **Unblock condition:**
+  - Se confirma el data_owner del canal preferido y el mecanismo de escalamiento, o se aceptan como riesgos controlados con escenarios documentados.
 - **HU traceability:** Criterio 2 y 3 — envío por canal preferido y escalamiento.
-- **Impact traceability:** ambiguities.ownership-channel-preference + ambiguities.escalation-mechanism
+- **Impact traceability:** inherited_ambiguities + conflicts
 - **Dependencies:** Ninguna
 - **Status:** TODO
 
@@ -192,6 +217,7 @@ technical_status: REVIEW_REQUIRED
 - **HU traceability:** Criterio 1 — recibir evento de alerta del motor de riesgo.
 - **Impact traceability:** impacted_events.confirmed.transaction.suspicious.alert.v1
 - **Dependencies:** Ninguna
+- **Unblock condition:**
 - **Status:** TODO
 
 ### IMP-002: Implementar handler de envío de notificación
@@ -201,8 +227,9 @@ technical_status: REVIEW_REQUIRED
 - **Description:** Crear o extender el handler que recibe el evento y envía la notificación por el canal preferido del cliente.
 - **HU traceability:** Criterio 2 — enviar notificación por canal preferido.
 - **Impact traceability:** impacted_apis.confirmed.bcv-bacc-notification-service /notifications/send
-- **Dependencies:** IMP-001, IMP-003
-- **Status:** TODO
+- **Dependencies:** IMP-000, IMP-001
+- **Unblock condition:** Resuelta la ambigüedad `ownership-channel-preference` en IMP-000.
+- **Status:** BLOCKED
 
 ### IMP-003: Confirmar fuente del canal preferido del cliente
 
@@ -212,6 +239,7 @@ technical_status: REVIEW_REQUIRED
 - **HU traceability:** Criterio 2 — enviar notificación por canal preferido.
 - **Impact traceability:** impacted_persistence.candidate.customer_channel_preference
 - **Dependencies:** Ninguna
+- **Unblock condition:**
 - **Status:** TODO
 
 ### IMP-004: Definir mecanismo de escalamiento por timeout
@@ -221,8 +249,9 @@ technical_status: REVIEW_REQUIRED
 - **Description:** Modelar la publicación del evento alert.escalated.v1 cuando el cliente no responde en 24 horas.
 - **HU traceability:** Criterio 3 — escalar al área de fraude tras 24 horas sin respuesta.
 - **Impact traceability:** impacted_events.candidate.alert.escalated.v1
-- **Dependencies:** IMP-001
-- **Status:** TODO
+- **Dependencies:** IMP-000, IMP-001
+- **Unblock condition:** Resuelta la ambigüedad `escalation-mechanism` en IMP-000.
+- **Status:** BLOCKED
 
 ### IMP-005: Agregar tracing y métricas
 
@@ -231,8 +260,9 @@ technical_status: REVIEW_REQUIRED
 - **Description:** Instrumentar el envío de notificación y el escalamiento para observabilidad.
 - **HU traceability:** Regla de negocio — tiempo máximo de espera de 24 horas.
 - **Impact traceability:** impacted_events.confirmed + candidate
-- **Dependencies:** IMP-002, IMP-004
-- **Status:** TODO
+- **Dependencies:** IMP-000, IMP-002, IMP-004
+- **Unblock condition:** Resueltas las ambigüedades `ownership-channel-preference` y `escalation-mechanism` en IMP-000.
+- **Status:** BLOCKED
 
 ### IMP-006: Tests de integración
 
@@ -241,8 +271,9 @@ technical_status: REVIEW_REQUIRED
 - **Description:** Tests de integración para envío por correo, SMS y push, más escenario de escalamiento por timeout.
 - **HU traceability:** Todos los criterios de aceptación.
 - **Impact traceability:** impacted_apis.confirmed + impacted_events.confirmed/candidate
-- **Dependencies:** IMP-002, IMP-004
-- **Status:** TODO
+- **Dependencies:** IMP-000, IMP-002, IMP-004
+- **Unblock condition:** Resueltas las ambigüedades `ownership-channel-preference` y `escalation-mechanism` en IMP-000.
+- **Status:** BLOCKED
 
 ## 5. Risks and Assumptions
 

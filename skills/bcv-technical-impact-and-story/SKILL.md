@@ -100,6 +100,7 @@ In `story-only` mode, write only the Markdown and the Mermaid diagram.
 Reference template: `assets/technical-impact-analysis.template.yaml`.
 Evidence grading and gate criteria: `references/evidence-and-gates.md`.
 Query budgets and escalation order: `references/graphify-query-discipline.md`.
+Ambiguity and conflict handling: `references/ambiguity-and-conflict-handling.md`.
 
 1. Load the source `business-resolution.yaml` and record its path and `resolution_status`.
 2. Verify evidence freshness: graph timestamp, commit/version, draft/snapshot/needs-review warnings.
@@ -112,7 +113,8 @@ Query budgets and escalation order: `references/graphify-query-discipline.md`.
 
 Required top-level keys: `primary_service`, `supporting_services`, `impacted_apis`,
 `impacted_persistence`, `impacted_events`, `risks`, `assumptions`, `technical_status`.
-Recommended for traceability: `evidence_freshness`, `analysis_scope`, `conflicts`, `verification_notes`.
+Recommended for traceability: `evidence_freshness`, `analysis_scope`, `inherited_ambiguities`,
+`conflicts`, `verification_notes`.
 
 ### Gate barrier (mandatory between phases)
 
@@ -136,6 +138,8 @@ Completion checks: `references/evaluation-criteria.md`.
 2. Document impacts: APIs, persistence, events, external integrations.
 3. Define the technical task plan: numbered, actionable tasks covering contract,
    domain/application, persistence/messaging, observability/security and testing.
+   Start with `IMP-000` when `inherited_ambiguities` or `conflicts` exist.
+   Block dependent tasks (`Status: BLOCKED`) until their unblock condition is met.
    Each task must trace to at least one HU criterion and one impact item.
    Do not include estimates, assignments or code snippets.
 4. Render the implementation architecture as a Mermaid diagram showing repositories/domains,
@@ -241,5 +245,6 @@ See `references/evaluation-criteria.md` for the full completion checklist, quali
 | `assets/examples.md` | Concrete examples for `full`, `story-only` and `BLOCKED` modes. |
 | `references/evidence-and-gates.md` | Evidence grading and gate criteria for Phase A. |
 | `references/graphify-query-discipline.md` | Query budgets and escalation order (Phase A only). |
+| `references/ambiguity-and-conflict-handling.md` | How to handle inherited ambiguities and technical conflicts. |
 | `references/guardrails.md` | Full list of restrictions and safety rules. |
 | `references/evaluation-criteria.md` | Quality checks, completion checklist and activation rules. |

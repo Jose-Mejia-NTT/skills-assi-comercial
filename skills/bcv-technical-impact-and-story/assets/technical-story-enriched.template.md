@@ -7,8 +7,10 @@
 ## 0. Pending Architecture Review
 
 - Open conflicts:
+- Inherited ambiguities from business resolution:
 - Candidate-only impacts blocking a final decision:
 - Required external validation:
+- Discovery tasks (IMP-000) blocking technical implementation:
 
 ## 1. Functional Context Summary
 
@@ -47,16 +49,27 @@ Decompose the implementation work into numbered, traceable tasks derived from th
 Each task must link to at least one HU acceptance criterion and one impact item from the YAML.
 Do not include estimates, assignments or code snippets.
 
-If the source business resolution contains ambiguities, start the plan with `IMP-000` to resolve
-those ambiguities before the technical tasks that depend on them.
+If the source business resolution contains ambiguities or the impact analysis detects conflicts,
+start the plan with `IMP-000` to resolve those uncertainties before the technical tasks that depend on them.
+Tasks that cannot advance until an ambiguity is resolved must use `Status: BLOCKED` and list the
+unblock condition.
 
-### IMP-000: Resolve inherited business-resolution ambiguities (optional)
+### IMP-000: Resolver ambigüedades y conflictos heredados (Discovery)
 
-- **Service:**
-- **Type:** domain
-- **Description:**
+- **Service:** arquitectura / equipo de negocio / servicios candidatos
+- **Type:** discovery
+- **Description:** Investigar y resolver las ambigüedades del `business-resolution.yaml` y los conflictos técnicos detectados en el impact analysis antes de ejecutar tareas dependientes.
+- **Inherited ambiguities / conflicts:**
+  - [Descripción] → [Acción requerida] → [Owner sugerido]
+- **Clarification questions:**
+  - [Pregunta 1]
+  - [Pregunta 2]
+- **Impact if unresolved:**
+  - [Lista de tareas bloqueadas: IMP-XXX, IMP-YYY]
+- **Unblock condition:**
+  - Cada ambigüedad está resuelta, aceptada como riesgo controlado o documentada como escenario alternativo.
 - **HU traceability:**
-- **Impact traceability:** ambiguity item from business-resolution.yaml
+- **Impact traceability:** inherited_ambiguities + conflicts
 - **Dependencies:**
 - **Status:** TODO
 
@@ -68,7 +81,8 @@ those ambiguities before the technical tasks that depend on them.
 - **HU traceability:** acceptance criterion or business rule covered
 - **Impact traceability:** impacted_apis / impacted_persistence / impacted_events item
 - **Dependencies:** other task IDs or external validations required
-- **Status:** TODO
+- **Unblock condition:** (only if Status is BLOCKED)
+- **Status:** TODO | BLOCKED
 
 ### IMP-002: <Task title>
 
@@ -78,7 +92,8 @@ those ambiguities before the technical tasks that depend on them.
 - **HU traceability:**
 - **Impact traceability:**
 - **Dependencies:**
-- **Status:** TODO
+- **Unblock condition:**
+- **Status:** TODO | BLOCKED
 
 ## 5. Risks and Assumptions
 

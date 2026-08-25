@@ -43,6 +43,8 @@ evidence_freshness:
   code_reference: ""
   warnings: []
 
+inherited_ambiguities: []
+
 conflicts: []
 
 risks:
