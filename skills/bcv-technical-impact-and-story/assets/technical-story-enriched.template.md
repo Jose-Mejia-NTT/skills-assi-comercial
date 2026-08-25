@@ -43,30 +43,42 @@
 
 ## 4. Technical Task Plan
 
-### 4.1 Contract
+Decompose the implementation work into numbered, traceable tasks derived from the impact matrix.
+Each task must link to at least one HU acceptance criterion and one impact item from the YAML.
+Do not include estimates, assignments or code snippets.
 
-- Task:
-- Traceability (HU criteria + impact reference):
+If the source business resolution contains ambiguities, start the plan with `IMP-000` to resolve
+those ambiguities before the technical tasks that depend on them.
 
-### 4.2 Domain/Application
+### IMP-000: Resolve inherited business-resolution ambiguities (optional)
 
-- Task:
-- Traceability (HU criteria + impact reference):
+- **Service:**
+- **Type:** domain
+- **Description:**
+- **HU traceability:**
+- **Impact traceability:** ambiguity item from business-resolution.yaml
+- **Dependencies:**
+- **Status:** TODO
 
-### 4.3 Persistence/Messaging
+### IMP-001: <Task title>
 
-- Task:
-- Traceability (HU criteria + impact reference):
+- **Service:** primary or supporting service responsible for the task
+- **Type:** contract | domain | persistence | observability | testing
+- **Description:** what must be done and why
+- **HU traceability:** acceptance criterion or business rule covered
+- **Impact traceability:** impacted_apis / impacted_persistence / impacted_events item
+- **Dependencies:** other task IDs or external validations required
+- **Status:** TODO
 
-### 4.4 Observability/Security
+### IMP-002: <Task title>
 
-- Task:
-- Traceability (HU criteria + impact reference):
-
-### 4.5 Testing
-
-- Task:
-- Traceability (HU criteria + impact reference):
+- **Service:**
+- **Type:**
+- **Description:**
+- **HU traceability:**
+- **Impact traceability:**
+- **Dependencies:**
+- **Status:** TODO
 
 ## 5. Risks and Assumptions
 
@@ -80,4 +92,5 @@
 - [ ] HU -> HT -> tasks traceability complete
 - [ ] Confirmed vs candidate split is explicit
 - [ ] Every technical item traces back to the source impact analysis
+- [ ] Every task links to at least one HU criterion and one impact item
 - [ ] Open review items identified (if any)

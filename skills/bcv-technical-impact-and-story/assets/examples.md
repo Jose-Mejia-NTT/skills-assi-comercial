@@ -34,6 +34,8 @@ resolution_status: REVIEW_REQUIRED
 analysis_scope:
   hu_slug: alerta-sospechosa-notificacion
   request_summary: Notificar al cliente cuando una transacción es marcada como sospechosa.
+  source_business_resolution: docs/historial/alerta-sospechosa-notificacion-business-resolution.yaml
+  business_resolution_status: REVIEW_REQUIRED
   candidate_services_input:
     - bcv-bacc-notification-service
     - bcv-bacc-fraud-service
@@ -172,30 +174,75 @@ technical_status: REVIEW_REQUIRED
 
 ## 4. Technical Task Plan
 
-### 4.1 Contract
+### IMP-000: Resolver ambigüedades heredadas de business resolution
 
-- Task: Definir/esperar contrato de transaction.suspicious.alert.v1.
-- Traceability: HU criterio 1 → impacted_events confirmed.
+- **Service:** arquitectura / bcv-bacc-notification-service / bcv-bacc-customer-preferences-service
+- **Type:** domain
+- **Description:** Confirmar quién es el data_owner del canal preferido y definir el mecanismo de escalamiento al área de fraude antes de implementar las tareas técnicas dependientes.
+- **HU traceability:** Criterio 2 y 3 — envío por canal preferido y escalamiento.
+- **Impact traceability:** ambiguities.ownership-channel-preference + ambiguities.escalation-mechanism
+- **Dependencies:** Ninguna
+- **Status:** TODO
 
-### 4.2 Domain/Application
+### IMP-001: Acordar contrato del evento `transaction.suspicious.alert.v1`
 
-- Task: Implementar handler en notification-service para enviar notificación por canal preferido.
-- Traceability: HU criterio 2 → impacted_apis confirmed.
+- **Service:** bcv-bacc-fraud-service / bcv-bacc-notification-service
+- **Type:** contract
+- **Description:** Definir el schema, claves y semántica del evento que notifica una transacción marcada como sospechosa.
+- **HU traceability:** Criterio 1 — recibir evento de alerta del motor de riesgo.
+- **Impact traceability:** impacted_events.confirmed.transaction.suspicious.alert.v1
+- **Dependencies:** Ninguna
+- **Status:** TODO
 
-### 4.3 Persistence/Messaging
+### IMP-002: Implementar handler de envío de notificación
 
-- Task: Confirmar lectura del canal preferido; agregar topic alert.escalated.v1 si aplica.
-- Traceability: HU criterio 3 → impacted_persistence candidate, impacted_events candidate.
+- **Service:** bcv-bacc-notification-service
+- **Type:** domain
+- **Description:** Crear o extender el handler que recibe el evento y envía la notificación por el canal preferido del cliente.
+- **HU traceability:** Criterio 2 — enviar notificación por canal preferido.
+- **Impact traceability:** impacted_apis.confirmed.bcv-bacc-notification-service /notifications/send
+- **Dependencies:** IMP-001, IMP-003
+- **Status:** TODO
 
-### 4.4 Observability/Security
+### IMP-003: Confirmar fuente del canal preferido del cliente
 
-- Task: Tracing del envío de notificación y del escalamiento.
-- Traceability: reglas de negocio de tiempo de respuesta.
+- **Service:** bcv-bacc-customer-preferences-service (candidate)
+- **Type:** persistence
+- **Description:** Validar si el canal preferido se lee desde customer-preferences-service o si notification-service ya lo posee.
+- **HU traceability:** Criterio 2 — enviar notificación por canal preferido.
+- **Impact traceability:** impacted_persistence.candidate.customer_channel_preference
+- **Dependencies:** Ninguna
+- **Status:** TODO
 
-### 4.5 Testing
+### IMP-004: Definir mecanismo de escalamiento por timeout
 
-- Task: Tests de integración para envío por cada canal y para escalamiento por timeout.
-- Traceability: todos los criterios de aceptación.
+- **Service:** bcv-bacc-notification-service / bcv-bacc-fraud-service
+- **Type:** domain
+- **Description:** Modelar la publicación del evento alert.escalated.v1 cuando el cliente no responde en 24 horas.
+- **HU traceability:** Criterio 3 — escalar al área de fraude tras 24 horas sin respuesta.
+- **Impact traceability:** impacted_events.candidate.alert.escalated.v1
+- **Dependencies:** IMP-001
+- **Status:** TODO
+
+### IMP-005: Agregar tracing y métricas
+
+- **Service:** bcv-bacc-notification-service
+- **Type:** observability
+- **Description:** Instrumentar el envío de notificación y el escalamiento para observabilidad.
+- **HU traceability:** Regla de negocio — tiempo máximo de espera de 24 horas.
+- **Impact traceability:** impacted_events.confirmed + candidate
+- **Dependencies:** IMP-002, IMP-004
+- **Status:** TODO
+
+### IMP-006: Tests de integración
+
+- **Service:** bcv-bacc-notification-service
+- **Type:** testing
+- **Description:** Tests de integración para envío por correo, SMS y push, más escenario de escalamiento por timeout.
+- **HU traceability:** Todos los criterios de aceptación.
+- **Impact traceability:** impacted_apis.confirmed + impacted_events.confirmed/candidate
+- **Dependencies:** IMP-002, IMP-004
+- **Status:** TODO
 
 ## 5. Risks and Assumptions
 
@@ -211,6 +258,7 @@ technical_status: REVIEW_REQUIRED
 - [ ] HU -> HT -> tasks traceability complete
 - [ ] Confirmed vs candidate split is explicit
 - [ ] Every technical item traces back to the source impact analysis
+- [ ] Every task links to at least one HU criterion and one impact item
 - [ ] Open review items identified
 ```
 

@@ -20,9 +20,11 @@ Deterministic checks before declaring the technical story ready for refinement.
    - No technical item appears without an upstream evidence reference.
 
 4. **Task coverage**
-   - The task plan includes contract, domain/application, persistence/messaging,
-     observability/security and testing.
+   - The task plan includes numbered, actionable tasks (e.g. `IMP-001`).
+   - If the source business resolution has ambiguities, the plan includes `IMP-000` to resolve them before dependent technical tasks.
+   - Tasks cover contract, domain/application, persistence/messaging, observability/security and testing.
    - Each task links to at least one HU criterion and one impact item.
+   - Tasks do not include estimates, assignments or code snippets.
 
 5. **Risk and assumption clarity**
    - Every unresolved dependency is either `ASSUMED` or `RISK`.

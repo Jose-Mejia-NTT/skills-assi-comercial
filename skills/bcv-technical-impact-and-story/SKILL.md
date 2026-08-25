@@ -99,12 +99,14 @@ Reference template: `assets/technical-impact-analysis.template.yaml`.
 Evidence grading and gate criteria: `references/evidence-and-gates.md`.
 Query budgets and escalation order: `references/graphify-query-discipline.md`.
 
-1. Verify evidence freshness: graph timestamp, commit/version, draft/snapshot/needs-review warnings.
-2. Analyze candidate services: controllers/subscribers/use cases, inbound and outbound integrations,
+1. Load the source `business-resolution.yaml` and record its path and `resolution_status`.
+2. Verify evidence freshness: graph timestamp, commit/version, draft/snapshot/needs-review warnings.
+3. Analyze candidate services: controllers/subscribers/use cases, inbound and outbound integrations,
    events published/consumed, persistence likely impacted.
-3. Assign technical roles: probable technical owner, probable data owner, participants, downstreams.
-4. Detect conflicts: ambiguous ownership, contradictory evidence, externally-owned dependencies.
-5. Emit the gate: `READY`, `REVIEW_REQUIRED` or `BLOCKED`.
+4. Assign technical roles: probable technical owner, probable data owner, participants, downstreams.
+5. Detect conflicts: ambiguous ownership, contradictory evidence, externally-owned dependencies,
+   plus unresolved ambiguities inherited from business resolution.
+6. Emit the gate: `READY`, `REVIEW_REQUIRED` or `BLOCKED`.
 
 Required top-level keys: `primary_service`, `supporting_services`, `impacted_apis`,
 `impacted_persistence`, `impacted_events`, `risks`, `assumptions`, `technical_status`.
@@ -130,13 +132,15 @@ Completion checks: `references/evaluation-criteria.md`.
 
 1. Consolidate technical scope: primary service, supporting services, explicit change boundaries.
 2. Document impacts: APIs, persistence, events, external integrations.
-3. Define the technical task plan: contract, domain/application, persistence/messaging,
-   observability/security, testing.
+3. Define the technical task plan: numbered, actionable tasks covering contract,
+   domain/application, persistence/messaging, observability/security and testing.
+   Each task must trace to at least one HU criterion and one impact item.
+   Do not include estimates, assignments or code snippets.
 4. Register assumptions (`ASSUMED`) and risks (`RISK`).
 5. Define technical acceptance: rule coverage, non-regression expectations, HU -> HT -> tasks traceability.
 
 Minimum sections: functional context summary, impacted-services decision, technical impact matrix,
-technical task plan, risks and assumptions, validation checklist.
+numbered technical task plan, risks and assumptions, validation checklist.
 
 ## Language Handling and Output Policy
 
@@ -212,8 +216,8 @@ See `references/guardrails.md` for the full list.
 4. Evidence freshness is explicitly reported.
 5. `technical_status` is consistent with the conflicts and evidence quality found.
 6. The story's service decision matches the YAML, or deviations are flagged as review items.
-7. Task plan covers contract, domain/application, persistence/messaging, observability/security, testing,
-   and each task traces to an HU criterion and an impact item.
+7. Task plan includes numbered tasks covering contract, domain/application, persistence/messaging,
+   observability/security and testing; each task traces to an HU criterion and an impact item.
 8. `REVIEW_REQUIRED` produced a visible pending-review block; `BLOCKED` produced no story at all.
 9. The story references the YAML path and status it consumed.
 10. Generated narrative content and the user response use the developer's initial language.

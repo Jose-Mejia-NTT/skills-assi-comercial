@@ -1,6 +1,8 @@
 analysis_scope:
   hu_slug: ""
   request_summary: ""
+  source_business_resolution: ""
+  business_resolution_status: ""
   candidate_services_input: []
   execution_mode: "full"
 

@@ -36,9 +36,12 @@ resolution_status: "CANDIDATES_FOUND"
 
 handoff:
   to_skill: "bcv-technical-impact-and-story"
+  output_artifact: "docs/historial/<hu-slug>-business-resolution.yaml"
+  business_resolution_status: "CANDIDATES_FOUND"
   original_request_summary: ""
   acceptance_criteria: []
   candidate_verification_questions: []
+  technical_verification_questions: []
   assumptions:
     - "ASSUMED: "
   risks:

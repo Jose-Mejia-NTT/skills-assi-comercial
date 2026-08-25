@@ -106,8 +106,9 @@ Return a concise structured result with these required top-level keys:
 Use YAML when the result will be consumed by another skill. Use Markdown with the same fields
 when the user asks for a human-readable analysis.
 
-Default output artifact name: `business-resolution.yaml`.
+Default output artifact: `docs/historial/<hu-slug>-business-resolution.yaml`.
 Reference template: `assets/business-resolution.template.yaml`.
+Write the artifact automatically before responding and report its path.
 
 Minimum handoff content:
 
@@ -154,14 +155,19 @@ See `assets/examples.md` for concrete input/output examples.
 
 ## Handoff contract
 
-The next phase, `bcv-technical-impact-and-story`, should receive:
+The next skill, `bcv-technical-impact-and-story`, consumes this `business-resolution.yaml`.
+The handoff must include:
 
-- the original HU/HAB;
-- this business-resolution result;
-- candidate service names and roles;
-- evidence and confidence;
-- ambiguities and unresolved questions;
-- the requested scope and acceptance criteria.
+- `to_skill`: `bcv-technical-impact-and-story`
+- `output_artifact`: path to the written `business-resolution.yaml`
+- `business_resolution_status`: `CANDIDATES_FOUND`, `REVIEW_REQUIRED` or `BLOCKED`
+- `original_request_summary`: HU/HAB summary
+- `acceptance_criteria`: explicit in-scope/out-of-scope statements
+- `candidate_verification_questions`: questions that can change the candidate mapping
+- `technical_verification_questions`: questions the technical phase must answer
+- `assumptions` (prefixed `ASSUMED:`) and `risks` (prefixed `RISK:`)
+- candidate service names, roles, confidence and evidence
+- ambiguities and unresolved questions
 
 The next phase must validate candidates against architecture graph artifacts and current
 repository evidence before identifying affected APIs, persistence, events, dependencies or

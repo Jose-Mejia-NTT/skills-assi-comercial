@@ -108,7 +108,9 @@ ambiguities:
 resolution_status: REVIEW_REQUIRED
 
 handoff:
-  to_skill: bcv-graphify-impact-analysis
+  to_skill: bcv-technical-impact-and-story
+  output_artifact: docs/historial/alerta-sospechosa-notificacion-business-resolution.yaml
+  business_resolution_status: REVIEW_REQUIRED
   original_request_summary: >
     Notificar al cliente cuando una transacción es marcada como sospechosa
     por el motor de riesgo.
@@ -121,6 +123,10 @@ handoff:
     - ¿Dónde se almacena el canal preferido del cliente?
     - ¿Cómo se modela el evento de alerta del motor de riesgo?
     - ¿Qué mecanismo de escalamiento al área de fraude existe actualmente?
+  technical_verification_questions:
+    - Confirmar si notification-service expone o consume /notifications/send.
+    - Verificar si fraud-service publica transaction.suspicious.alert.v1.
+    - Validar si customer-preferences-service posee la tabla customer_channel_preference.
   assumptions:
     - ASSUMED: El canal preferido ya está disponible antes de enviar la notificación.
     - ASSUMED: El motor de riesgo publica un evento que puede ser consumido.
