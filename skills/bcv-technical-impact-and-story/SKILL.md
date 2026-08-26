@@ -177,18 +177,36 @@ Completion checks: `references/evaluation-criteria.md`.
 
 ## Conversational clarification flow
 
-If the emitted story contains blocking open questions, the user may answer them in the same chat.
+If the emitted story contains blocking open questions, ask them **one at a time** in the same chat.
 
-1. When the user replies with answers, switch to `execution_mode: clarification`.
-2. Read the existing `technical-impact-analysis.yaml` and `technical-story-enriched.md`.
-3. Apply the user's answers:
-   - Update `inherited_ambiguities` or `verification_notes`.
-   - Resolve or close `IMP-000` if the answer removes the blocker.
-   - Update `technical_status` to `READY` if all blockers are resolved.
-4. Rewrite the updated YAML and story to disk.
-5. If new questions appear, repeat the clarification round.
+1. Identify all blocking open questions from `verification_notes.open_questions` or `IMP-000`.
+2. Present **only the first question** to the user, with context about what it unblocks.
+3. Wait for the user's answer in the same chat.
+4. When the user answers:
+   - Record the answer internally.
+   - If more questions remain, ask the **next question**.
+   - If no more questions remain, switch to `execution_mode: clarification`.
+5. In clarification mode:
+   - Read the existing `technical-impact-analysis.yaml` and `technical-story-enriched.md`.
+   - Apply all recorded answers:
+     - Update `inherited_ambiguities` or `verification_notes`.
+     - Resolve or close `IMP-000`.
+     - Update `technical_status` to `READY` if all blockers are resolved.
+   - Rewrite the updated YAML and story to disk.
+6. If new questions appear after applying answers, repeat from step 2.
 
 The user does not need to paste the previous artifact; the assistant must read it from the workspace path.
+
+Example chat flow:
+
+```text
+Assistant: Pregunta 1 de 4 — ¿Qué sistema es propietario del catálogo oficial de oficinas registrales y cómo debe consultarlo BCW?
+           Esta decisión desbloquea el contrato, la persistencia y la integración técnica.
+
+User: PLM es el dueño del catálogo, expuesto por /api/v1/registry-offices.
+
+Assistant: Gracias. Pregunta 2 de 4 — ¿Qué endpoint o BFF utiliza BCW para registrar, editar y consultar solicitudes?
+```
 
 Minimum sections: functional context summary, impacted-services decision, technical impact matrix,
 numbered technical task plan, risks and assumptions, validation checklist, implementation architecture diagram,

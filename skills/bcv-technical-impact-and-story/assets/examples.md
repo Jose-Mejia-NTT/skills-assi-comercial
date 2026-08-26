@@ -488,12 +488,19 @@ graph LR
 ### Chat response example
 
 ```text
-Generé el análisis técnico con estado REVIEW_REQUIRED porque faltan 2 aclaraciones:
+Generé el análisis técnico con estado REVIEW_REQUIRED porque faltan 2 aclaraciones.
 
-1. ¿El canal preferido se lee de customer-preferences-service o se replica en notification-service?
-2. ¿El escalamiento al área de fraude es un evento o una bandeja/ticket?
+Pregunta 1 de 2 — ¿El canal preferido se lee de customer-preferences-service o se replica en notification-service?
+Esta decisión desbloquea la asignación de data_owner y el contrato de lectura.
 
-Por favor responde en este chat. Con tus respuestas actualizaré technical-impact-analysis.yaml y technical-story-enriched.md.
+Responde en este chat y luego haré la siguiente pregunta.
+```
+
+After the user answers question 1:
+
+```text
+Gracias. Pregunta 2 de 2 — ¿El escalamiento al área de fraude es un evento o una bandeja/ticket?
+Esta decisión desbloquea el contrato de escalamiento y el rol de orchestrator.
 ```
 
 ## Example 2: Story-only mode

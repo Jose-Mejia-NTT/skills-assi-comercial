@@ -86,11 +86,12 @@ This is the source of truth for where the pipeline stands.
 ### Mode C — Clarification round
 
 1. If Gate 1 fails because the story has blocking `open_questions` or unresolved `IMP-000`, stop the pipeline.
-2. Present the open questions **numbered in the chat**.
+2. Present **only the first open question** in the chat, with context about what it unblocks.
 3. Wait for the user to answer in the same chat.
-4. Tell the user to run `bcv-technical-impact-and-story` in `clarification` mode with the answers.
-5. After the clarification run, re-read the artifacts and re-validate Gate 1.
-6. Repeat until Gate 1 passes or the user accepts the fallback assumptions.
+4. After each answer, present the next question. Continue one at a time until all are answered.
+5. Once all answers are collected, tell the user to run `bcv-technical-impact-and-story` in `clarification` mode (or let the same assistant apply them if the context allows).
+6. Re-read the artifacts and re-validate Gate 1.
+7. Repeat until Gate 1 passes or the user accepts the fallback assumptions.
 
 ### 1. Initialize
 
@@ -114,7 +115,7 @@ Ejecuta el pipeline completo para la HU con slug <hu-slug>:
 2. Ejecuta el skill bcv-technical-impact-and-story con el business-resolution.yaml.
    - Artefactos esperados: docs/historial/<hu-slug>-technical-impact-analysis.yaml y docs/historial/<hu-slug>-technical-story-enriched.md
    - Gate 1: technical_status no debe ser BLOCKED; si es REVIEW_REQUIRED, IMP-000 debe existir con opciones de resolución.
-   - Si Gate 1 falla por open questions bloqueantes, detente, presenta las preguntas numeradas en el chat y espera respuestas para ejecutar el skill en modo clarification.
+   - Si Gate 1 falla por open questions bloqueantes, detente y presenta UNA pregunta a la vez en el chat. Espera la respuesta antes de hacer la siguiente.
 
 3. Ejecuta el skill bcv-implementation-orchestrator con el story y el impact analysis.
    - Artefactos esperados: docs/historial/<hu-slug>-implementation-orchestration-plan.md y docs/historial/<hu-slug>-implementation-prompts/
