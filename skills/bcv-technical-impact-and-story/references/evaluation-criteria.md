@@ -62,7 +62,9 @@ Deterministic checks before declaring the technical story ready for refinement.
     - Blocking questions are reflected in `IMP-000` or `technical_status`.
     - Non-blocking questions have a documented fallback assumption.
     - Open questions are presented **one at a time in the chat response**, waiting for each answer before asking the next.
-    - The skill must update the YAML and story after receiving all answers in the same chat.
+    - Each question includes guidance: what it unblocks, example of a concrete answer, example of a "not yet defined" escalation, and a warning against vague answers.
+    - Vague answers are rejected and the question is repeated.
+    - The skill must update the YAML and story after receiving all concrete answers in the same chat.
 
 11. **Developer review section**
     - The story includes the developer review & sign-off checklist.

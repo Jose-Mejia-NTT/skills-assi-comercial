@@ -493,7 +493,13 @@ Generé el análisis técnico con estado REVIEW_REQUIRED porque faltan 2 aclarac
 Pregunta 1 de 2 — ¿El canal preferido se lee de customer-preferences-service o se replica en notification-service?
 Esta decisión desbloquea la asignación de data_owner y el contrato de lectura.
 
-Responde en este chat y luego haré la siguiente pregunta.
+Responde con una decisión concreta. Ejemplo:
+"customer-preferences-service es data_owner y notification-service consulta GET /customers/{id}/channel-preferences."
+
+Si no está definido:
+"No está definido. Debe confirmarlo Arquitectura de Canales."
+
+No basta con "ok". Responde en este chat.
 ```
 
 After the user answers question 1:
@@ -501,6 +507,14 @@ After the user answers question 1:
 ```text
 Gracias. Pregunta 2 de 2 — ¿El escalamiento al área de fraude es un evento o una bandeja/ticket?
 Esta decisión desbloquea el contrato de escalamiento y el rol de orchestrator.
+
+Responde con una decisión concreta. Ejemplo:
+"Es un evento alert.escalated.v1 publicado por notification-service y consumido por fraud-service."
+
+Si no está definido:
+"No está definido. Debe confirmarlo el área de Fraude."
+
+No basta con "ok".
 ```
 
 ## Example 2: Story-only mode

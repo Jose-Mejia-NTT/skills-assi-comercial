@@ -180,10 +180,17 @@ Completion checks: `references/evaluation-criteria.md`.
 If the emitted story contains blocking open questions, ask them **one at a time** in the same chat.
 
 1. Identify all blocking open questions from `verification_notes.open_questions` or `IMP-000`.
-2. Present **only the first question** to the user, with context about what it unblocks.
+2. Present **only the first question** to the user, with:
+   - context about what it unblocks;
+   - instructions to answer with a concrete decision (service name, endpoint, contract, schema, file path, etc.);
+   - an example of an acceptable answer;
+   - an example of a "not yet defined" answer that names the owner who must decide;
+   - a warning that vague answers like "ok" are not enough.
 3. Wait for the user's answer in the same chat.
 4. When the user answers:
-   - Record the answer internally.
+   - Validate that the answer contains a concrete decision or a clear escalation owner.
+   - If vague, ask again with the same guidance.
+   - If concrete, record the answer.
    - If more questions remain, ask the **next question**.
    - If no more questions remain, switch to `execution_mode: clarification`.
 5. In clarification mode:
@@ -203,9 +210,21 @@ Example chat flow:
 Assistant: Pregunta 1 de 4 — ¿Qué sistema es propietario del catálogo oficial de oficinas registrales y cómo debe consultarlo BCW?
            Esta decisión desbloquea el contrato, la persistencia y la integración técnica.
 
+           Responde con una decisión concreta, por ejemplo:
+           "El dueño será bcv-bacc-service-point-service. Se consultará mediante GET /service-points/registry-offices respondiendo { code, name, active }."
+
+           Si aún no está definido, indica quién debe confirmarlo, por ejemplo:
+           "No está definido todavía. Debe confirmarlo Arquitectura BACC."
+
+           No basta con responder "ok".
+
 User: PLM es el dueño del catálogo, expuesto por /api/v1/registry-offices.
 
 Assistant: Gracias. Pregunta 2 de 4 — ¿Qué endpoint o BFF utiliza BCW para registrar, editar y consultar solicitudes?
+           Esta decisión desbloquea el contrato de integración entre BCW y PLM.
+
+           Responde con una decisión concreta, por ejemplo:
+           "BCW utilizará el BFF bcv-bacc-onboarding-bff con POST /business-accounts, PUT /business-accounts/{id} y GET /business-accounts/{id}."
 ```
 
 Minimum sections: functional context summary, impacted-services decision, technical impact matrix,

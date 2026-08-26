@@ -86,7 +86,12 @@ This is the source of truth for where the pipeline stands.
 ### Mode C — Clarification round
 
 1. If Gate 1 fails because the story has blocking `open_questions` or unresolved `IMP-000`, stop the pipeline.
-2. Present **only the first open question** in the chat, with context about what it unblocks.
+2. Present **only the first open question** in the chat, with:
+   - context about what it unblocks;
+   - instructions to answer with a concrete decision;
+   - an example of an acceptable answer;
+   - an example of a "not yet defined" escalation;
+   - a warning that vague answers like "ok" are not enough.
 3. Wait for the user to answer in the same chat.
 4. After each answer, present the next question. Continue one at a time until all are answered.
 5. Once all answers are collected, tell the user to run `bcv-technical-impact-and-story` in `clarification` mode (or let the same assistant apply them if the context allows).
