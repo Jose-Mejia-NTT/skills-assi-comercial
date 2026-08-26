@@ -87,7 +87,7 @@ This is the source of truth for where the pipeline stands.
 
 ### Mode C — Clarification round
 
-1. If Gate 1 fails because the story has blocking `open_questions` or unresolved `IMP-000`, stop the pipeline.
+1. If Gate 1 fails because the DHU has blocking items in **Items pendientes de clarificación**, the story has blocking `open_questions`, or `IMP-000` is unresolved, stop the pipeline.
 2. Present **only the first open question** in the chat, with:
    - context about what it unblocks;
    - instructions to answer with a concrete decision;
@@ -97,7 +97,7 @@ This is the source of truth for where the pipeline stands.
 3. Wait for the user to answer in the same chat.
 4. After each answer, present the next question. Continue one at a time until all are answered.
 5. Once all answers are collected, tell the user to run `bcv-technical-impact-and-story` in `clarification` mode (or let the same assistant apply them if the context allows).
-6. Re-read the artifacts and re-validate Gate 1.
+6. Re-read the artifacts and re-validate Gate 1. The DHU must be updated with resolved items and its state advanced to `APROBADO` if no blockers remain.
 7. Repeat until Gate 1 passes or the user accepts the fallback assumptions.
 
 ### 1. Initialize
@@ -175,7 +175,8 @@ gate_1_technical_ready:
     - every BLOCKED task has an unblock condition
     - tasks trace to HU criteria and impact items
     - technical-implementation-blueprint.yaml exists and contains services, files and skill mappings
-    - technical-hu-document.md exists and follows the real project DHU structure (description, need, narrative, rules, contracts, acceptance criteria, endpoints, dependencies, out-of-scope, estimation, version control)
+    - technical-hu-document.md exists, is self-contained and follows the real project DHU structure
+    - if Items pendientes de clarificación contains blocking items, document state is EN REVISION and pipeline stops for clarification
 ```
 
 If Gate 1 fails (`BLOCKED`):

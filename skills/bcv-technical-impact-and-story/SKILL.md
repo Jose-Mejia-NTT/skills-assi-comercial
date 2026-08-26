@@ -207,20 +207,16 @@ Example document: `references/hu-document-example.md` (real project DHU).
 Run this phase after the story, diagram and blueprint are stable.
 
 1. Read `business-resolution.yaml` (or the original HU input), `technical-story-enriched.md`, `technical-impact-analysis.yaml`, `technical-architecture-diagram.mmd` and `technical-implementation-blueprint.yaml`.
-2. Produce `docs/historial/<hu-slug>-technical-hu-document.md` that follows the real project DHU structure:
-   - title with prefix `HU | DHU | Doc. Funcional`;
-   - description, need and narrative (`Yo como / Quiero / Para que`);
-   - TO BE flow diagram;
-   - business rules table;
-   - input/output contracts with examples;
-   - acceptance criteria in Given/When/Then format;
-   - endpoints table;
-   - dependencies table;
-   - out-of-scope list;
-   - estimation table;
-   - version control table;
-   - technical appendix with impacted services, files and tasks.
-3. This document is the human-readable final deliverable of Step 2.
+2. Produce `docs/historial/<hu-slug>-technical-hu-document.md` as a **self-contained** final deliverable. It must follow the real project DHU structure and include all technical details inline.
+3. At the top of the DHU, include an **Items pendientes de clarificación** section:
+   - list every open question, ambiguity or missing clarification;
+   - mark each item as blocking or non-blocking;
+   - describe the impact if unresolved and the responsible party;
+   - if there are blocking items, set the document state to `EN REVISIÓN` and `technical_status` to `REVIEW_REQUIRED` or `BLOCKED`.
+4. If blocking items exist, do not present the DHU as final. Instead, ask the open questions **one at a time** in the chat, guiding the user to answer with concrete decisions. Update the DHU after each answer.
+5. Once all blocking items are resolved, update the document state to `APROBADO` and `technical_status` to `READY`.
+6. The DHU must not depend on external artifact files for readability; it is the single source of truth for the HU técnica.
+7. The YAML, story, diagram and blueprint are still generated as machine-readable inputs for the next pipeline step, but the DHU must stand alone.
 
 ## Conversational clarification flow
 
@@ -241,12 +237,13 @@ If the emitted story contains blocking open questions, ask them **one at a time*
    - If more questions remain, ask the **next question**.
    - If no more questions remain, switch to `execution_mode: clarification`.
 5. In clarification mode:
-   - Read the existing `technical-impact-analysis.yaml` and `technical-story-enriched.md`.
+   - Read the existing `technical-impact-analysis.yaml`, `technical-story-enriched.md` and `technical-hu-document.md`.
    - Apply all recorded answers:
      - Update `inherited_ambiguities` or `verification_notes`.
      - Resolve or close `IMP-000`.
-     - Update `technical_status` to `READY` if all blockers are resolved.
-   - Rewrite the updated YAML and story to disk.
+     - Update the **Items pendientes de clarificación** section in the DHU.
+     - Update `technical_status` to `READY` and document state to `APROBADO` if all blockers are resolved.
+   - Rewrite the updated YAML, story and DHU to disk.
 6. If new questions appear after applying answers, repeat from step 2.
 
 The user does not need to paste the previous artifact; the assistant must read it from the workspace path.

@@ -79,9 +79,12 @@ Deterministic checks before declaring the technical story ready for refinement.
 
 12. **Technical HU document**
     - `technical-hu-document.md` is generated and follows the structure of `references/hu-document-example.md`.
+    - It is **self-contained**: all functional and technical information is included inline.
+    - It includes an **Items pendientes de clarificación** section at the top, listing every open question with blocking flag, impact, responsible party and status.
+    - If blocking items exist, the document state is `EN REVISIÓN` and `technical_status` is not `READY`.
     - It includes: title, description, need, narrative, TO BE diagram, business rules, input/output contracts, acceptance criteria, endpoints, dependencies, out-of-scope, estimation and version control.
-    - It appends a technical appendix with impacted services, files and tasks.
-    - It references all upstream artifacts.
+    - It appends a complete technical appendix: impacted services, impact matrix, task plan, architecture diagram, risks, file impact, domains/entities, migrations/configuration, open questions and review sign-off.
+    - A reader can understand and act on the HU without opening other artifact files.
 
 13. **Developer review section**
     - The story includes the developer review & sign-off checklist.
