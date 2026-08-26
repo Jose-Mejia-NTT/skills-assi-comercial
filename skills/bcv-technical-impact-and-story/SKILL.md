@@ -146,6 +146,8 @@ Completion checks: `references/evaluation-criteria.md`.
 3. Define the technical task plan: numbered, actionable tasks covering contract,
    domain/application, persistence/messaging, observability/security and testing.
    Start with `IMP-000` when `inherited_ambiguities` or `conflicts` exist.
+   IMP-000 must list clarification questions **and suggested resolution options**
+   so the resolver can decide quickly.
    Block dependent tasks (`Status: BLOCKED`) until their unblock condition is met.
    Assign a **recommended skill category** to each task using `references/skill-mapping.md`.
    If the user provided an `available_skills` mapping, replace the category with the matching skill name.

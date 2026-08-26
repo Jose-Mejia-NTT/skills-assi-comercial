@@ -36,6 +36,7 @@ what is blocked and what information is still missing.
    - It lists every inherited ambiguity and technical conflict.
    - It specifies the required action, suggested owner and clarification questions.
    - It documents the impact on other tasks if unresolved.
+   - It provides **suggested resolution options** so the resolver can decide quickly.
 
 3. **Block dependent technical tasks**
    - Any task that cannot be completed until an ambiguity is resolved must have:
@@ -72,6 +73,10 @@ what is blocked and what information is still missing.
 - **Clarification questions:**
   - [Pregunta 1]
   - [Pregunta 2]
+- **Suggested resolution options:**
+  - **Option A:** [descripción concreta, ejemplo de decisión o artefacto resultante]
+  - **Option B:** [alternativa plausible]
+  - **Option C (fallback):** [acción conservadora si no hay consenso, ej. "mantener VO actual y documentar deprecación"]
 - **Impact if unresolved:**
   - [Tareas bloqueadas: IMP-XXX, IMP-YYY]
 - **Unblock condition:**

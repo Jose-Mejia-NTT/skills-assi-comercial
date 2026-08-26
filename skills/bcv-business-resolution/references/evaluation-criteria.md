@@ -19,8 +19,9 @@ The output is valid when it:
 
 1. All six required output keys are present.
 2. Every candidate has role, confidence and at least one evidence source.
-3. At least one ambiguity or explicit "none" statement is provided.
-4. `resolution_status` is consistent with ambiguity and evidence strength.
+3. Every ambiguity has `status`, `blocking`, `owner` and `resolution` when not `pending`.
+4. No `resolution_status` is `CANDIDATES_FOUND` or `REVIEW_REQUIRED` if any ambiguity has `status: pending` and `blocking: true`.
+5. `resolution_status` is consistent with ambiguity and evidence strength.
 5. Handoff includes concrete verification questions for technical impact analysis.
 6. No Step 2 or Step 3 facts are presented as confirmed outcomes.
 

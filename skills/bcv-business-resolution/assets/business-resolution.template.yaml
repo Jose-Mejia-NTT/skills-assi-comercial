@@ -28,9 +28,14 @@ candidates:
         date: ""
 
 ambiguities:
-  - type: ""
+  - id: ""
+    type: ""
     detail: ""
     impact: ""
+    status: "pending" # pending | resolved | accepted_risk
+    blocking: true    # true if unresolved it prevents handoff to technical analysis
+    owner: ""         # team/person responsible for resolving
+    resolution: ""    # required when status is resolved or accepted_risk
 
 resolution_status: "CANDIDATES_FOUND"
 

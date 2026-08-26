@@ -98,12 +98,22 @@ candidates:
         date: "2026-08-24"
 
 ambiguities:
-  - type: ownership-channel-preference
+  - id: ownership-channel-preference
+    type: ownership
     detail: No queda claro si el canal preferido es gestionado por notification-service o customer-preferences-service.
     impact: Puede afectar la asignación de data_owner y requiere confirmación técnica.
-  - type: escalation-mechanism
+    status: accepted_risk
+    blocking: false
+    owner: arquitectura-de-canales
+    resolution: Se acepta el riesgo; bcv-technical-impact-and-story validará el data_owner con service-map y evidence.
+  - id: escalation-mechanism
+    type: mechanism
     detail: La HU menciona escalar al área de fraude pero no define si es un ticket, un evento o una bandeja.
     impact: Impacta en el rol de orchestrator y en el contrato de handoff.
+    status: accepted_risk
+    blocking: false
+    owner: area-de-fraude
+    resolution: Se acepta el riesgo; el mecanismo exacto se definirá en análisis técnico y quedará en IMP-000 si es necesario.
 
 resolution_status: REVIEW_REQUIRED
 
@@ -146,9 +156,14 @@ handoff:
 ```yaml
 resolution_status: BLOCKED
 ambiguities:
-  - type: insufficient-input
+  - id: insufficient-input
+    type: input
     detail: No se proporcionó el texto de la HU ni criterios de aceptación.
     impact: No es posible extraer entidades, acciones, eventos ni capacidades.
+    status: pending
+    blocking: true
+    owner: usuario
+    resolution: ""
 handoff:
   candidate_verification_questions:
     - ¿Puedes compartir el texto completo de la HU o HAB?

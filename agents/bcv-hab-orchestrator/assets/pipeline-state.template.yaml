@@ -1,0 +1,42 @@
+hu_slug: ""
+original_request: ""
+stack: "java-spring-boot"
+available_skills: []
+
+current_phase: "business-resolution" # business-resolution | technical-impact-and-story | implementation-orchestrator | implementation
+status: "in_progress"                # in_progress | blocked | ready_for_execution | completed
+
+phases:
+  business_resolution:
+    skill: "bcv-business-resolution"
+    status: "pending" # pending | in_progress | completed | blocked
+    artifact: "docs/historial/<hu-slug>-business-resolution.yaml"
+    gate:
+      name: "gate_0_business_resolved"
+      status: "pending" # pending | passed | failed
+      blockers: []
+
+  technical_impact_and_story:
+    skill: "bcv-technical-impact-and-story"
+    status: "pending"
+    artifacts:
+      - "docs/historial/<hu-slug>-technical-impact-analysis.yaml"
+      - "docs/historial/<hu-slug>-technical-story-enriched.md"
+    gate:
+      name: "gate_1_technical_ready"
+      status: "pending"
+      blockers: []
+
+  implementation_orchestration:
+    skill: "bcv-implementation-orchestrator"
+    status: "pending"
+    artifacts:
+      - "docs/historial/<hu-slug>-implementation-orchestration-plan.md"
+      - "docs/historial/<hu-slug>-implementation-prompts/"
+    gate:
+      name: "gate_2_orchestration_ready"
+      status: "pending"
+      blockers: []
+
+last_updated: ""
+notes: ""

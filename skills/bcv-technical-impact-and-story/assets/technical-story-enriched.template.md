@@ -71,6 +71,10 @@ unblock condition.
 - **Clarification questions:**
   - [Pregunta 1]
   - [Pregunta 2]
+- **Suggested resolution options:**
+  - **Option A:** [decisión concreta y artefacto esperado]
+  - **Option B:** [alternativa plausible]
+  - **Option C (fallback):** [acción conservadora si no hay consenso]
 - **Impact if unresolved:**
   - [Lista de tareas bloqueadas: IMP-XXX, IMP-YYY]
 - **Unblock condition:**

@@ -138,13 +138,18 @@ See `assets/examples.md` for concrete input/output examples.
 2. Normalize business terms and aliases without losing critical domain meaning.
 3. Resolve capabilities and propose a small candidate set with explicit roles.
 4. Assign qualitative confidence with evidence rationale.
-5. Emit `resolution_status`: `CANDIDATES_FOUND`, `REVIEW_REQUIRED`, or `BLOCKED`.
+5. Validate ambiguity gate before emitting YAML:
+   - Every item under `ambiguities` must have `status: resolved` or `status: accepted_risk`.
+   - Any ambiguity with `status: pending` and `blocking: true` prevents handoff.
+   - If blocking ambiguities exist, do not write the final `business-resolution.yaml`.
+   - Instead, return `resolution_status: BLOCKED`, list the blocking ambiguities, and ask up to 3 targeted questions that can unblock the analysis.
+6. Emit `resolution_status`: `CANDIDATES_FOUND`, `REVIEW_REQUIRED`, or `BLOCKED`.
 
 ### Decision branching
 
-1. `CANDIDATES_FOUND`: there is enough functional evidence to hand off candidates.
-2. `REVIEW_REQUIRED`: ambiguity or conflict exists but analysis can still be handed off with warnings.
-3. `BLOCKED`: minimum inputs are missing or no capability mapping can be supported.
+1. `CANDIDATES_FOUND`: there is enough functional evidence to hand off candidates. All blocking ambiguities are `resolved` or `accepted_risk`.
+2. `REVIEW_REQUIRED`: non-blocking gaps or conflicting ownership exist; handoff can proceed with warnings, but every ambiguity must still be `resolved` or `accepted_risk`.
+3. `BLOCKED`: minimum inputs are missing, no capability mapping can be supported, or at least one ambiguity has `status: pending` and `blocking: true`.
 
 ### BMAD
 

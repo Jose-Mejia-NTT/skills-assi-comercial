@@ -10,6 +10,8 @@ Turns a validated business resolution into linked artifacts:
 2. `technical-story-enriched.md` — implementation-ready technical story with numbered, traceable tasks,
    architecture diagram, detailed action plan (step-by-step implementation, DoR, DoD, test cases,
    error scenarios, deployment notes, files affected), repository file impact and developer review & sign-off.
+   When ambiguities exist, the story starts with `IMP-000` containing clarification questions and
+   suggested resolution options so the resolver can decide quickly.
 3. `technical-architecture-diagram.mmd` — Mermaid source of the implementation architecture.
 
 This is **Step 2** of the pipeline:

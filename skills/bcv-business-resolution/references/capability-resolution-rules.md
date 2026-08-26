@@ -35,11 +35,26 @@
 
 - Rules 5, 6, 7, 8, 12, 14: never invent technical facts; preserve aliases; expose conflicts and uncertainty.
 
+## Ambiguity gate
+
+Every item in `ambiguities` must declare:
+
+- `status`: `pending | resolved | accepted_risk`
+- `blocking`: `true | false`
+- `owner`: team/person responsible
+- `resolution`: required when `status` is `resolved` or `accepted_risk`
+
+Rules:
+
+1. `CANDIDATES_FOUND` and `REVIEW_REQUIRED` require every ambiguity to be `resolved` or `accepted_risk`.
+2. `pending` ambiguities with `blocking: true` produce `BLOCKED` and stop the pipeline.
+3. `pending` ambiguities with `blocking: false` must be converted to `accepted_risk` before emitting YAML.
+4. When status is `accepted_risk`, the `resolution` field must document the mitigation or assumption.
+
 ## Resolution status
 
-- `CANDIDATES_FOUND`: at least one supported candidate exists and no material ambiguity blocks handoff.
-- `REVIEW_REQUIRED`: multiple plausible candidates, conflicting ownership, missing business meaning or
-  insufficient evidence prevents selecting a primary candidate.
-- `BLOCKED`: the request is not sufficiently specified or no capability mapping can be supported.
+- `CANDIDATES_FOUND`: at least one supported candidate exists and no blocking ambiguity remains.
+- `REVIEW_REQUIRED`: non-blocking gaps, conflicting ownership or missing business meaning exist, but every ambiguity is `resolved` or `accepted_risk`.
+- `BLOCKED`: minimum inputs are missing, no capability mapping can be supported, or at least one ambiguity has `status: pending` and `blocking: true`.
 
 A `CANDIDATES_FOUND` result still represents candidates, not implementation approval.

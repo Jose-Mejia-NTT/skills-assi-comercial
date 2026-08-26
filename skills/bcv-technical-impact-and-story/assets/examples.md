@@ -230,6 +230,10 @@ technical_status: REVIEW_REQUIRED
   - ¿Dónde se almacena el canal preferido del cliente actualmente?
   - ¿Cómo se modela el evento de alerta del motor de riesgo?
   - ¿Qué mecanismo de escalamiento al área de fraude existe actualmente?
+- **Suggested resolution options:**
+  - **Option A:** customer-preferences-service es data_owner del canal preferido; notification-service lo consume vía API. Escalamiento por evento `alert.escalated.v1` hacia fraud-service.
+  - **Option B:** notification-service almacena una copia del canal preferido sincronizado por evento; escalamiento por ticket en bandeja de fraude.
+  - **Option C (fallback):** mantener ambigüedad como riesgo controlado, documentar supuestos y usar notification-service como orchestrator provisional.
 - **Impact if unresolved:**
   - IMP-002 e IMP-005 quedan bloqueadas por el canal preferido.
   - IMP-004 e IMP-005 quedan bloqueadas por el mecanismo de escalamiento.

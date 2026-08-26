@@ -28,6 +28,15 @@ Use this skill when the user asks to:
 
 The YAML is consumed by `bcv-technical-impact-and-story`.
 
+## Ambiguity gate
+
+Before emitting the YAML, every ambiguity must be:
+
+- `resolved` with a documented decision, or
+- `accepted_risk` with a documented mitigation/assumption.
+
+Ambiguities with `status: pending` and `blocking: true` produce `BLOCKED` and stop the pipeline until the user resolves them.
+
 ## Key files
 
 | File                                          | Purpose                                              |
