@@ -430,8 +430,8 @@ graph LR
   - Desplegar consumer antes que producer para no perder eventos.
   - Agregar alerta de lag del consumer.
 - **Files affected:**
-  - `src/main/java/com/bcv/notification/domain/SuspiciousAlertHandler.java` (modify)
-  - `src/main/java/com/bcv/fraud/application/AlertPublisher.java` (modify, candidate)
+  - `src/main/java/com/bcv/notification/domain/SuspiciousAlertHandler.java` (modify) — agregar manejador del evento `transaction.suspicious.alert.v1` y delegar al caso de uso de envío.
+  - `src/main/java/com/bcv/fraud/application/AlertPublisher.java` (modify, candidate) — publicar el evento con los campos acordados desde el motor de riesgo.
 - **Security / compliance notes:**
   - El evento no debe incluir datos sensibles del cliente en claro.
 
@@ -445,8 +445,9 @@ graph LR
 
 ### Files to modify
 
-- `src/main/java/com/bcv/notification/domain/SuspiciousAlertHandler.java` — agregar consumo del evento y envío (bcv-bacc-notification-service)
-- `src/main/java/com/bcv/customer/domain/CustomerChannelPreference.java` — posible origen del canal preferido (bcv-bacc-customer-preferences-service, candidate)
+- `src/main/java/com/bcv/notification/domain/SuspiciousAlertHandler.java` — agregar método de consumo del evento `transaction.suspicious.alert.v1` e invocar caso de uso de envío (bcv-bacc-notification-service).
+- `src/main/java/com/bcv/notification/application/SendNotificationUseCase.java` — orquestar lectura de canal preferido e invocación de `/notifications/send` (bcv-bacc-notification-service).
+- `src/main/java/com/bcv/customer/domain/CustomerChannelPreference.java` — confirmar/agregar fuente del canal preferido (bcv-bacc-customer-preferences-service, candidate).
 
 ### Domains / entities affected
 
@@ -473,6 +474,16 @@ graph LR
 **Reviewer:** _________________  
 **Date:** _________________  
 **Approved:** [ ] Sí  [ ] No — comentarios:
+
+## 12. Open Questions / Clarifications Needed
+
+| # | Question | Blocking | Proposed fallback if not clarified |
+|---|----------|----------|------------------------------------|
+| 1 | ¿El canal preferido se lee de customer-preferences-service o se replica en notification-service? | Sí | Se asume customer-preferences-service como data_owner provisional. |
+| 2 | ¿El escalamiento al área de fraude es un evento o una bandeja/ticket? | Sí | Se documenta como dependencia externa no resuelta. |
+
+**User confirmation:** _________________  
+**Date:** _________________
 
 ## Example 2: Story-only mode
 

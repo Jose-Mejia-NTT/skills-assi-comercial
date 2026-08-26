@@ -48,6 +48,7 @@ Deterministic checks before declaring the technical story ready for refinement.
    - Every task in the technical task plan has step-by-step implementation, DoR, DoD and technical acceptance criteria.
    - Steps are high-level actions, not code snippets.
    - Test cases, error scenarios, external dependencies, deployment considerations and files affected are documented.
+   - Every `Files affected` entry specifies the operation (`create | modify | delete`) and a concrete change description (what is added, removed or altered in that file).
    - Security and compliance notes are included when PII, audit or sensitive data is involved.
    - The plan does not include estimates, assignments or code snippets.
 
@@ -56,7 +57,13 @@ Deterministic checks before declaring the technical story ready for refinement.
    - Candidate files are marked explicitly.
    - Domains/entities affected and migrations/configuration changes are documented.
 
-10. **Developer review section**
+10. **Open questions / clarifications**
+    - Any remaining indication, suspicion or missing clarification is listed in the `Open Questions / Clarifications Needed` section.
+    - Blocking questions are reflected in `IMP-000` or `technical_status`.
+    - Non-blocking questions have a documented fallback assumption.
+    - The user is asked to confirm or clarify open questions before the story is considered final.
+
+11. **Developer review section**
     - The story includes the developer review & sign-off checklist.
     - The checklist covers HU coverage, executability, dependencies, BLOCKED tasks, error scenarios,
       technical decisions, file impact and missing configuration/documentation.

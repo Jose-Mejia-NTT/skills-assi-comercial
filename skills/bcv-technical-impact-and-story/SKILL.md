@@ -158,12 +158,22 @@ Completion checks: `references/evaluation-criteria.md`.
 5. Build the detailed action plan: for each task define step-by-step implementation, DoR, DoD,
    technical acceptance criteria, test cases, error scenarios, external dependencies,
    deployment considerations, files affected and security/compliance notes.
+   For every file in `Files affected` specify:
+   - operation: `create`, `modify` or `delete`;
+   - a concrete change description (what is added, removed or altered in that file).
    Steps must be high-level actions, not code snippets. Do not include estimates or assignments.
 6. Render the repository file impact: files to create, modify or delete, domains/entities affected,
    migrations and configuration changes.
 7. Register assumptions (`ASSUMED`) and risks (`RISK`).
 8. Define technical acceptance: rule coverage, non-regression expectations, HU -> HT -> tasks traceability.
 9. Include the developer review & sign-off section.
+
+10. Sanity check before finalizing:
+    - List any remaining indication, suspicion or missing clarification as `open_questions`.
+    - If an open question is blocking, create or update `IMP-000` and set `technical_status` to `REVIEW_REQUIRED` or `BLOCKED`.
+    - If an open question is non-blocking, document it in `verification_notes` with a fallback assumption.
+    - Before delivering the story, ask the user to confirm or clarify the open questions.
+    - Only mark the story as `READY` when there are no blocking open questions.
 
 Minimum sections: functional context summary, impacted-services decision, technical impact matrix,
 numbered technical task plan, risks and assumptions, validation checklist, implementation architecture diagram,

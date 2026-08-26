@@ -9,7 +9,8 @@ Turns a validated business resolution into linked artifacts:
 1. `technical-impact-analysis.yaml` — evidence-graded technical impact matrix plus a gate status.
 2. `technical-story-enriched.md` — implementation-ready technical story with numbered, traceable tasks,
    architecture diagram, detailed action plan (step-by-step implementation, DoR, DoD, test cases,
-   error scenarios, deployment notes, files affected), repository file impact and developer review & sign-off.
+   error scenarios, deployment notes, files affected with operation and change description),
+   repository file impact, developer review & sign-off and open questions / clarifications needed.
    When ambiguities exist, the story starts with `IMP-000` containing clarification questions and
    suggested resolution options so the resolver can decide quickly.
 3. `technical-architecture-diagram.mmd` — Mermaid source of the implementation architecture.

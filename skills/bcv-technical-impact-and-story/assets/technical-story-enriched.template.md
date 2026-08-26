@@ -236,3 +236,15 @@ Use this section for a developer to validate the plan before execution.
 **Reviewer:** _________________  
 **Date:** _________________  
 **Approved:** [ ] Sí  [ ] No — comentarios:
+
+## 12. Open Questions / Clarifications Needed
+
+List any remaining indication, suspicion or missing clarification discovered while building this story.
+If a question is blocking, it must be reflected in `IMP-000` or in `technical-impact-analysis.yaml`.
+
+| # | Question | Blocking | Proposed fallback if not clarified |
+|---|----------|----------|------------------------------------|
+| 1 |          | yes/no   |                                    |
+
+**User confirmation:** _________________  
+**Date:** _________________
