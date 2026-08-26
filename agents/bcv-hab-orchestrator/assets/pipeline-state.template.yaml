@@ -22,6 +22,8 @@ phases:
     artifacts:
       - "docs/historial/<hu-slug>-technical-impact-analysis.yaml"
       - "docs/historial/<hu-slug>-technical-story-enriched.md"
+      - "docs/historial/<hu-slug>-technical-implementation-blueprint.yaml"
+      - "docs/historial/<hu-slug>-technical-hu-document.md"
     gate:
       name: "gate_1_technical_ready"
       status: "pending"

@@ -11,7 +11,7 @@ Because GitHub Copilot does not support autonomous custom agents that invoke oth
 ## Pipeline steps
 
 1. `bcv-business-resolution` → `business-resolution.yaml`
-2. `bcv-technical-impact-and-story` → `technical-impact-analysis.yaml` + `technical-story-enriched.md`
+2. `bcv-technical-impact-and-story` → `technical-impact-analysis.yaml` + `technical-story-enriched.md` + `technical-implementation-blueprint.yaml` + `technical-hu-document.md`
 3. `bcv-implementation-orchestrator` → `implementation-orchestration-plan.md` + `implementation-prompts/`
 
 ## State file

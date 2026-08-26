@@ -1,0 +1,127 @@
+# Technical Implementation Blueprint
+# Machine-readable contract from bcv-technical-impact-and-story to bcv-implementation-orchestrator.
+# This artifact eliminates ambiguity for the orchestrator: it should not infer, only map and emit prompts.
+
+metadata:
+  hu_slug: ""
+  source_story: "docs/historial/<hu-slug>-technical-story-enriched.md"
+  source_impact_analysis: "docs/historial/<hu-slug>-technical-impact-analysis.yaml"
+  source_diagram: "docs/historial/<hu-slug>-technical-architecture-diagram.mmd"
+  technical_status: "READY | REVIEW_REQUIRED | BLOCKED"
+  stack: "java-spring-boot"
+  generated_at: ""
+
+services:
+  primary:
+    name: ""
+    repository: ""
+    responsibility: ""
+  supporting:
+    - name: ""
+      repository: ""
+      role: "owner | orchestrator | data_owner | integration_adapter | participant"
+      responsibility: ""
+
+domains:
+  - name: ""
+    entities:
+      - name: ""
+        affected_by_tasks:
+          - "IMP-001"
+        notes: ""
+
+apis:
+  confirmed:
+    - service: ""
+      path: ""
+      method: ""
+      owner_task: "IMP-001"
+      contract_status: "exists | needs_update | to_create"
+  candidate:
+    - service: ""
+      path: ""
+      method: ""
+      owner_task: "IMP-001"
+      clarification_needed: ""
+
+events:
+  confirmed:
+    - name: ""
+      publisher: ""
+      consumer: ""
+      owner_task: "IMP-002"
+  candidate:
+    - name: ""
+      publisher: ""
+      consumer: ""
+      owner_task: "IMP-002"
+      clarification_needed: ""
+
+persistence:
+  confirmed:
+    - service: ""
+      store: ""
+      entity_table: ""
+      owner_task: "IMP-003"
+      change: "add_column | new_table | modify_index | none"
+  candidate:
+    - service: ""
+      store: ""
+      entity_table: ""
+      owner_task: "IMP-003"
+      clarification_needed: ""
+
+tasks:
+  - id: "IMP-001"
+    type: "contract | domain | persistence | messaging | observability | testing | discovery"
+    service: ""
+    repository: ""
+    skill_category: "contract-design | backend-dev | persistence-dev | messaging-dev | observability-dev | testing-dev"
+    status: "TODO | BLOCKED"
+    blocked_by: []
+    unblock_condition: ""
+    title: ""
+    summary: ""
+    step_by_step_summary: ""
+    acceptance_criteria: []
+    files:
+      - path: ""
+        operation: "create | modify | delete"
+        change_description: ""
+    dependencies_on_other_tasks: []
+    hu_traceability:
+      - "Acceptance criterion 1"
+    impact_traceability:
+      - "impacted_apis.confirmed.x"
+
+manual_tasks: []
+
+migrations:
+  - file: ""
+    service: ""
+    purpose: ""
+    owner_task: "IMP-003"
+
+configuration:
+  - file: ""
+    service: ""
+    change: ""
+    owner_task: "IMP-001"
+
+diagram:
+  mermaid_source: "docs/historial/<hu-slug>-technical-architecture-diagram.mmd"
+  nodes:
+    - id: ""
+      label: ""
+      type: "service | api | event | persistence | external"
+  edges:
+    - from: ""
+      to: ""
+      label: ""
+
+open_questions:
+  - id: "Q-001"
+    question: ""
+    blocking: true
+    owner_task: "IMP-000"
+    fallback: ""

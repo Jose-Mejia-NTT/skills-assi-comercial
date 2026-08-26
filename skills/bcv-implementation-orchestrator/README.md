@@ -19,6 +19,7 @@ bcv-business-resolution
 bcv-technical-impact-and-story
   → technical-impact-analysis.yaml
   → technical-story-enriched.md
+  → technical-implementation-blueprint.yaml
   ↓
 bcv-implementation-orchestrator
   → implementation-orchestration-plan.md
@@ -51,6 +52,12 @@ Use this skill when the user asks to:
 ## Pipeline input
 
 This skill consumes the output of `bcv-technical-impact-and-story`:
+
+Preferred:
+
+- `docs/historial/<hu-slug>-technical-implementation-blueprint.yaml`
+
+Fallback (legacy):
 
 - `docs/historial/<hu-slug>-technical-story-enriched.md`
 - `docs/historial/<hu-slug>-technical-impact-analysis.yaml`

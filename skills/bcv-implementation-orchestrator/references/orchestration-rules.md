@@ -53,9 +53,11 @@ approved `technical-story-enriched.md` across multiple BCV specialized skills.
 
 ## Output rules
 
+- Read `technical-implementation-blueprint.yaml` as the primary input when available.
 - Write the orchestration plan to `docs/historial/<hu-slug>-implementation-orchestration-plan.md`.
 - Write one prompt per executable `TODO` task to `docs/historial/<hu-slug>-implementation-prompts/`.
 - Do not create prompt files for `BLOCKED` or `MANUAL` tasks.
+- Do not infer services, repositories, files or skill mappings when the blueprint provides them.
 
 ## Review and sign-off
 

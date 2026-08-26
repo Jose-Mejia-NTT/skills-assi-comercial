@@ -14,11 +14,13 @@ Turns a validated business resolution into linked artifacts:
    When ambiguities exist, the story starts with `IMP-000` containing clarification questions and
    suggested resolution options so the resolver can decide quickly.
 3. `technical-architecture-diagram.mmd` — Mermaid source of the implementation architecture.
+4. `technical-implementation-blueprint.yaml` — machine-readable contract for `bcv-implementation-orchestrator`.
+5. `technical-hu-document.md` — final technical HU document aligned with the project HU guideline.
 
 This is **Step 2** of the pipeline:
 
 ```
-HU/HAB → bcv-business-resolution → bcv-technical-impact-and-story → implementation-ready story
+HU/HAB → bcv-business-resolution → bcv-technical-impact-and-story → bcv-implementation-orchestrator
 ```
 
 ## When to use
@@ -32,17 +34,21 @@ Use this skill when the user asks to:
 
 ## Execution modes
 
-| Mode          | Condition                                                    | Output          |
-| ------------- | ------------------------------------------------------------ | --------------- |
-| `full`        | HU + `business-resolution.yaml`, no existing impact analysis | `.yaml` + `.md` |
-| `story-only`  | existing `technical-impact-analysis.yaml`                    | `.md` only      |
-| `impact-only` | user asks only for impact analysis                           | `.yaml` only    |
+| Mode             | Condition                                                    | Output                                           |
+| ---------------- | ------------------------------------------------------------ | ------------------------------------------------ |
+| `full`           | HU + `business-resolution.yaml`, no existing impact analysis | `.yaml` + `.md` + `.mmd` + blueprint + doc-final |
+| `story-only`     | existing `technical-impact-analysis.yaml`                    | `.md` + `.mmd` + blueprint + doc-final           |
+| `impact-only`    | user asks only for impact analysis                           | `.yaml` only                                      |
+| `blueprint-only` | existing story + impact analysis                             | blueprint only                                    |
+| `document-only`  | existing story + impact analysis + blueprint                 | doc-final only                                    |
 
 ## Output
 
 - `docs/historial/<hu-slug>-technical-impact-analysis.yaml`
 - `docs/historial/<hu-slug>-technical-story-enriched.md`
 - `docs/historial/<hu-slug>-technical-architecture-diagram.mmd`
+- `docs/historial/<hu-slug>-technical-implementation-blueprint.yaml` (machine-readable contract for `bcv-implementation-orchestrator`)
+- `docs/historial/<hu-slug>-technical-hu-document.md` (final technical HU document aligned with the project guideline)
 
 ## Key files
 
@@ -52,6 +58,9 @@ Use this skill when the user asks to:
 | `assets/technical-impact-analysis.template.yaml` | Template for the impact analysis YAML.             |
 | `assets/technical-story-enriched.template.md`    | Template for the enriched technical story.         |
 | `assets/examples.md`                             | Concrete examples for all execution modes.         |
+| `assets/technical-implementation-blueprint.template.yaml` | Machine-readable contract for the orchestrator. |
+| `assets/technical-hu-document.template.md`       | Final technical HU document aligned with the project guideline. |
+| `references/hu-document-guideline.md`            | Project standard for HU documents.                 |
 | `references/evidence-and-gates.md`               | Evidence grading and gate criteria.                |
 | `references/graphify-query-discipline.md`        | Query budgets and escalation order (Phase A only). |
 | `references/ambiguity-and-conflict-handling.md`  | How to handle inherited ambiguities and technical conflicts. |

@@ -29,6 +29,8 @@ HU/HAB
 │ bcv-technical-impact-and-story       │
 │ → technical-impact-analysis.yaml     │
 │ → technical-story-enriched.md        │
+│ → technical-implementation-blueprint.yaml
+│ → technical-hu-document.md
 └──────────────────────────────────────┘
   │
   ▼ Gate 1
@@ -118,11 +120,11 @@ Ejecuta el pipeline completo para la HU con slug <hu-slug>:
    - Si Gate 0 falla, detente y reporta los bloqueos.
 
 2. Ejecuta el skill bcv-technical-impact-and-story con el business-resolution.yaml.
-   - Artefactos esperados: docs/historial/<hu-slug>-technical-impact-analysis.yaml y docs/historial/<hu-slug>-technical-story-enriched.md
+   - Artefactos esperados: docs/historial/<hu-slug>-technical-impact-analysis.yaml, docs/historial/<hu-slug>-technical-story-enriched.md, docs/historial/<hu-slug>-technical-implementation-blueprint.yaml y docs/historial/<hu-slug>-technical-hu-document.md
    - Gate 1: technical_status no debe ser BLOCKED; si es REVIEW_REQUIRED, IMP-000 debe existir con opciones de resolución.
    - Si Gate 1 falla por open questions bloqueantes, detente y presenta UNA pregunta a la vez en el chat. Espera la respuesta antes de hacer la siguiente.
 
-3. Ejecuta el skill bcv-implementation-orchestrator con el story y el impact analysis.
+3. Ejecuta el skill bcv-implementation-orchestrator con el blueprint.
    - Artefactos esperados: docs/historial/<hu-slug>-implementation-orchestration-plan.md y docs/historial/<hu-slug>-implementation-prompts/
    - Gate 2: cada TODO tiene prompt o está MANUAL; ningún BLOCKED tiene prompt; skills usados están en available_skills o marcados MANUAL.
 
@@ -156,10 +158,11 @@ If Gate 0 passes:
 - Continue to Gate 1.
 
 ### 3. Gate 1 — Technical impact and story
-
 Expected artifacts:
+
 - `docs/historial/<hu-slug>-technical-impact-analysis.yaml`
 - `docs/historial/<hu-slug>-technical-story-enriched.md`
+- `docs/historial/<hu-slug>-technical-implementation-blueprint.yaml`
 
 Validate:
 
@@ -171,6 +174,8 @@ gate_1_technical_ready:
     - if REVIEW_REQUIRED: IMP-000 exists with clarification questions and suggested resolution options
     - every BLOCKED task has an unblock condition
     - tasks trace to HU criteria and impact items
+    - technical-implementation-blueprint.yaml exists and contains services, files and skill mappings
+    - technical-hu-document.md exists and follows the project HU guideline structure
 ```
 
 If Gate 1 fails (`BLOCKED`):

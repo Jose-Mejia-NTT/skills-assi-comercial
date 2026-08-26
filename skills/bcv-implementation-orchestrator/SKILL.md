@@ -66,15 +66,24 @@ Do not activate for:
 
 ## Input expected
 
+Preferred input:
+
+1. `technical-implementation-blueprint.yaml` from `bcv-technical-impact-and-story`.
+
+Fallback input (legacy):
+
 1. `technical-story-enriched.md` from `bcv-technical-impact-and-story`.
 2. `technical-impact-analysis.yaml` from `bcv-technical-impact-and-story`.
+
+Additional inputs:
+
 3. Optional confirmed stack: `java-spring-boot` (default), `nodejs`, etc.
 4. Optional `available_skills` mapping for Copilot or other assistants.
 
 Minimum to run without blocking:
 
-- A `technical-story-enriched.md` with numbered tasks (`IMP-XXX`).
-- A `technical-impact-analysis.yaml` with `technical_status`.
+- A `technical-implementation-blueprint.yaml` with numbered tasks (`IMP-XXX`), services, files and skill categories; or
+- A `technical-story-enriched.md` with numbered tasks and a `technical-impact-analysis.yaml` with `technical_status`.
 
 If the story contains `Status: BLOCKED` tasks, include them in the plan but mark them
 as not executable until their unblock condition is met.
@@ -90,14 +99,16 @@ Write artifacts to `docs/historial/` using the HU slug as prefix:
 
 ### Phase A — Parse and validate
 
-1. Load `technical-story-enriched.md` and `technical-impact-analysis.yaml`.
-2. Verify `technical_status` is `READY` or `REVIEW_REQUIRED`.
-3. Extract all `IMP-XXX` tasks with:
+1. If `technical-implementation-blueprint.yaml` exists, load it as the primary source of truth.
+   - Use `technical-story-enriched.md` and `technical-impact-analysis.yaml` only for additional context or when the blueprint is missing.
+2. If using the blueprint, verify `technical_status` is `READY` or `REVIEW_REQUIRED` from its metadata.
+3. If using story + impact analysis, load both and verify `technical_status`.
+4. Extract all `IMP-XXX` tasks with:
    - type, description, step-by-step implementation, dependencies, status;
-   - files affected;
+   - files affected with operation and change description;
    - DoR, DoD, acceptance criteria, test cases, error scenarios;
-   - recommended skill category.
-4. Build the dependency graph from `Dependencies` and `Unblock condition`.
+   - recommended skill category or mapped skill.
+5. Build the dependency graph from `Dependencies` and `Unblock condition`.
 
 ### Phase B — Map tasks to specialized skills
 
@@ -193,9 +204,10 @@ The skill template and internal logic may be defined in English, but **all respo
 1. Every `TODO` task has a mapped specialized skill and a self-contained prompt.
 2. Every `BLOCKED` task is recorded with its unblock condition.
 3. Task order respects dependencies.
-4. The orchestration plan references `technical-story-enriched.md` and `technical-impact-analysis.yaml`.
+4. The orchestration plan references the blueprint (or the story + impact analysis as fallback).
 5. No source code is written by this skill.
-6. The user response is in the user's language.
+6. No inference is needed: services, files and skill mappings come from the blueprint.
+7. The user response is in the user's language.
 
 ## Activation quick check
 

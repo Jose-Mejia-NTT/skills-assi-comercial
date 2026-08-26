@@ -66,7 +66,24 @@ Deterministic checks before declaring the technical story ready for refinement.
     - Vague answers are rejected and the question is repeated.
     - The skill must update the YAML and story after receiving all concrete answers in the same chat.
 
-11. **Developer review section**
+11. **Implementation blueprint**
+    - `technical-implementation-blueprint.yaml` is generated and contains:
+      - metadata linking to story, impact analysis and diagram;
+      - services with repositories;
+      - domains/entities;
+      - APIs, events and persistence with owner task IDs;
+      - tasks with file operations and change descriptions;
+      - migrations and configuration;
+      - open questions.
+    - The blueprint is complete enough that `bcv-implementation-orchestrator` does not need to infer.
+
+12. **Technical HU document**
+    - `technical-hu-document.md` is generated and follows `references/hu-document-guideline.md`.
+    - It includes the original HU sections (title, description, need, HUs, acceptance criteria, TO BE diagram, references).
+    - It appends the technical resolution (services, impact matrix, task plan, architecture diagram, risks, file impact, review sign-off).
+    - It references all upstream artifacts.
+
+13. **Developer review section**
     - The story includes the developer review & sign-off checklist.
     - The checklist covers HU coverage, executability, dependencies, BLOCKED tasks, error scenarios,
       technical decisions, file impact and missing configuration/documentation.

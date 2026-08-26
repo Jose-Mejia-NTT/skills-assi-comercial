@@ -92,13 +92,18 @@ Write artifacts to `docs/historial/` using the HU slug as prefix:
 - `docs/historial/<hu-slug>-technical-impact-analysis.yaml`
 - `docs/historial/<hu-slug>-technical-story-enriched.md`
 - `docs/historial/<hu-slug>-technical-architecture-diagram.mmd` (Mermaid source generated from the impact matrix)
+- `docs/historial/<hu-slug>-technical-implementation-blueprint.yaml` (machine-readable contract for the orchestrator)
+- `docs/historial/<hu-slug>-technical-hu-document.md` (final technical HU document aligned with `references/hu-document-guideline.md`)
 
 The `.md` must record the exact path and `technical_status` of the `.yaml` it consumed.
+The blueprint must be derived from the story and impact analysis; it must contain enough detail so that `bcv-implementation-orchestrator` does not need to infer services, files, domains or skill mappings.
+The technical HU document must follow the project HU guideline structure while including the technical resolution.
 
 Write each artifact automatically before responding.
-In `full` mode, write the YAML first, apply the gate barrier, then create the Markdown and the Mermaid diagram.
+In `full` mode, write the YAML first, apply the gate barrier, then create the Markdown, the Mermaid diagram, the blueprint and the technical HU document.
 In `impact-only` mode, write only the YAML.
-In `story-only` mode, write only the Markdown and the Mermaid diagram.
+In `story-only` mode, write only the Markdown, the Mermaid diagram and the blueprint.
+In `blueprint-only` mode, write only the blueprint from an existing story and impact analysis.
 
 ## Workflow
 
@@ -175,6 +180,38 @@ Completion checks: `references/evaluation-criteria.md`.
     - Present open questions **numbered in the chat response** so the user can answer them in the same conversation.
     - Only mark the story as `READY` when there are no blocking open questions.
 
+### Phase C — Implementation blueprint generation
+
+Reference template: `assets/technical-implementation-blueprint.template.yaml`.
+
+Run this phase after the story and impact analysis are stable.
+
+1. Read `technical-impact-analysis.yaml` and `technical-story-enriched.md`.
+2. Extract the structured contract:
+   - primary and supporting services with repository names;
+   - domains and entities affected;
+   - APIs, events and persistence with owner task IDs;
+   - tasks with file-level operations and change descriptions;
+   - migrations and configuration;
+   - diagram source reference;
+   - open questions.
+3. Write `docs/historial/<hu-slug>-technical-implementation-blueprint.yaml`.
+4. The blueprint is the sole input expected by `bcv-implementation-orchestrator`; the orchestrator should not infer anything from the story or impact analysis.
+
+### Phase D — Technical HU document generation
+
+Reference template: `assets/technical-hu-document.template.md`.
+Reference guideline: `references/hu-document-guideline.md`.
+
+Run this phase after the story, diagram and blueprint are stable.
+
+1. Read `business-resolution.yaml` (or the original HU input), `technical-story-enriched.md`, `technical-impact-analysis.yaml`, `technical-architecture-diagram.mmd` and `technical-implementation-blueprint.yaml`.
+2. Produce `docs/historial/<hu-slug>-technical-hu-document.md` that:
+   - follows the structure of `references/hu-document-guideline.md` (title, description, need, HUs, acceptance criteria, TO BE diagram, references);
+   - appends the technical resolution sections (impacted services, impact matrix, task plan, architecture diagram, risks, file impact, review sign-off);
+   - uses the same `technical_status` and references all upstream artifacts.
+3. This document is the human-readable final deliverable of Step 2.
+
 ## Conversational clarification flow
 
 If the emitted story contains blocking open questions, ask them **one at a time** in the same chat.
@@ -226,6 +263,18 @@ Assistant: Gracias. Pregunta 2 de 4 — ¿Qué endpoint o BFF utiliza BCW para r
            Responde con una decisión concreta, por ejemplo:
            "BCW utilizará el BFF bcv-bacc-onboarding-bff con POST /business-accounts, PUT /business-accounts/{id} y GET /business-accounts/{id}."
 ```
+
+11. Generate the `technical-implementation-blueprint.yaml` from the completed story and impact analysis.
+    Reference template: `assets/technical-implementation-blueprint.template.yaml`.
+    The blueprint must include:
+    - metadata linking to story, impact analysis and diagram;
+    - primary and supporting services with repository names;
+    - domains and entities affected;
+    - APIs, events and persistence with owner task IDs;
+    - tasks with file-level operations (`create | modify | delete`) and change descriptions;
+    - migrations and configuration changes;
+    - Mermaid diagram source reference;
+    - open questions with blocking flags.
 
 Minimum sections: functional context summary, impacted-services decision, technical impact matrix,
 numbered technical task plan, risks and assumptions, validation checklist, implementation architecture diagram,
