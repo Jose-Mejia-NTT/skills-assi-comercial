@@ -172,8 +172,23 @@ Completion checks: `references/evaluation-criteria.md`.
     - List any remaining indication, suspicion or missing clarification as `open_questions`.
     - If an open question is blocking, create or update `IMP-000` and set `technical_status` to `REVIEW_REQUIRED` or `BLOCKED`.
     - If an open question is non-blocking, document it in `verification_notes` with a fallback assumption.
-    - Before delivering the story, ask the user to confirm or clarify the open questions.
+    - Present open questions **numbered in the chat response** so the user can answer them in the same conversation.
     - Only mark the story as `READY` when there are no blocking open questions.
+
+## Conversational clarification flow
+
+If the emitted story contains blocking open questions, the user may answer them in the same chat.
+
+1. When the user replies with answers, switch to `execution_mode: clarification`.
+2. Read the existing `technical-impact-analysis.yaml` and `technical-story-enriched.md`.
+3. Apply the user's answers:
+   - Update `inherited_ambiguities` or `verification_notes`.
+   - Resolve or close `IMP-000` if the answer removes the blocker.
+   - Update `technical_status` to `READY` if all blockers are resolved.
+4. Rewrite the updated YAML and story to disk.
+5. If new questions appear, repeat the clarification round.
+
+The user does not need to paste the previous artifact; the assistant must read it from the workspace path.
 
 Minimum sections: functional context summary, impacted-services decision, technical impact matrix,
 numbered technical task plan, risks and assumptions, validation checklist, implementation architecture diagram,

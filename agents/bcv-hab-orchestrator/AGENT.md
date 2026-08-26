@@ -83,12 +83,21 @@ This is the source of truth for where the pipeline stands.
 3. Ask the user to paste/run that composite prompt.
 4. After the composite run, read all artifacts and validate final gates.
 
+### Mode C — Clarification round
+
+1. If Gate 1 fails because the story has blocking `open_questions` or unresolved `IMP-000`, stop the pipeline.
+2. Present the open questions **numbered in the chat**.
+3. Wait for the user to answer in the same chat.
+4. Tell the user to run `bcv-technical-impact-and-story` in `clarification` mode with the answers.
+5. After the clarification run, re-read the artifacts and re-validate Gate 1.
+6. Repeat until Gate 1 passes or the user accepts the fallback assumptions.
+
 ### 1. Initialize
 
 1. Derive `<hu-slug>` from the HU/HAB or ask the user.
 2. Load `docs/historial/<hu-slug>-pipeline-state.yaml` if it exists.
 3. Check for existing artifacts.
-4. Choose Mode A or Mode B.
+4. Choose Mode A, Mode B or Mode C.
 
 ## Composite prompt template
 
@@ -105,7 +114,7 @@ Ejecuta el pipeline completo para la HU con slug <hu-slug>:
 2. Ejecuta el skill bcv-technical-impact-and-story con el business-resolution.yaml.
    - Artefactos esperados: docs/historial/<hu-slug>-technical-impact-analysis.yaml y docs/historial/<hu-slug>-technical-story-enriched.md
    - Gate 1: technical_status no debe ser BLOCKED; si es REVIEW_REQUIRED, IMP-000 debe existir con opciones de resolución.
-   - Si Gate 1 falla, detente y reporta los bloqueos.
+   - Si Gate 1 falla por open questions bloqueantes, detente, presenta las preguntas numeradas en el chat y espera respuestas para ejecutar el skill en modo clarification.
 
 3. Ejecuta el skill bcv-implementation-orchestrator con el story y el impact analysis.
    - Artefactos esperados: docs/historial/<hu-slug>-implementation-orchestration-plan.md y docs/historial/<hu-slug>-implementation-prompts/
@@ -162,6 +171,12 @@ If Gate 1 fails (`BLOCKED`):
 - Stop.
 - Explain that `IMP-000` or missing technical evidence must be resolved first.
 - Update `pipeline-state.yaml`: `status: blocked`, `blockers: [...]`.
+
+If Gate 1 has blocking `open_questions` or unresolved `IMP-000`:
+- Switch to **Mode C — Clarification round**.
+- Present questions numbered in the chat.
+- Wait for answers and re-run `bcv-technical-impact-and-story` in clarification mode.
+- Re-validate Gate 1.
 
 If Gate 1 passes:
 - Update `pipeline-state.yaml`: `current_phase: implementation-orchestrator`, `status: in_progress`.
@@ -236,7 +251,8 @@ Stack: java-spring-boot
 - Prefer the fastest path:
   1. If all artifacts exist, validate everything and produce the final summary.
   2. If artifacts are missing, generate one composite prompt for the whole pipeline.
-  3. Only split into step-by-step interaction when a gate fails.
+  3. If Gate 1 reveals blocking open questions, start a clarification round in the same chat.
+  4. Only stop permanently when a gate fails and no clarification can unblock it.
 - Read artifacts directly from the workspace paths; do not ask the user to paste YAML or Markdown.
 - If all gates pass, do not ask for confirmation; deliver the final result.
 - If a gate fails, stop and do not proceed to the next step.

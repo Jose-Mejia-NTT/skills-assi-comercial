@@ -26,6 +26,8 @@ phases:
       name: "gate_1_technical_ready"
       status: "pending"
       blockers: []
+    clarification_rounds: 0
+    open_questions_pending: []
 
   implementation_orchestration:
     skill: "bcv-implementation-orchestrator"

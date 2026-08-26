@@ -485,6 +485,17 @@ graph LR
 **User confirmation:** _________________  
 **Date:** _________________
 
+### Chat response example
+
+```text
+Generé el análisis técnico con estado REVIEW_REQUIRED porque faltan 2 aclaraciones:
+
+1. ¿El canal preferido se lee de customer-preferences-service o se replica en notification-service?
+2. ¿El escalamiento al área de fraude es un evento o una bandeja/ticket?
+
+Por favor responde en este chat. Con tus respuestas actualizaré technical-impact-analysis.yaml y technical-story-enriched.md.
+```
+
 ## Example 2: Story-only mode
 
 ### Input

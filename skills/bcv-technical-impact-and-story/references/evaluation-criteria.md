@@ -61,7 +61,8 @@ Deterministic checks before declaring the technical story ready for refinement.
     - Any remaining indication, suspicion or missing clarification is listed in the `Open Questions / Clarifications Needed` section.
     - Blocking questions are reflected in `IMP-000` or `technical_status`.
     - Non-blocking questions have a documented fallback assumption.
-    - The user is asked to confirm or clarify open questions before the story is considered final.
+    - Open questions are presented **numbered in the chat response** so the user can answer in the same conversation.
+    - The skill must update the YAML and story after receiving answers in the same chat.
 
 11. **Developer review section**
     - The story includes the developer review & sign-off checklist.

@@ -242,6 +242,8 @@ Use this section for a developer to validate the plan before execution.
 List any remaining indication, suspicion or missing clarification discovered while building this story.
 If a question is blocking, it must be reflected in `IMP-000` or in `technical-impact-analysis.yaml`.
 
+These questions are also asked **numbered in the chat response** so the user can answer them in the same conversation. Once answered, the assistant updates this story and the impact analysis.
+
 | # | Question | Blocking | Proposed fallback if not clarified |
 |---|----------|----------|------------------------------------|
 | 1 |          | yes/no   |                                    |
