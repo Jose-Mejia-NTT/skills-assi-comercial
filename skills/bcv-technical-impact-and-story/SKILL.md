@@ -202,14 +202,24 @@ Run this phase after the story and impact analysis are stable.
 
 Reference template: `assets/technical-hu-document.template.md`.
 Reference guideline: `references/hu-document-guideline.md`.
+Example document: `references/hu-document-example.md` (real project DHU).
 
 Run this phase after the story, diagram and blueprint are stable.
 
 1. Read `business-resolution.yaml` (or the original HU input), `technical-story-enriched.md`, `technical-impact-analysis.yaml`, `technical-architecture-diagram.mmd` and `technical-implementation-blueprint.yaml`.
-2. Produce `docs/historial/<hu-slug>-technical-hu-document.md` that:
-   - follows the structure of `references/hu-document-guideline.md` (title, description, need, HUs, acceptance criteria, TO BE diagram, references);
-   - appends the technical resolution sections (impacted services, impact matrix, task plan, architecture diagram, risks, file impact, review sign-off);
-   - uses the same `technical_status` and references all upstream artifacts.
+2. Produce `docs/historial/<hu-slug>-technical-hu-document.md` that follows the real project DHU structure:
+   - title with prefix `HU | DHU | Doc. Funcional`;
+   - description, need and narrative (`Yo como / Quiero / Para que`);
+   - TO BE flow diagram;
+   - business rules table;
+   - input/output contracts with examples;
+   - acceptance criteria in Given/When/Then format;
+   - endpoints table;
+   - dependencies table;
+   - out-of-scope list;
+   - estimation table;
+   - version control table;
+   - technical appendix with impacted services, files and tasks.
 3. This document is the human-readable final deliverable of Step 2.
 
 ## Conversational clarification flow

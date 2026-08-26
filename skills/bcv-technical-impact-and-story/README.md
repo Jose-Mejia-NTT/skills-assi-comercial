@@ -61,6 +61,7 @@ Use this skill when the user asks to:
 | `assets/technical-implementation-blueprint.template.yaml` | Machine-readable contract for the orchestrator. |
 | `assets/technical-hu-document.template.md`       | Final technical HU document aligned with the project guideline. |
 | `references/hu-document-guideline.md`            | Project standard for HU documents.                 |
+| `references/hu-document-example.md`              | Real project DHU example.                          |
 | `references/evidence-and-gates.md`               | Evidence grading and gate criteria.                |
 | `references/graphify-query-discipline.md`        | Query budgets and escalation order (Phase A only). |
 | `references/ambiguity-and-conflict-handling.md`  | How to handle inherited ambiguities and technical conflicts. |

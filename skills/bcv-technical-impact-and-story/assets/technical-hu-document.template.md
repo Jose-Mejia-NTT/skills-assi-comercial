@@ -1,130 +1,130 @@
-# [HU | DHU | Doc. Funcional] Técnico — [Nombre de la funcionalidad]
+# [HU | DHU | Doc. Funcional] — [Nombre de la funcionalidad]
 
-> **Versión:** 1.0.0  
-> **Fecha:** DD/MM/YYYY  
-> **Estado:** EN ELABORACIÓN | EN REVISIÓN | APROBADO | FINALIZADO | OBSOLETO  
-> **HU Slug:** `<hu-slug>`  
-> **Technical status:** READY | REVIEW_REQUIRED | BLOCKED  
-> **Source impact analysis:** `docs/historial/<hu-slug>-technical-impact-analysis.yaml`
+## Descripción breve
 
----
+[2-5 líneas de contexto. Explicar qué se va a construir o modificar y por qué.]
 
-## 1. Alcance
+## ¿Cuál es la necesidad?
 
-[Delimitación del alcance funcional y técnico de la iniciativa.]
+[Problema o vacío puntual que esta iniciativa resuelve. Contexto de negocio y usuario.]
 
-## 2. Descripción breve
+## Narrativa (HU)
 
-[2-5 líneas de contexto sin tecnicismos excesivos.]
+**Yo como** [rol del actor]  
+**Quiero** [acción o capacidad deseada]  
+**Para que** [beneficio o valor que obtiene]
 
-## 3. ¿Cuál es la necesidad?
-
-[Problema o vacío puntual que esta iniciativa resuelve, desde la perspectiva de negocio.]
-
-## 4. Historias de Usuario
-
-### HU 01 — [Título de la HU]
-
-Yo como [rol del actor]  
-Quiero [acción o capacidad deseada]  
-Para [beneficio o valor que obtiene]
-
-## 5. Criterios de Aceptación
-
-**CA 01** — [Descripción de un comportamiento verificable, observable y medible]
-
-**CA 02** — [Descripción de un comportamiento verificable, observable y medible]
-
-**CA 03** — [Descripción de un comportamiento verificable, observable y medible]
-
-## 6. Diagrama de flujo TO BE
-
-[Imagen, enlace o diagrama Mermaid del flujo funcional.]
-
-## 7. Referencias
-
-- Resolución funcional: `docs/historial/<hu-slug>-business-resolution.yaml`
-- Matriz de impacto técnico: `docs/historial/<hu-slug>-technical-impact-analysis.yaml`
-- Historia técnica enriquecida: `docs/historial/<hu-slug>-technical-story-enriched.md`
-- Blueprint de implementación: `docs/historial/<hu-slug>-technical-implementation-blueprint.yaml`
-- Figma: [link]
-- Example Mapping: [link]
-- Arquitectura: [link]
-
----
-
-## 8. Resumen técnico
-
-### 8.1 Servicios impactados
-
-- **Primary service:**
-- **Supporting services:**
-- **Decision rationale:**
-
-### 8.2 Matriz de impacto técnico
-
-#### APIs
-
-- Confirmed:
-- Candidate:
-
-#### Persistencia
-
-- Confirmed:
-- Candidate:
-
-#### Eventos e integraciones
-
-- Confirmed:
-- Candidate:
-
-## 9. Plan de tareas técnicas
-
-[Resumen de tareas IMP-XXX con estado, dependencias y skill asignado.]
-
-## 10. Diagrama de arquitectura de implementación
+## Diagrama de flujo TO BE
 
 ```mermaid
-graph LR
-    subgraph "Domain / Repository A"
-        SVC_A[service-a]
-    end
-    subgraph "Domain / Repository B"
-        SVC_B[service-b]
-        DB_B[(persistence)]
-    end
-    SVC_A -->|action: event or API| SVC_B
-    SVC_B --> DB_B
+sequenceDiagram
+    participant App as [Actor / Sistema origen]
+    participant SVC as [Servicio / BFF]
+    participant DOWN as [Servicio downstream]
+
+    App->>SVC: [Método] [Endpoint]
+    SVC->>DOWN: [Método] [Endpoint / Operación]
+    DOWN-->>SVC: [Respuesta]
+    SVC-->>App: [Respuesta final]
 ```
 
-## 11. Riesgos y supuestos
+## Reglas de Negocio
 
-- ASSUMED:
-- RISK:
+| # | Regla | Descripción |
+|---|-------|-------------|
+| RN-01 | [Nombre regla] | [Descripción concreta, validaciones, códigos de error] |
 
-## 12. Glosario de términos técnicos
+## Contratos de entrada y salida
 
-| Término | Definición |
-|---------|-----------|
-| [Término] | [Definición] |
+### [MÉTODO] [Endpoint]
 
-## 13. Control de Versiones
+| Campo | Ubicación | Tipo | Obligatorio | Validación |
+|-------|-----------|------|-------------|------------|
+| ...   | ...       | ...  | ...         | ...        |
+
+**Respuesta exitosa (HTTP [código]):**
+
+```json
+{
+  "...": "..."
+}
+```
+
+**Respuesta de error (HTTP [código]):**
+
+```json
+{
+  "error": "ERROR_CODE",
+  "message": "..."
+}
+```
+
+## Criterios de Aceptación
+
+### CA 01 — [Título del criterio]
+
+Dado [precondición], cuando [acción], entonces [resultado esperado verificable].
+
+### CA 02 — [Título del criterio]
+
+...
+
+## Endpoints nuevos / modificados
+
+| Método | Endpoint | Descripción |
+|--------|----------|-------------|
+| GET    | /api/v1/... | ... |
+
+## Dependencias
+
+| Servicio | Tipo | Descripción |
+|----------|------|-------------|
+| ...      | ...  | ... |
+
+## Fuera del Alcance
+
+- [Ítem 1]
+- [Ítem 2]
+
+## Estimación
+
+| Campo | Valor |
+|-------|-------|
+| Story Points | [n] |
+| Sprint | [Sprint YYYY-NN] |
+
+## Control de Versiones
 
 | Versión | Descripción | Fecha | Responsable | Estado |
 |---------|-------------|-------|-------------|--------|
-| 1.0 | Versión inicial | DD/MM/YYYY | [Nombre] | EN ELABORACIÓN |
+| 1.0 | [Descripción inicial] | DD/MM/YYYY | [Nombre] | EN ELABORACIÓN |
 
-## 14. Revisión y aprobación técnica
+---
 
-- [ ] El plan cubre todos los criterios de aceptación de la HU.
-- [ ] Cada tarea es entendible y ejecutable sin inventar requisitos.
-- [ ] Las dependencias y estados BLOCKED son correctos.
-- [ ] Cada tarea BLOCKED tiene una condición de desbloqueo clara.
-- [ ] Se cubren escenarios de error y casos límite.
-- [ ] Las decisiones técnicas son razonables y están documentadas.
-- [ ] Los archivos del repositorio a crear/modificar/eliminar están identificados.
-- [ ] No falta configuración, migración o documentación.
+## Anexo técnico (generado por el pipeline)
 
-**Reviewer:** _________________  
-**Date:** _________________  
-**Approved:** [ ] Sí  [ ] No — comentarios:
+> Este anexo es información técnica derivada del análisis de impacto. Los artefactos completos se encuentran en:
+> - `docs/historial/<hu-slug>-technical-impact-analysis.yaml`
+> - `docs/historial/<hu-slug>-technical-story-enriched.md`
+> - `docs/historial/<hu-slug>-technical-implementation-blueprint.yaml`
+
+### Servicios impactados
+
+- **Primary service:**
+- **Supporting services:**
+
+### Archivos afectados
+
+- `path/to/file` (create | modify | delete) — descripción del cambio
+
+### Tareas técnicas (IMP-XXX)
+
+| Tarea | Tipo | Servicio | Skill | Estado |
+|-------|------|----------|-------|--------|
+| IMP-001 | ... | ... | ... | TODO |
+
+### Preguntas abiertas
+
+| # | Pregunta | Bloqueante | Fallback |
+|---|----------|------------|----------|
+| 1 | ... | Sí/No | ... |

@@ -78,9 +78,9 @@ Deterministic checks before declaring the technical story ready for refinement.
     - The blueprint is complete enough that `bcv-implementation-orchestrator` does not need to infer.
 
 12. **Technical HU document**
-    - `technical-hu-document.md` is generated and follows `references/hu-document-guideline.md`.
-    - It includes the original HU sections (title, description, need, HUs, acceptance criteria, TO BE diagram, references).
-    - It appends the technical resolution (services, impact matrix, task plan, architecture diagram, risks, file impact, review sign-off).
+    - `technical-hu-document.md` is generated and follows the structure of `references/hu-document-example.md`.
+    - It includes: title, description, need, narrative, TO BE diagram, business rules, input/output contracts, acceptance criteria, endpoints, dependencies, out-of-scope, estimation and version control.
+    - It appends a technical appendix with impacted services, files and tasks.
     - It references all upstream artifacts.
 
 13. **Developer review section**

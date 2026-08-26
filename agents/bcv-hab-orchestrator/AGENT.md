@@ -175,7 +175,7 @@ gate_1_technical_ready:
     - every BLOCKED task has an unblock condition
     - tasks trace to HU criteria and impact items
     - technical-implementation-blueprint.yaml exists and contains services, files and skill mappings
-    - technical-hu-document.md exists and follows the project HU guideline structure
+    - technical-hu-document.md exists and follows the real project DHU structure (description, need, narrative, rules, contracts, acceptance criteria, endpoints, dependencies, out-of-scope, estimation, version control)
 ```
 
 If Gate 1 fails (`BLOCKED`):
