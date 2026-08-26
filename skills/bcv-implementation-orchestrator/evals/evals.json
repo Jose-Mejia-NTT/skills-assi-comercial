@@ -1,0 +1,86 @@
+{
+  "skill_name": "bcv-implementation-orchestrator",
+  "evals": [
+    {
+      "id": 1,
+      "name": "alerta-sospechosa-con-skills",
+      "prompt": "Implementa esta HU a partir del technical-story-enriched.md que ya generamos. El archivo está en docs/historial/alerta-sospechosa-notificacion-technical-story-enriched.md y el impact analysis en docs/historial/alerta-sospechosa-notificacion-technical-impact-analysis.yaml. Tengo disponibles los skills bcv-java-spring-boot, bcv-openapi-design, bcv-azure-service-bus y bcv-spring-data-jpa-sql-server.",
+      "expected_output": "Un plan de orquestación con prompts listos para cada tarea ejecutable, mapeando contract a bcv-openapi-design, domain a bcv-java-spring-boot, persistence a bcv-spring-data-jpa-sql-server y messaging a bcv-azure-service-bus. IMP-000 debe mapear a un skill de análisis y las tareas BLOCKED no deben tener prompts de implementación.",
+      "files": [
+        "docs/historial/alerta-sospechosa-notificacion-technical-story-enriched.md",
+        "docs/historial/alerta-sospechosa-notificacion-technical-impact-analysis.yaml"
+      ],
+      "assertions": [
+        "IMP-000 discovery task maps to a HU/impact-analysis skill, not a backend implementation skill",
+        "BLOCKED tasks do not have generated implementation prompts",
+        "Tasks without a matching available skill are marked MANUAL",
+        "Each executable task has a self-contained prompt file referencing the source story and impact analysis",
+        "The orchestration plan respects task dependencies and execution order"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "sin-lista-de-skills",
+      "prompt": "Necesito pasar el technical-story-enriched.md a código. El story está aprobado y todos los tasks están en TODO. No tengo una lista de skills disponibles.",
+      "expected_output": "El skill genera un plan de orquestación usando categorías de skill genéricas (backend-dev, contract-design, etc.) porque no hay skills disponibles. No inventa nombres de skills concretos.",
+      "files": [
+        "docs/historial/<hu-slug>-technical-story-enriched.md",
+        "docs/historial/<hu-slug>-technical-impact-analysis.yaml"
+      ],
+      "assertions": [
+        "The plan uses generic skill categories instead of concrete skill names",
+        "No skill name is invented that the user did not provide",
+        "Each task still has a recommended skill category",
+        "The plan is still actionable with placeholders for the user to map"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "tareas-bloqueadas-por-ambiguedad",
+      "prompt": "Orquesta la implementación de la HU de cambio de plantilla de cancelación de cuenta. El technical-story-enriched.md tiene tareas BLOCKED porque falta confirmar el owner del proceso de cancelación.",
+      "expected_output": "El plan identifica las tareas BLOCKED, no genera prompts para ellas, registra las condiciones de desbloqueo y documenta el impacto en las tareas dependientes.",
+      "files": [
+        "docs/historial/cancelacion-cuenta-technical-story-enriched.md",
+        "docs/historial/cancelacion-cuenta-technical-impact-analysis.yaml"
+      ],
+      "assertions": [
+        "BLOCKED tasks are clearly identified with unblock conditions",
+        "No implementation prompts are generated for BLOCKED tasks",
+        "Dependent tasks are also marked as blocked or note the dependency",
+        "The plan explains the business impact of unresolved ambiguities"
+      ]
+    },
+    {
+      "id": 4,
+      "name": "stack-no-java-fallback",
+      "prompt": "Implementa esta HU pero el stack es Node.js/NestJS, no Java. Tengo los skills bcv-openapi-design y bcv-azure-service-bus, pero no tengo un skill de Node específico.",
+      "expected_output": "El skill reconoce que no hay un skill especializado para Node.js, mapea contract y messaging a los skills disponibles, y marca las tareas de backend como MANUAL o con categoría genérica.",
+      "files": [
+        "docs/historial/<hu-slug>-technical-story-enriched.md",
+        "docs/historial/<hu-slug>-technical-impact-analysis.yaml"
+      ],
+      "assertions": [
+        "Available skills are mapped correctly (contract-design -> bcv-openapi-design, messaging -> bcv-azure-service-bus)",
+        "Backend tasks without a matching Node skill are marked MANUAL or use a generic category",
+        "The plan does not force a Java skill onto a Node.js stack"
+      ]
+    },
+    {
+      "id": 5,
+      "name": "hu-cambio-plantilla-cancelacion",
+      "prompt": "Orquesta la implementación del cambio de plantilla de cancelación de cuenta. El story está en docs/historial/cancelacion-cuenta-technical-story-enriched.md. Todos los tasks están en TODO. Mis skills disponibles son bcv-java-spring-boot, bcv-openapi-design, bcv-spring-data-jpa-sql-server y bcv-commons-observability.",
+      "expected_output": "El plan mapea correctamente las tareas de cambio de plantilla de correo: contract a bcv-openapi-design, domain a bcv-java-spring-boot, persistence a bcv-spring-data-jpa-sql-server y observability a bcv-commons-observability.",
+      "files": [
+        "docs/historial/cancelacion-cuenta-technical-story-enriched.md",
+        "docs/historial/cancelacion-cuenta-technical-impact-analysis.yaml"
+      ],
+      "assertions": [
+        "Contract tasks map to bcv-openapi-design",
+        "Domain/backend tasks map to bcv-java-spring-boot",
+        "Persistence tasks map to bcv-spring-data-jpa-sql-server",
+        "Observability tasks map to bcv-commons-observability",
+        "All executable TODO tasks have self-contained prompts"
+      ]
+    }
+  ]
+}
