@@ -45,7 +45,8 @@ Deterministic checks before declaring the technical story ready for refinement.
    - The diagram does not introduce elements absent from the impact analysis.
 
 8. **Detailed action plan quality**
-   - Every task in the technical task plan has DoR, DoD and technical acceptance criteria.
+   - Every task in the technical task plan has step-by-step implementation, DoR, DoD and technical acceptance criteria.
+   - Steps are high-level actions, not code snippets.
    - Test cases, error scenarios, external dependencies, deployment considerations and files affected are documented.
    - Security and compliance notes are included when PII, audit or sensitive data is involved.
    - The plan does not include estimates, assignments or code snippets.

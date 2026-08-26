@@ -60,6 +60,12 @@ unblock condition.
 - **Type:** discovery
 - **Recommended skill category:** `hu-analysis` (map to the user's HU/impact-analysis skill)
 - **Description:** Investigar y resolver las ambigüedades del `business-resolution.yaml` y los conflictos técnicos detectados en el impact analysis antes de ejecutar tareas dependientes.
+- **Step-by-step implementation:**
+  1. List inherited ambiguities from `business-resolution.yaml`.
+  2. Identify conflicts discovered during Phase A.
+  3. Determine required clarifications and owners.
+  4. Document unblock conditions for dependent tasks.
+  5. Update `technical-impact-analysis.yaml` with confirmed evidence.
 - **Inherited ambiguities / conflicts:**
   - [Descripción] → [Acción requerida] → [Owner sugerido]
 - **Clarification questions:**
@@ -169,6 +175,10 @@ Do not include estimates, assignments or code snippets.
 ### IMP-001: <Task title>
 
 - **Recommended skill category:** see `references/skill-mapping.md` (map to user's available skill)
+- **Step-by-step implementation:**
+  1. First concrete step.
+  2. Second concrete step.
+  3. Third concrete step.
 - **Definition of Ready (DoR):**
 - **Definition of Done (DoD):**
 - **Technical acceptance criteria:**

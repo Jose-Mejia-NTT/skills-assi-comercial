@@ -217,6 +217,12 @@ technical_status: REVIEW_REQUIRED
 - **Type:** discovery
 - **Recommended skill category:** `hu-analysis` (mapear al skill de análisis de HU/impacto disponible)
 - **Description:** Investigar y resolver las ambigüedades del business resolution y los conflictos técnicos detectados antes de ejecutar tareas dependientes.
+- **Step-by-step implementation:**
+  1. Revisar `business-resolution.yaml` y extraer ambigüedades (`ownership-channel-preference`, `escalation-mechanism`).
+  2. Consultar `service-map.md` y `graph-index.md` para validar ownership del canal preferido.
+  3. Coordinar con arquitectura de canales y área de fraude para definir mecanismo de escalamiento.
+  4. Documentar decisiones y actualizar `technical-impact-analysis.yaml`.
+  5. Desbloquear tareas IMP-002, IMP-004, IMP-005 e IMP-006.
 - **Inherited ambiguities / conflicts:**
   - `ownership-channel-preference`: ¿notification-service o customer-preferences-service es data_owner del canal preferido? → Validar con service-map y dueños de datos → Owner: arquitectura de datos.
   - `escalation-mechanism`: ¿El escalamiento es un evento, ticket o bandeja? → Definir contrato con área de fraude → Owner: arquitectura / fraude.
@@ -240,6 +246,12 @@ technical_status: REVIEW_REQUIRED
 - **Type:** contract
 - **Recommended skill category:** `contract-design` (mapear al skill de diseño de contratos/APIs disponible)
 - **Description:** Definir el schema, claves y semántica del evento que notifica una transacción marcada como sospechosa.
+- **Step-by-step implementation:**
+  1. Reunirse con los equipos de fraud-service y notification-service para alinear el contrato.
+  2. Definir campos obligatorios: transaction_id, timestamp, risk_level.
+  3. Versionar el schema en el schema registry o documento de contratos.
+  4. Validar el contrato con payload mínimo y completo.
+  5. Actualizar documentación de integración.
 - **HU traceability:** Criterio 1 — recibir evento de alerta del motor de riesgo.
 - **Impact traceability:** impacted_events.confirmed.transaction.suspicious.alert.v1
 - **Dependencies:** Ninguna
@@ -252,6 +264,12 @@ technical_status: REVIEW_REQUIRED
 - **Type:** domain
 - **Recommended skill category:** `backend-dev` (mapear al skill de implementación backend disponible)
 - **Description:** Crear o extender el handler que recibe el evento y envía la notificación por el canal preferido del cliente.
+- **Step-by-step implementation:**
+  1. Extender `SuspiciousAlertHandler` para consumir `transaction.suspicious.alert.v1`.
+  2. Crear `SendNotificationUseCase` para orquestar el envío.
+  3. Integrar lectura del canal preferido desde el servicio confirmado en IMP-000.
+  4. Invocar `/notifications/send` con parámetros nombre, cuenta, CCI y moneda.
+  5. Agregar logs y métricas de éxito/fracaso.
 - **HU traceability:** Criterio 2 — enviar notificación por canal preferido.
 - **Impact traceability:** impacted_apis.confirmed.bcv-bacc-notification-service /notifications/send
 - **Dependencies:** IMP-000, IMP-001

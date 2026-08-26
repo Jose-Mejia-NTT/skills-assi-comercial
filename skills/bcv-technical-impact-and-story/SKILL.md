@@ -153,9 +153,10 @@ Completion checks: `references/evaluation-criteria.md`.
    Do not include estimates, assignments or code snippets.
 4. Render the implementation architecture as a Mermaid diagram showing repositories/domains,
    microservices, APIs, events and persistence. Mark candidate items explicitly.
-5. Build the detailed action plan: for each task define DoR, DoD, technical acceptance criteria,
-   test cases, error scenarios, external dependencies, deployment considerations, files affected and
-   security/compliance notes. Do not include estimates, assignments or code snippets.
+5. Build the detailed action plan: for each task define step-by-step implementation, DoR, DoD,
+   technical acceptance criteria, test cases, error scenarios, external dependencies,
+   deployment considerations, files affected and security/compliance notes.
+   Steps must be high-level actions, not code snippets. Do not include estimates or assignments.
 6. Render the repository file impact: files to create, modify or delete, domains/entities affected,
    migrations and configuration changes.
 7. Register assumptions (`ASSUMED`) and risks (`RISK`).
