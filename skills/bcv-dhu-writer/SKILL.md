@@ -29,22 +29,37 @@ This skill is the second half of the HU → DHU pipeline:
 
 ## Output format
 
-The DHU output **follows the exact format defined by `ibk-hu-technical-refinement`** by default.
-See [references/output-template.md](references/output-template.md) for the complete base template.
+The DHU output **includes the full extended template by default**.
 
-### Extended template (optional)
+This means every generated DHU contains:
 
-For HUs that require actionable implementation guidance — such as task plans, exact file paths, validation checklists, impact matrix, DoR/DoD — use the extended template:
+- The base `ibk-hu-technical-refinement` sections.
+- **Plan de implementación de tareas**.
+- **Definición de archivos afectados**.
+- **Checklist de validación**.
+- **Technical Impact Matrix**.
+- **Definition of Ready (DoR)**.
+- **Definition of Done (DoD)**.
+- **Checklist final pre-merge**.
+- **Dudas pendientes — Respuestas sugeridas**.
 
-- [references/output-template-extended.md](references/output-template-extended.md)
+See [references/output-template-extended.md](references/output-template-extended.md) for the complete default template.
 
-When using the extended template:
+### Base template (optional)
+
+For lightweight refinements that do not require implementation planning, use the base template:
+
+```text
+/hu-write .context/hu-<code>.md --base
+```
+
+See [references/output-template.md](references/output-template.md) for the base template.
+
+### Handling gaps in the extended template
 
 - Fill all sections that are not blocked by gaps.
 - Mark blocked sections explicitly as `PENDIENTE` or `BLOQUEADO` with the gap reference.
 - Do not omit blocked sections; keep them visible with the blocker note.
-
-The skill selects the base or extended template based on user request or context needs. Default is base.
 
 ## Input
 
@@ -85,6 +100,40 @@ See [references/workflow.md](references/workflow.md).
 
 - [references/output-template.md](references/output-template.md) — base template aligned with `ibk-hu-technical-refinement`.
 - [references/output-template-extended.md](references/output-template-extended.md) — extended template with implementation plan, impact matrix, DoR/DoD.
+
+## Doubt resolution block
+
+At the end of every generated DHU, append a `Dudas Pendientes` block. This block:
+
+- Lists all gaps from the input context.
+- Provides a **suggested answer** for each gap when possible.
+- Asks the user to respond with the gap ID and chosen option.
+- Explains that the DHU will be regenerated once gaps are resolved.
+
+Example:
+
+```text
+─────────────────────────────────────────────
+DUDAS PENDIENTES — RESPUESTAS SUGERIDAS
+─────────────────────────────────────────────
+
+1. [GAP-01] Origen del catálogo de oficinas registrales
+   ├─ Opción A (sugerida): Tabla local en PLM.
+   ├─ Opción B: Servicio maestro de catálogos.
+   └─ Opción C: Config Server.
+
+2. [GAP-02] Ubicación del campo
+   ├─ Opción A (sugerida): BusinessAccountRecord.
+   └─ Opción B: LegalEntityRecord.
+
+Responde con el número y opción, ej: "1-A, 2-A"
+```
+
+If all gaps are resolved in the context, the block should state:
+
+```text
+✅ No hay dudas pendientes. Esta DHU está lista para refinamiento final.
+```
 
 ## References
 

@@ -80,9 +80,22 @@ The output file `.context/hu-<code>.md` must follow this structure.
 
 ## 10. Gaps
 
-| ID | Topic | Reason | Impact | Blocking |
-| --- | --- | --- | --- | --- |
-| G1 | ... | ... | ... | Yes / No |
+| ID | Type | Blocking | Description | Suggested answer | Affected DHU section |
+| --- | --- | --- | --- | --- | --- |
+| GAP-01 | business | yes | Catalog source not defined. | Local table `registry_office` in PLM. | Endpoint, persistence |
+| GAP-02 | technical | yes | Field location unclear. | `BusinessAccountRecord.registryOffice`. | Request schema, entity |
+| GAP-03 | implementation | no | Exact JSON key name. | `registryOffice` in English. | DTO, contract |
+
+### Gap types
+
+- `business` — requires product/business clarification.
+- `technical` — requires architecture or service owner clarification.
+- `implementation` — can be decided by the development team.
+
+### Blocking
+
+- `yes` — prevents completing the DHU; must be resolved before implementation.
+- `no` — can be decided later or assumed with a default.
 
 ## 11. Assumptions
 

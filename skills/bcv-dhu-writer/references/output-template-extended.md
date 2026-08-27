@@ -383,4 +383,37 @@ curl -X POST http://localhost:8080/api/v1/{endpoint} \
 |---|---|---|---|---|
 | GAP-01 | {descripción} | {bloqueante / no bloqueante} | {abierto / en análisis / resuelto} | {sección afectada} |
 | GAP-02 | {descripción} | {bloqueante / no bloqueante} | {abierto / en análisis / resuelto} | {sección afectada} |
+
+---
+
+## Dudas pendientes — Respuestas sugeridas
+
+> Este bloque se presenta al final del DHU para que el usuario resuelva las dudas en el mismo chat.
+> El skill no debe hacer preguntas interactivas durante el análisis.
+
+```text
+─────────────────────────────────────────────
+DUDAS PENDIENTES — RESPUESTAS SUGERIDAS
+─────────────────────────────────────────────
+
+1. [GAP-01] {descripción corta del gap}
+   ├─ Opción A (sugerida): {respuesta propuesta}
+   ├─ Opción B: {respuesta alternativa}
+   └─ Opción C: {otra alternativa}
+
+2. [GAP-02] {descripción corta del gap}
+   ├─ Opción A (sugerida): {respuesta propuesta}
+   └─ Opción B: {respuesta alternativa}
+
+Responde con el número y la opción, por ejemplo:
+"1-A, 2-A"
+
+O indica otra respuesta si ninguna opción aplica.
+```
+
+Si no hay gaps pendientes, reemplazar por:
+
+```text
+✅ No hay dudas pendientes. Esta DHU está lista para refinamiento final.
+```
 ```

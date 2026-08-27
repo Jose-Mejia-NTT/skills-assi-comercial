@@ -148,12 +148,33 @@ Record a gap when any of the following occurs:
 - Missing catalog, master service, or external reference.
 - Unclear whether a secondary service is affected.
 - Ambiguity about field location (request vs domain vs entity).
+- Business rule without clear technical implication.
+- Functional requirement that cannot be mapped to an existing service.
+
+### Gap format
+
+Each gap must include:
+
+```markdown
+- **ID:** GAP-{NN}
+- **Type:** business | technical | implementation
+- **Blocking:** yes | no
+- **Description:** {concise description}
+- **Suggested answer (optional):** {proposed resolution}
+- **Affected section:** {which part of the DHU is blocked}
+```
+
+### Important
+
+Do **not** ask the user to resolve gaps during this skill. All gaps are forwarded to `bcv-dhu-writer`, which will present them at the end with suggested answers.
 
 ---
 
 ## 8. Generate the context file
 
 Write `.context/hu-<code>.md` following the structure in [template.md](template.md).
+
+Include a dedicated `Gaps` section with all detected gaps, ordered by blocking first.
 
 If a new non-obvious gotcha was discovered, consider updating `<repo>/docs/.agent-context/gotchas.md`.
 
@@ -166,5 +187,6 @@ Return a concise summary with:
 - Path to the generated context file.
 - Classified services (primary/secondary/omitted/to_confirm).
 - Main injection point.
-- Top 3 gaps.
+- Top 3 gaps (blocking first).
 - Whether `service-map.md` or `gotchas.md` were used.
+- Note that `bcv-dhu-writer` will present suggested answers for all gaps.

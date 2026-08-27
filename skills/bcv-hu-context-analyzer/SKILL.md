@@ -107,6 +107,29 @@ See [references/template.md](references/template.md) for the exact Markdown stru
 
 See [references/gap-handling.md](references/gap-handling.md) for how to record non-critical and blocking gaps.
 
+## Doubts and clarification policy
+
+This skill does **not** ask interactive questions during analysis.
+
+All functional or technical doubts discovered during investigation are recorded as **gaps** in `.context/hu-<code>.md`.
+
+The companion skill `bcv-dhu-writer` will present these gaps at the end of the DHU with **suggested answers**, so the user can respond in a single turn.
+
+### Types of gaps
+
+| Type | Definition | Example |
+|---|---|---|
+| `business` | Requires clarification from product/business. | Order of dropdown, catalog source. |
+| `technical` | Requires clarification from architecture or service owner. | Field location, integration pattern. |
+| `implementation` | Can be decided by the development team. | Exact JSON field name. |
+
+### Rules
+
+- Do not stop analysis to ask the user.
+- Record every doubt as a gap with a concise description.
+- Categorize each gap as `blocking` or `non-blocking`.
+- For `business` gaps, include a suggested answer when possible.
+
 ## Example
 
 See [references/example.md](references/example.md) for a complete walkthrough with the "Oficina Registral" HU.
