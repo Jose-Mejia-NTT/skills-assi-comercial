@@ -29,8 +29,22 @@ This skill is the second half of the HU → DHU pipeline:
 
 ## Output format
 
-The DHU output **follows the exact format defined by `ibk-hu-technical-refinement`**.
-See [references/output-template.md](references/output-template.md) for the complete template.
+The DHU output **follows the exact format defined by `ibk-hu-technical-refinement`** by default.
+See [references/output-template.md](references/output-template.md) for the complete base template.
+
+### Extended template (optional)
+
+For HUs that require actionable implementation guidance — such as task plans, exact file paths, validation checklists, impact matrix, DoR/DoD — use the extended template:
+
+- [references/output-template-extended.md](references/output-template-extended.md)
+
+When using the extended template:
+
+- Fill all sections that are not blocked by gaps.
+- Mark blocked sections explicitly as `PENDIENTE` or `BLOQUEADO` with the gap reference.
+- Do not omit blocked sections; keep them visible with the blocker note.
+
+The skill selects the base or extended template based on user request or context needs. Default is base.
 
 ## Input
 
@@ -67,12 +81,14 @@ See [references/language-policy.md](references/language-policy.md).
 
 See [references/workflow.md](references/workflow.md).
 
-## Output template
+## Output templates
 
-See [references/output-template.md](references/output-template.md). This template is aligned with the `ibk-hu-technical-refinement` skill output format.
+- [references/output-template.md](references/output-template.md) — base template aligned with `ibk-hu-technical-refinement`.
+- [references/output-template-extended.md](references/output-template-extended.md) — extended template with implementation plan, impact matrix, DoR/DoD.
 
 ## References
 
 - [workflow.md](references/workflow.md)
 - [output-template.md](references/output-template.md)
+- [output-template-extended.md](references/output-template-extended.md)
 - [language-policy.md](references/language-policy.md)
