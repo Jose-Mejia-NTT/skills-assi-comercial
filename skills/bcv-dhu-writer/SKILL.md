@@ -35,7 +35,7 @@ This means every generated DHU contains:
 
 - The base `ibk-hu-technical-refinement` sections.
 - **Plan de implementación de tareas**.
-- **Definición de archivos afectados**.
+- **Mapa técnico de implementación**.
 - **Checklist de validación**.
 - **Technical Impact Matrix**.
 - **Definition of Ready (DoR)**.
@@ -44,6 +44,30 @@ This means every generated DHU contains:
 - **Dudas pendientes — Respuestas sugeridas**.
 
 See [references/output-template-extended.md](references/output-template-extended.md) for the complete default template.
+
+## Self-validation
+
+Before delivering the DHU, the skill must verify minimum quality criteria. If any critical check fails, the skill must report the issue and not write an incomplete file.
+
+### Critical checks
+
+| Check | Rule |
+|---|---|
+| Blocking gaps | If unresolved blocking gaps exist, the DHU state must be `EN ELABORACIÓN`, not `APROBADO`. |
+| Acceptance criteria | At least 3 technical acceptance criteria must be present. |
+| Endpoints | Every endpoint must document HTTP codes, request/response schemas, and error payloads. |
+| Technical map | The `Mapa técnico de implementación` section must not be empty. |
+| DoR | All DoR items must be checked or explicitly marked as pending with a gap reference. |
+
+If a critical check fails, the skill returns:
+
+```text
+❌ DHU generation blocked due to quality issues:
+- [issue 1]
+- [issue 2]
+
+Resolve the issues or update the context before regenerating.
+```
 
 ### Base template (optional)
 
