@@ -243,19 +243,44 @@ curl -X POST http://localhost:8080/api/v1/{endpoint} \
 
 ---
 
-### Definición de archivos afectados
+### Mapa técnico de implementación
 
-> Rutas y clases exactas, no módulos genéricos.
+> Mapa completo de los elementos concretos necesarios para desarrollar la DHU.
+> Si un gap bloquea algún elemento, marcarlo como `PENDIENTE`.
 
-| Servicio | Archivo | Rol esperado |
+#### {service-name}
+
+| Elemento | Detalle | Estado |
 |---|---|---|
-| `{service}` | `src/main/java/.../{Class}.java` | {qué cambia} |
-| `{service}` | `src/main/java/.../{Mapper}.java` | {qué cambia} |
-| `{service}` | `src/main/resources/.../{config}.yml` | {qué cambia} |
+| **Módulo / capa** | `input` / `core` / `output` | ✅ |
+| **Archivos exactos** | `src/main/java/.../{Class}.java` | ✅ |
+| **Clases y métodos** | `{Class}.{method}()` | ✅ |
+| **DTOs / records** | `{RequestRecord}`, `{ResponseRecord}` | ✅ |
+| **Entidades / repositorios** | `{Entity}.java`, `{Repository}.java` | ✅ |
+| **Endpoints / contratos** | `POST /api/v1/...` | ✅ |
+| **Cambios requeridos** | Agregar campo X, validar catálogo, persistir valor. | ✅ |
+| **Pruebas asociadas** | Unitarias: `{Class}Test`. Integración: `{Flow}IT`. | ✅ |
+| **Dependencias / pendientes** | Ninguna o referencia al gap. | ✅ |
+
+#### {service-name-2}
+
+| Elemento | Detalle | Estado |
+|---|---|---|
+| **Módulo / capa** | `input` / `core` / `output` | ✅ |
+| **Archivos exactos** | `src/main/java/.../{Class}.java` | ✅ |
+| **Clases y métodos** | `{Class}.{method}()` | ✅ |
+| **DTOs / records** | `{MessageInDto}`, `{MessageOutDto}` | ✅ |
+| **Entidades / repositorios** | N/A (stateless) | ✅ |
+| **Endpoints / contratos** | ASB topic `{topic-name}` | ✅ |
+| **Cambios requeridos** | Incluir campo en payload del evento. | ✅ |
+| **Pruebas asociadas** | Unitarias: `{Handler}Test`. | ✅ |
+| **Dependencias / pendientes** | Ninguna o referencia al gap. | ✅ |
 
 > **Si hay gaps bloqueantes:**
 > ```text
-> ⚠️ PENDIENTE: No se pueden definir archivos exactos hasta resolver [gap].
+> ⚠️ PENDIENTE: El mapa técnico queda incompleto hasta resolver:
+> - [Gap 1]
+> - [Gap 2]
 > ```
 
 ---
