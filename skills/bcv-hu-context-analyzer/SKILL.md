@@ -27,6 +27,12 @@ This skill is the first half of the HU → DHU pipeline:
 1. `bcv-hu-context-analyzer` → generates technical context.
 2. `bcv-dhu-writer` → consumes the context and writes the final DHU.
 
+### Scope
+
+This skill analyzes **backend microservices only**. It does not investigate frontend applications, screens, UI components, or channel presentation logic.
+
+When the HU mentions a channel or screen (e.g., "canal BCW", "pantalla", "bandeja"), the skill maps it to the backend API, event, or data contract that serves that channel.
+
 The skill minimizes token consumption by using **graphify CLI** instead of LLM-based repository radiography.
 
 ## Execution modes

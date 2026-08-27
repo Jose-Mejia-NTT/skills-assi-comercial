@@ -50,6 +50,16 @@ Do not commit `graphify-out/cache/` or large auto-generated files.
 
 If anything is missing, **stop** and return the validation errors. Do not continue.
 
+### Backend-only scope check
+
+If the HU mentions channels, screens, UI, or frontend flows (e.g., "canal BCW", "pantalla", "bandeja", "dropdown"), do **not** generate frontend ownership gaps.
+
+Instead:
+
+- Identify which backend service provides data to that channel.
+- Look for APIs, events, or DTOs consumed by the channel.
+- If no backend contract exists, record a technical gap about the missing backend contract, not the missing screen.
+
 ---
 
 ## 2. Classify services
