@@ -18,11 +18,12 @@ Recommended: run this in CI on every merge to `main` so graphs stay fresh.
 
 Create a single file manually or via a lightweight script. Do **not** use LLM radiography.
 
-Required file:
+Required files:
 
-- `docs/.agent-context/service-map.md` — role, stack, and god nodes per service in one table.
+- `docs/.agent-context/service-map.md` — role, stack, architecture, and god nodes per service in one table.
+- `docs/.agent-context/architecture-conventions.md` — patterns per architecture type (hexagonal, layered, etc.).
 
-Keep it under 100 lines.
+Keep `service-map.md` under 100 lines and `architecture-conventions.md` under 80 lines.
 
 Optional file per service:
 
@@ -35,6 +36,7 @@ See [optimizations.md](optimizations.md) for templates, Git versioning rules, an
 Commit stable, lightweight context files:
 
 - `docs/.agent-context/service-map.md`
+- `docs/.agent-context/architecture-conventions.md`
 - `<repo>/docs/.agent-context/gotchas.md` (only if meaningful)
 
 Do not commit `graphify-out/cache/` or large auto-generated files.
@@ -67,6 +69,7 @@ Instead:
 For each repository in the workspace:
 
 - Read `docs/.agent-context/service-map.md` (max 100 lines).
+- Read `docs/.agent-context/architecture-conventions.md` (max 80 lines) if it exists.
 - Fall back to the `README.md` summary/scope section (max 30 lines) only if `.agent-context/` is missing.
 - Classify the service **before** running any graphify query:
 
@@ -198,5 +201,5 @@ Return a concise summary with:
 - Classified services (primary/secondary/omitted/to_confirm).
 - Main injection point.
 - Top 3 gaps (blocking first).
-- Whether `service-map.md` or `gotchas.md` were used.
+- Whether `service-map.md`, `architecture-conventions.md` or `gotchas.md` were used.
 - Note that `bcv-dhu-writer` will present suggested answers for all gaps.

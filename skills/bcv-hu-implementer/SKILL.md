@@ -67,10 +67,10 @@ The skill returns:
 
 ## Execution modes
 
-| Mode | Condition | Output |
-| --- | --- | --- |
-| `dry-run` | Default if no flag is given | Proposed changes shown as diff, no files modified |
-| `apply` | User explicitly requests to apply changes | Changes applied in feature branches |
+| Mode      | Condition                                 | Output                                            |
+| --------- | ----------------------------------------- | ------------------------------------------------- |
+| `dry-run` | Default if no flag is given               | Proposed changes shown as diff, no files modified |
+| `apply`   | User explicitly requests to apply changes | Changes applied in feature branches               |
 
 Default mode is `dry-run` to prevent accidental modifications.
 
@@ -120,15 +120,19 @@ See [references/example.md](references/example.md) for a complete walkthrough.
 
 Before applying any change, the skill must validate the DHU:
 
-| Check | Rule |
-|---|---|
-| Blocking gaps | No unresolved blocking gaps allowed. |
-| DHU state | State must not be `EN ELABORACIÓN` if gaps remain. |
-| Acceptance criteria | At least 3 technical acceptance criteria present. |
-| Technical map | `Mapa técnico de implementación` must list files and changes. |
-| DoR | All DoR items must be checked or justified. |
+| Check               | Rule                                                          |
+| ------------------- | ------------------------------------------------------------- |
+| Blocking gaps       | No unresolved blocking gaps allowed.                          |
+| DHU state           | State must not be `EN ELABORACIÓN` if gaps remain.            |
+| Acceptance criteria | At least 3 technical acceptance criteria present.             |
+| Technical map       | `Mapa técnico de implementación` must list files and changes. |
+| DoR                 | All DoR items must be checked or justified.                   |
 
 If validation fails, the skill stops and returns a report with the issues. No files are modified, even in `apply` mode.
+
+## Language handling and output policy
+
+See [references/language-policy.md](references/language-policy.md).
 
 ## References
 

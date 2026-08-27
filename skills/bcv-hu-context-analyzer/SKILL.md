@@ -22,10 +22,11 @@ metadata:
 
 Produce a structured technical context file (`.context/hu-<code>.md`) from a business user story and one or more BCV microservice repositories.
 
-This skill is the first half of the HU → DHU pipeline:
+This skill is the first step of the HU → DHU → implementation pipeline:
 
 1. `bcv-hu-context-analyzer` → generates technical context.
 2. `bcv-dhu-writer` → consumes the context and writes the final DHU.
+3. `bcv-hu-implementer` → optionally applies the DHU changes in feature branches.
 
 ### Scope
 
