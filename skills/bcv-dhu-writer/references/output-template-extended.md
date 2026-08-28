@@ -199,12 +199,12 @@ curl -X POST http://localhost:8080/api/v1/{endpoint} \
 
 | Recurso | Enlace |
 |---|---|
-| HU funcional origen | {link o identificador} |
-| OpenAPI 3.0 | {link o identificador} |
-| Arquitectura | {link o identificador} |
-| Documentación | {link o identificador} |
+| HU funcional origen | {identificador o link si existe} |
+| OpenAPI 3.0 | {identificador o link si existe} |
+| Arquitectura | {identificador o link si existe} |
+| Documentación | {identificador o link si existe} |
 
-> **Requerimiento INVEST:** Todas las referencias DEBEN tener URLs funcionales (Jira, Figma, repo, etc.).
+> **Nota:** Las referencias son opcionales. Si no se dispone de URLs reales, basta con el identificador (ej: `Jira-12345`, `RFC-042`). No deben bloquear la aprobación de la DHU.
 
 ---
 

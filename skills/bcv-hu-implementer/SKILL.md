@@ -49,6 +49,36 @@ This skill is the third and final step of the HU → DHU → Code pipeline:
 
 ## Output
 
+### 1. Implementation draft
+
+Before applying any change, the skill writes an implementation draft:
+
+```
+.context/implementation-draft-HU-<code>.md
+```
+
+This draft contains:
+
+- All tasks extracted from the DHU's technical map.
+- For each task, the recommended skill **that is installed on the user's machine** (e.g., `bcv-hexagonal-architecture`, `bcv-java-spring-boot`).
+- Files to modify/create per repository.
+- Blockers and manual tasks.
+
+The draft is generated in both `dry-run` and `apply` modes so it can be reviewed independently.
+
+#### Skill discovery (mandatory)
+
+Before writing the draft, discover **all** skills available to GitHub Copilot Chat, both in the workspace and in the user's personal environment:
+
+1. **Workspace:** `find . -type f -name 'SKILL.md'` (or `<workspace>/**/SKILL.md`).
+2. **User level:** scan the user's personal skill folders, e.g. `~/skills`, `~/.config/github-copilot/skills`, or any folder the user declares as their skills root.
+3. Read `.github/copilot-instructions.md` (workspace) and `~/.github/copilot-instructions.md` (user) and collect skill names mentioned there.
+4. Collect the `name:` field from each `SKILL.md` found. This is the **available skill set** (`*`), combining workspace + user.
+5. For each task, pick the skill from the available set that best matches the work (use [skill-references.md](references/skill-references.md) as a hint for the mapping).
+6. If no available skill matches a task, mark it as `not available in Copilot Chat` and keep the task description so the user can implement it manually.
+
+### 2. Implementation changes
+
 For each affected repository, the skill creates a feature branch and applies:
 
 - Source code changes in existing files (snippets/diffs).
@@ -57,8 +87,11 @@ For each affected repository, the skill creates a feature branch and applies:
 - Database migrations when needed.
 - Updated DTOs, records, or event payloads.
 
+### 3. Implementation report
+
 The skill returns:
 
+- Path to the implementation draft.
 - List of affected repositories.
 - Feature branch name.
 - Files modified / created per repository.
@@ -91,9 +124,10 @@ See [references/workflow.md](references/workflow.md) for the step-by-step proces
 
 See [references/limits.md](references/limits.md) for read, query, and modification limits.
 
-## Output template
+## Output templates
 
-See [references/output-template.md](references/output-template.md) for the implementation report format.
+- [references/draft-template.md](references/draft-template.md) — format of the implementation draft.
+- [references/output-template.md](references/output-template.md) — format of the final implementation report.
 
 ## Language handling and output policy
 

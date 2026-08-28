@@ -52,13 +52,14 @@ Before delivering the DHU, the skill must verify minimum quality criteria. If an
 
 ### Critical checks
 
-| Check | Rule |
-|---|---|
-| Blocking gaps | If unresolved blocking gaps exist, the DHU state must be `EN ELABORACIÓN`, not `APROBADO`. |
-| Acceptance criteria | At least 3 technical acceptance criteria must be present. |
-| Endpoints | Every endpoint must document HTTP codes, request/response schemas, and error payloads. |
-| Technical map | The `Mapa técnico de implementación` section must not be empty. |
-| DoR | All DoR items must be checked or explicitly marked as pending with a gap reference. |
+| Check               | Rule                                                                                                        |
+| ------------------- | ----------------------------------------------------------------------------------------------------------- |
+| Blocking gaps       | If unresolved blocking gaps exist, the DHU state must be `EN ELABORACIÓN`, not `APROBADO`.                  |
+| Acceptance criteria | At least 3 technical acceptance criteria must be present.                                                   |
+| Endpoints           | Every endpoint must document HTTP codes, request/response schemas, and error payloads.                      |
+| Technical map       | The `Mapa técnico de implementación` section must not be empty.                                             |
+| DoR                 | All DoR items must be checked or explicitly marked as pending with a gap reference.                         |
+| References          | The `Referencias` section is optional. Identifiers are sufficient; real URLs are not required for approval. |
 
 If a critical check fails, the skill returns:
 
