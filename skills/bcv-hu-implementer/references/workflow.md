@@ -35,17 +35,9 @@ Skip repositories marked as `to_confirm` or `omitted` unless the DHU explicitly 
 
 ---
 
-## 3. Generate implementation draft
+## 3. Discover skills available to GitHub Copilot Chat (mandatory)
 
-Create the draft file before modifying any repository:
-
-```
-.context/implementation-draft-HU-<code>.md
-```
-
-### 3.1 Discover skills available to GitHub Copilot Chat (mandatory)
-
-Before assigning skills, discover **all** skills that Copilot Chat can access, both in the workspace and in the user's environment. Use a glob so every `SKILL.md` is picked up:
+Before writing the report, discover **all** skills that Copilot Chat can access, both in the workspace and in the user's environment. Use a glob so every `SKILL.md` is picked up:
 
 ```bash
 # Workspace skills (recursive)
@@ -59,36 +51,35 @@ find "$HOME/.config/github-copilot/skills" -type f -name 'SKILL.md' 2>/dev/null
 
 Also read `.github/copilot-instructions.md` (workspace) and `~/.github/copilot-instructions.md` (user) and collect any skill names mentioned there.
 
-Collect the `name:` field from each `SKILL.md` found. This is the **available skill set** (`*`), combining workspace + user. Every skill discovered this way is eligible to be referenced in the draft.
-
-### 3.2 Build the draft
-
-The draft must include:
-
-- All tasks from the DHU technical map, grouped by service and layer.
-- For each task, a `Skill` column with the recommended skill from [skill-references.md](skill-references.md) **only if it is in the local skill set**.
-- If the recommended skill is not installed locally, write `not available locally` and keep the task description.
-- Files to modify/create per repository.
-- Blockers and manual tasks.
-
-Example task row:
-
-```markdown
-| # | Service | Layer | Task | Skill | Blocked by |
-|---|---|---|---|---|---|
-| 1 | plm | input | Add `registryOffice` field to request record | `bcv-openapi-design` | N/A |
-| 2 | plm | core | Validate selected office against catalog | `bcv-business-resolution` | GAP-01 |
-| 3 | plm | output | Persist `registryOffice` in `BusinessAccountRecord` | `bcv-spring-data-jpa-sql-server` | N/A |
-| 4 | cas | subscriber | Forward `registryOffice` in SPL event payload | not available locally | N/A |
-```
-
-If the draft reveals that the HU should be split or re-scoped, annotate it with `bcv-technical-impact-and-story` **only if that skill is available locally**.
+Collect the `name:` field from each `SKILL.md` found. This is the **available skill set** (`*`), combining workspace + user. Reuse it for every row in the report.
 
 ---
 
-## 4. For each affected repository
+## 4. Generate the implementation report (single file)
 
-### 4.1 Create feature branch
+Write ONE file:
+
+```
+hu-technical-refinement/HU-<code>-implementation-report-<YYYYMMDDHHmm>.md
+```
+
+Follow [output-template.md](output-template.md). For each file change / task, add a `Skill (cómo codificar)` column with the recommended skill from the available set and a one-line convention from its `Dictates` column in [skill-references.md](skill-references.md). The referenced skill is the authority for HOW the code must be written. If none matches, write `not available in Copilot Chat`.
+
+The report includes:
+
+- Pre-implementation validation block.
+- Summary metrics.
+- Per-repository sections (files modified/created with `Skill` column, diff excerpts).
+- Manual tasks remaining.
+- Next steps.
+
+This file is generated in both `dry-run` and `apply` modes. Do **not** create a separate draft file.
+
+---
+
+## 5. For each affected repository (only in `apply` mode)
+
+### 5.1 Create feature branch
 
 ```bash
 cd <repo>
@@ -97,33 +88,33 @@ git checkout -b feature/HU-<code>
 
 If a branch with the same name already exists, append a timestamp or short suffix.
 
-### 4.2 Read existing files
+### 5.2 Read existing files
 
 Read only the files listed in the technical map. Use `read offset/limit` to keep reads minimal.
 
 Do not read files that are not listed in the map unless necessary to understand a dependency.
 
-### 4.3 Generate changes
+### 5.3 Generate changes
 
 For each file in the map, generate the required change:
 
-| Change type             | Action                                             | Reference skill                                          |
-| ----------------------- | -------------------------------------------------- | -------------------------------------------------------- |
-| Add field to DTO/record | Append field with type and validation annotations. | `bcv-openapi-design`                                     |
-| Add field to entity     | Append field with JPA annotations.                 | `bcv-spring-data-jpa-sql-server`                         |
-| Add validation          | Add method or annotation-based validation.         | `bcv-java-spring-boot`                                   |
-| Update mapper           | Add mapping for the new field.                     | `bcv-hexagonal-architecture` or `bcv-clean-architecture` |
-| Update use case         | Add business logic step.                           | `bcv-hexagonal-architecture` or `bcv-clean-architecture` |
-| Update controller       | Add endpoint or modify existing one.               | `bcv-openapi-design`                                     |
-| Add repository          | Create new repository interface if needed.         | `bcv-spring-data-jpa-sql-server`                         |
-| Add migration           | Create Flyway/Liquibase script if needed.          | `bcv-spring-data-jpa-sql-server`                         |
-| Add tests               | Create or update unit/integration tests.           | `bcv-java-spring-boot`                                   |
+| Change type | Action | Reference skill (hint) |
+| --- | --- | --- |
+| Add field to DTO/record | Append field with type and validation annotations. | `bcv-openapi-design` |
+| Add field to entity | Append field with JPA annotations. | `bcv-spring-data-jpa-sql-server` |
+| Add validation | Add method or annotation-based validation. | `bcv-java-spring-boot` |
+| Update mapper | Add mapping for the new field. | `bcv-hexagonal-architecture` or `bcv-clean-architecture` |
+| Update use case | Add business logic step. | `bcv-hexagonal-architecture` or `bcv-clean-architecture` |
+| Update controller | Add endpoint or modify existing one. | `bcv-openapi-design` |
+| Add repository | Create new repository interface if needed. | `bcv-spring-data-jpa-sql-server` |
+| Add migration | Create Flyway/Liquibase script if needed. | `bcv-spring-data-jpa-sql-server` |
+| Add tests | Create or update unit/integration tests. | `bcv-java-spring-boot` |
 
 Generate snippets, not entire files, unless the file is new.
 
-### 4.4 Apply changes (only in `apply` mode)
+### 5.4 Apply changes (only in `apply` mode)
 
-In `dry-run` mode, skip this step and show the diff.
+In `dry-run` mode, skip this step and show the diff in the report.
 
 In `apply` mode:
 
@@ -131,7 +122,7 @@ In `apply` mode:
 2. Create new files.
 3. Do not delete existing code unless explicitly required by the DHU.
 
-### 3.5 Run linter and tests
+### 5.5 Run linter and tests
 
 ```bash
 ./mvnw verify
@@ -143,27 +134,11 @@ If linter or tests fail, stop and report the error. Do not proceed to the next r
 
 ---
 
-## 5. Generate implementation report
-
-Write a report following [output-template.md](output-template.md).
-
-The report must include:
-
-- Path to the implementation draft.
-- Affected repositories.
-- Feature branch names.
-- Files modified and created per repository.
-- Linter/test results.
-- Remaining manual tasks.
-- Full `git diff` summary.
-
----
-
 ## 6. Respond to the user
 
 Return a concise summary with:
 
-- Path to the implementation draft.
+- Path to the implementation report (single file).
 - Mode used (`dry-run` or `apply`).
 - Repositories affected.
 - Branch names.

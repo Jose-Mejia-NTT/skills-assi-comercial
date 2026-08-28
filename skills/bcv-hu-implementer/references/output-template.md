@@ -1,59 +1,42 @@
 > This template defines the exact public output format for the implementation report.
+> The skill generates a SINGLE file (no separate draft). It follows the structure below and adds a `Skill` column so the developer knows which skill to use per task.
 
-````markdown
+```markdown
 # Implementation Report — HU-<code>
 
-> **Mode:** {dry-run | apply}
-> **DHU source:** `hu-technical-refinement/HU-<code>-refined-...md`
-> **Context source:** `.context/hu-<code>.md`
-> **Implementation draft:** `.context/implementation-draft-HU-<code>.md`
-> **Generated:** {YYYY-MM-DD HH:mm}
+> **Mode:** `dry-run` (por defecto; no se creó ninguna rama ni se modificó ningún archivo)
+> **DHU source:** [hu-technical-refinement/HU-<code>-refined-...md](HU-<code>-refined-...md)
+> **Context source:** [.context/hu-<code>.md](../.context/hu-<code>.md)
+> **Generated:** {YYYY-MM-DD}
+
+## Pre-implementation validation
+
+| Check | Resultado |
+|---|---|
+| Blocking gaps | ✅ / ❌ |
+| Estado DHU | ✅ / ❌ |
+| Criterios de aceptación | ✅ / ❌ |
+| Mapa técnico | ✅ / ❌ |
+| DoR | ✅ / ❌ |
+
+Validación superada → se procede en modo `dry-run`.
 
 ---
 
 ## Summary
 
 | Metric | Value |
-| --- | --- |
-| Repositories affected | {N} |
-| Feature branches created | {N} |
-| Files modified | {N} |
-| Files created | {N} |
-| Tests created/updated | {N} |
-| Migrations created | {N} |
-| Linter status | {passed / failed} |
-| Test status | {passed / failed} |
+|---|---|
+| Repositorios afectados | {N} |
+| Ramas propuestas | {N} |
+| Archivos a modificar (estimado) | {N} |
+| Archivos a crear (estimado) | {N} |
+| Tests a crear/actualizar | {N} |
+| Migraciones a crear | {N} |
+| Linter | N/A (sin cambios aplicados) |
+| Tests | N/A (sin cambios aplicados) |
 
----
-
-## Implementation draft summary
-
-The draft file `.context/implementation-draft-HU-<code>.md` contains the detailed task plan with recommended skills.
-
-### Tasks by service
-
-| # | Service | Layer | Task | Skill | Blocked by |
-|---|---|---|---|---|---|
-| 1 | `{service}` | `{layer}` | {task description} | `{skill-name}` | {gap or N/A} |
-| 2 | `{service}` | `{layer}` | {task description} | `not available locally` | {gap or N/A} |
-
-> Only skills installed on the user's machine are referenced by name. If a recommended skill is not installed, the row shows `not available locally`.
-
-### Skill legend
-
-| Skill | Used for | Available locally |
-|---|---|---|
-| `bcv-hexagonal-architecture` | Hexagonal package structure, ports, adapters, mappers | {yes / no} |
-| `bcv-clean-architecture` | Clean architecture layers and dependency rules | {yes / no} |
-| `bcv-java-spring-boot` | Spring components, beans, validation, tests | {yes / no} |
-| `bcv-openapi-design` | REST controllers, request/response records, OpenAPI | {yes / no} |
-| `bcv-azure-service-bus` | ASB publishers, subscribers, message handlers | {yes / no} |
-| `bcv-spring-data-jpa-sql-server` | JPA entities, repositories, migrations | {yes / no} |
-| `bcv-cosmos-db` | Cosmos DB documents, repositories, queries | {yes / no} |
-| `bcv-commons-observability` | Logs, metrics, tracing | {yes / no} |
-| `bcv-business-resolution` | Business rules and decision logic | {yes / no} |
-| `bcv-technical-impact-and-story` | Story splitting and impact analysis | {yes / no} |
-| `bcv-implementation-orchestrator` | Multi-service coordination | {yes / no} |
+⚠️ **Hallazgo de la investigación de código** (si aplica): {texto}
 
 ---
 
@@ -61,37 +44,40 @@ The draft file `.context/implementation-draft-HU-<code>.md` contains the detaile
 
 ### {service-name}
 
-**Branch:** `feature/HU-<code>`
+**Branch (propuesta):** `feature/HU-<code>`
+**Status:** ready for apply
 
-**Status:** {ready / failed / partial}
+**Skills recomendados:** `{bcv-openapi-design}`, `{bcv-spring-data-jpa-sql-server}` (descubiertos en este workspace/usuario)
+
+> **Cómo codificar con cada skill:** el skill referenciado es la autoridad para escribir el código de esa tarea. Seguir sus convenciones (ver `Dictates` en `skill-references.md`). Ejemplo: `bcv-openapi-design` → records con `@Schema`, errores RFC 9457, contrato en OpenAPI; `bcv-spring-data-jpa-sql-server` → `@Entity`/`@Column`, repositorio Spring Data, migración Flyway `V{ts}__`.
 
 **Files modified:**
 
-| File | Change |
-| --- | --- |
-| `src/main/java/.../{File}.java` | {brief description} |
-| `src/main/java/.../{Mapper}.java` | {brief description} |
+| File | Change | Skill (cómo codificar) |
+|---|---|---|
+| `.../{File}.java` | {brief description} | `{skill-name}` — {una línea de la convención que aplica} |
+| `.../{Mapper}.java` | {brief description} | `{skill-name}` — {una línea de la convención que aplica} |
 
 **Files created:**
 
-| File | Purpose |
-| --- | --- |
-| `src/main/java/.../{NewClass}.java` | {brief description} |
-| `src/test/java/.../{NewTest}.java` | {brief description} |
-| `src/main/resources/db/migration/V...__.sql` | {brief description} |
+| File | Purpose | Skill (cómo codificar) |
+|---|---|---|
+| `.../{NewClass}.java` | {brief description} | `{skill-name}` — {una línea de la convención que aplica} |
+| `.../{NewTest}.java` | {brief description} | `{skill-name}` — {una línea de la convención que aplica} |
+| `.../db/migration/V...__.sql` | {brief description} | `{skill-name}` — {una línea de la convención que aplica} |
 
-**Validation:**
-
-```text
-Linter: {passed / failed}
-Tests: {N} passed, {N} failed
-````
-
-**Diff summary:**
+**Diff summary (optional excerpts):**
 
 ```diff
 {short diff excerpt}
 ```
+
+---
+
+### {service-name-2}
+
+**Branch:** no requerida — **sin cambios de código**.
+{nota de regresión}
 
 ---
 
@@ -100,17 +86,19 @@ Tests: {N} passed, {N} failed
 - [ ] {task 1}
 - [ ] {task 2}
 
----
-
 ## Next steps
 
-1. Review the implementation draft `.context/implementation-draft-HU-<code>.md`.
-2. For each task, invoke the recommended skill if additional guidance is needed.
-3. Review the generated diff in each repository.
-4. Run tests locally if not already run.
-5. Commit and push the feature branches manually.
-6. Create pull requests for human review.
-
+1. Confirmar este plan de cambios (o pedir ajustes).
+2. Ejecutar el skill en modo **`apply`** (`bcv-hu-implementer --apply`) para crear ramas y aplicar cambios.
+3. Tras `apply`, se ejecuta `./mvnw verify` por repositorio; si falla, se detiene y reporta.
+4. Revisar el diff, commitear y crear PRs manualmente (el skill nunca commitea/pushea).
 ```
 
-```
+---
+
+## Skill column rules
+
+- The `Skill` column lists the recommended skill **discovered on the user's machine / workspace** (via glob `find . -type f -name 'SKILL.md'` plus `.github/copilot-instructions.md`).
+- If no discovered skill matches the task, write `not available in Copilot Chat`.
+- One primary skill per row; if a task spans concerns, list the primary first.
+- The skill set is discovered once at the start (workspace + user level) and reused for all rows.
