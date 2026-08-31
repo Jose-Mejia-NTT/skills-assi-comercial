@@ -108,7 +108,7 @@ Default mode is `dry-run` to prevent accidental modifications.
 
 Generated code must follow the project's linter rules so SonarQube reports **zero alerts**:
 
-- **No unnecessary comments.** Do not add explanatory or decorative comments to generated code. Only add comments if they document a non-obvious business/technical constraint.
+- **No comments in generated code.** The implemented code must not contain comments (no `//`, no `/* */`, no `TODO`). Write self-explanatory code using clear names instead. Do not keep existing comments when modifying a line.
 - **No commented-out code.** Never leave disabled/dead code as comments.
 - **No `TODO`/`FIXME`** without a ticket reference; prefer resolving the issue.
 - **No unused imports, fields, or variables.** Remove anything not used.

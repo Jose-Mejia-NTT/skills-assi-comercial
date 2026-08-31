@@ -108,7 +108,7 @@ For each file in the map, generate the required change:
 
 Generate snippets, not entire files, unless the file is new.
 
-Apply the **code quality rules** to every generated snippet: no unnecessary comments, no commented-out code, no unused imports, no magic numbers, no `System.out`/`printStackTrace`, and consistent naming — so SonarQube reports zero alerts.
+Apply the **code quality rules** to every generated snippet: **no comments in the generated code** (no `//`, no `/* */`, no `TODO`; remove existing comments on modified lines), no commented-out code, no unused imports, no magic numbers, no `System.out`/`printStackTrace`, and consistent naming — so SonarQube reports zero alerts.
 
 ### 5.4 Apply changes (only in `apply` mode)
 
