@@ -42,7 +42,7 @@ Este archivo registra la fase actual, el estado de los gates y los bloqueadores 
 ## Modos
 
 - **Mode A — Fast path:** los artefactos ya existen → valida gates y produce el resumen final.
-- **Mode B — One-shot:** faltan artefactos → genera un único prompt compuesto para correr todo el pipeline.
+- **Mode B — Paso a paso:** faltan artefactos → presenta **un skill a la vez** (contexto → DHU → implementación), validando el gate antes de pasar al siguiente. Nunca corre todo el pipeline de una vez.
 - **Mode C — Clarification:** gaps bloqueantes en la DHU → presenta una duda a la vez y espera respuestas.
 
 ## Política de idioma
@@ -56,7 +56,9 @@ Este archivo registra la fase actual, el estado de los gates y los bloqueadores 
 
 ## Archivos
 
-| Archivo | Propósito |
-|---|---|
-| `AGENT.md` | Instrucciones principales de orquestación. |
-| `assets/pipeline-state.template.yaml` | Plantilla del archivo de estado. |
+| Archivo | Propósito | ¿Lo lee Copilot? |
+|---|---|---|
+| `AGENT.md` | Instrucciones principales de orquestación. **Autocontenido** (la plantilla YAML está inline). | ✅ Sí |
+| `README.md` | Documentación para humanos. | ❌ No |
+
+> **Importante:** GitHub Copilot Chat solo lee el `AGENT.md`. Todo lo que el agente necesite (plantillas, gates, prompts) debe estar **inline** dentro de `AGENT.md`. El `README.md` es documentación para personas, no para Copilot.
