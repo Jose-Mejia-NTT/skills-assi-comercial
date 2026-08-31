@@ -92,7 +92,15 @@ Do not read files that are not listed in the map unless necessary to understand 
 
 ### 5.3 Generate changes
 
-For each file in the map, generate the required change:
+For each file in the map, generate the required change.
+
+**Before generating each change**, read and apply the referenced skill (Camino B):
+
+1. Read the referenced skill's `SKILL.md`.
+2. Read the relevant `references/*.md` of that skill.
+3. Apply its mandatory rules and conventions to the generated snippet.
+
+The change types and their typical reference skills are:
 
 | Change type | Action | Reference skill (hint) |
 | --- | --- | --- |

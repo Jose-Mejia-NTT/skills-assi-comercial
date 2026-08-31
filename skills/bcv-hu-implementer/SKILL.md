@@ -83,8 +83,9 @@ Discover **all** skills available to GitHub Copilot Chat, both in the workspace 
 2. **User level:** scan the user's personal skill folders, e.g. `~/skills`, `~/.config/github-copilot/skills`, or any folder the user declares as their skills root.
 3. Read `.github/copilot-instructions.md` (workspace) and `~/.github/copilot-instructions.md` (user) and collect skill names mentioned there.
 4. Collect the `name:` field from each `SKILL.md` found. This is the **available skill set** (`*`), combining workspace + user.
-5. For each file change / task, pick the skill from the available set that best matches the work (use [skill-references.md](references/skill-references.md) as a hint for the mapping). The referenced skill is the **authority for HOW the code must be written** for that task — include a one-line convention from its `Dictates` column in the report.
-6. If no available skill matches a task, mark it as `not available in Copilot Chat` and keep the task description so the user can implement it manually.
+5. For each file change / task, pick the skill from the available set that best matches the work (use [skill-references.md](references/skill-references.md) as a hint for the mapping).
+6. **Read and apply the referenced skill (Camino B):** before generating the code for that task, read the referenced skill's `SKILL.md` and its relevant `references/*.md`, then apply its mandatory rules and conventions. The `Dictates` column is only a one-line hint; the full skill is the authority for HOW the code must be written.
+7. If no available skill matches a task, mark it as `not available in Copilot Chat` and keep the task description so the user can implement it manually.
 
 ## Execution modes
 

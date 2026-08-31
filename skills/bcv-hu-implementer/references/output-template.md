@@ -49,7 +49,7 @@ Validación superada → se procede en modo `dry-run`.
 
 **Skills recomendados:** `{bcv-openapi-design}`, `{bcv-spring-data-jpa-sql-server}` (descubiertos en este workspace/usuario)
 
-> **Cómo codificar con cada skill:** el skill referenciado es la autoridad para escribir el código de esa tarea. Seguir sus convenciones (ver `Dictates` en `skill-references.md`). Ejemplo: `bcv-openapi-design` → records con `@Schema`, errores RFC 9457, contrato en OpenAPI; `bcv-spring-data-jpa-sql-server` → `@Entity`/`@Column`, repositorio Spring Data, migración Flyway `V{ts}__`.
+> **Cómo se codificó cada tarea:** el código de cada tarea se generó **leyendo y aplicando** el skill referenciado (su `SKILL.md` + `references/`). El skill es la autoridad de cómo se escribió el código. Ejemplo: `bcv-openapi-design` → records con `@Schema`, errores RFC 9457, contrato en OpenAPI; `bcv-spring-data-jpa-sql-server` → `@Entity`/`@Column`, repositorio Spring Data, migración Flyway `V{ts}__`.
 
 **Files modified:**
 

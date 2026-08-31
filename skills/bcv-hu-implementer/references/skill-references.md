@@ -44,6 +44,18 @@ The `Dictates (how to code)` column tells the developer/Copilot Chat the concret
 | Estimate impact and split stories                         | `bcv-technical-impact-and-story`  | When the draft reveals that the HU should be split or re-scoped.                                               | Divide HUs por responsabilidad; máximo 8 CAs por HU.                                                                                                            |
 | Orchestrate multi-service implementation                  | `bcv-implementation-orchestrator` | When changes span several services and need coordination.                                                      | Una rama `feature/HU-<code>` por repo; misma convención de commits; PRs coordinados.                                                                            |
 
+## How the referenced skill is used (Camino B)
+
+The `Skill` column is **not just a label**. For each task, before generating the code, the implementer must:
+
+1. Read the referenced skill's `SKILL.md`.
+2. Read the relevant `references/*.md` of that skill (e.g., `hexagonal-rules.md`, `controller-api-conventions.md`, `auditing.md`).
+3. Apply its mandatory rules and conventions to the generated snippet.
+
+The skill's location is the one discovered in the discovery step (workspace or user-level). The `Dictates` column above is only a **one-line hint**; the actual authority is the skill's full `SKILL.md` + `references/`.
+
+If the referenced skill's files cannot be read (not present or not accessible), fall back to the `Dictates` hint and mark the task with `not available in Copilot Chat`.
+
 ## Annotation format
 
 In the implementation draft, each task row must include a `Skill` column:
