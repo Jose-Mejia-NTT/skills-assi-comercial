@@ -4,15 +4,27 @@ Orquestador human-in-the-loop para el pipeline BCV **HU → DHU → implementaci
 
 ## Qué es
 
-No es un skill que escriba código ni haga análisis técnico. Es un **agente conductor** que guía al usuario por los tres skills BCV en el orden correcto y valida gates entre ellos.
+No es un skill que escriba código ni haga análisis técnico. Es un **agente conductor** que guía al usuario por las fases del pipeline en el orden correcto y valida gates entre ellas.
 
 Como GitHub Copilot no soporta agentes autónomos que invoquen otros skills, este orquestador funciona como un **playbook interactivo**: le indica al usuario qué skill ejecutar, qué inputs dar y qué gate validar a continuación.
 
-## Pasos del pipeline
+## Arquitectura
 
-1. `bcv-hu-context-analyzer` → `.context/hu-<code>.md`
-2. `bcv-dhu-writer` → `hu-technical-refinement/HU-<identifier>-refined-<timestamp>.md`
-3. `bcv-hu-implementer` → `hu-technical-refinement/HU-<identifier>-implementation-report-<timestamp>.md` (+ ramas feature en modo `apply`)
+1 agente + 3 skills + 1 prompt por fase:
+
+| Fase | Skill (capacidad especializada) | Prompt | Artefacto | Gate |
+|---|---|---|---|---|
+| Fase 1 — Contexto técnico | `bcv-hu-context-analyzer` | Prompt Fase 1 | `.context/hu-<code>.md` | Gate 0 |
+| Fase 2 — Historia técnica (DHU) | `bcv-dhu-writer` | Prompt Fase 2 | `hu-technical-refinement/HU-<identifier>-refined-<timestamp>.md` | Gate 1 |
+| Fase 3 — Implementación | `bcv-hu-implementer` | Prompt Fase 3 | `hu-technical-refinement/HU-<identifier>-implementation-report-<timestamp>.md` | Gate 2 |
+
+El agente **produce prompts; no ejecuta las skills directamente**. El usuario corre cada skill con su prompt de fase.
+
+## Fases del pipeline
+
+1. **Fase 1 — Contexto técnico:** `bcv-hu-context-analyzer` → `.context/hu-<code>.md`
+2. **Fase 2 — Historia técnica (DHU):** `bcv-dhu-writer` → `hu-technical-refinement/HU-<identifier>-refined-<timestamp>.md`
+3. **Fase 3 — Implementación:** `bcv-hu-implementer` → `hu-technical-refinement/HU-<identifier>-implementation-report-<timestamp>.md` (+ ramas feature en modo `apply`)
 
 ## Archivo de estado
 
@@ -35,14 +47,14 @@ Este archivo registra la fase actual, el estado de los gates y los bloqueadores 
 ## Uso
 
 1. Proporciona el texto de la HU funcional y la ruta del workspace.
-2. El orquestador inicializa el archivo de estado y te indica ejecutar el Paso 1.
-3. Después de cada paso, confirma la ruta del artefacto (o el orquestador la lee directamente).
-4. El orquestador valida el gate y se detiene con bloqueadores/gaps o continúa al siguiente paso.
+2. El orquestador inicializa el archivo de estado y te da el **Prompt Fase 1**.
+3. Después de cada fase, confirma la ruta del artefacto (o el orquestador la lee directamente).
+4. El orquestador valida el gate y se detiene con bloqueadores/gaps o continúa a la siguiente fase.
 
 ## Modos
 
 - **Mode A — Fast path:** los artefactos ya existen → valida gates y produce el resumen final.
-- **Mode B — Paso a paso:** faltan artefactos → presenta **un skill a la vez** (contexto → DHU → implementación), validando el gate antes de pasar al siguiente. Nunca corre todo el pipeline de una vez.
+- **Mode B — Por fases:** faltan artefactos → presenta **un prompt por fase** (contexto → DHU → implementación), validando el gate antes de pasar a la siguiente. Nunca corre todo el pipeline de una vez.
 - **Mode C — Clarification:** gaps bloqueantes en la DHU → presenta una duda a la vez y espera respuestas.
 
 ## Política de idioma
