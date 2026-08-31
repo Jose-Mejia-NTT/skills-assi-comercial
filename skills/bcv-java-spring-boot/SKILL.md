@@ -92,24 +92,6 @@ Natural language requests such as:
 6. Match package conventions under `pe.interbank.bcv.*` when applicable.
 7. Favor minimal diffs: adjust only required modules/properties.
 
-## Service class conventions
-
-When generating a **service / use case class** exposed as a Spring bean, always include these imports and annotations:
-
-```java
-import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
-
-@Slf4j
-@Component
-@AllArgsConstructor
-public class XxxService {
-}
-```
-
-This applies only to the exposed service (use case). It does **not** apply to DTOs, records, entities, or mappers.
-
 ## Clarification questions (ask at most 3)
 
 1. Which BCV project are you working on?

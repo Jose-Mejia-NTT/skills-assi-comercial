@@ -116,6 +116,24 @@ After generation, verify that the implementation matches both the repository and
 5. Persistence adapters must follow existing project exception style.
 6. Register new use case bean in UseCaseConfig.
 
+## Application service conventions
+
+The **input application service** (the command/query service exposed to the controller) must include Lombok and Spring annotations:
+
+```java
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
+
+@Slf4j
+@Component
+@AllArgsConstructor
+public class XxxCommandService {
+}
+```
+
+This applies only to the exposed application service. It does **not** apply to the core use case (which remains a plain Java class), nor to DTOs, records, or mappers.
+
 ## Layer dependency rules
 
 Allowed:
