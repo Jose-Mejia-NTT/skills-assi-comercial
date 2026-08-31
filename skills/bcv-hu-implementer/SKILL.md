@@ -104,6 +104,20 @@ Default mode is `dry-run` to prevent accidental modifications.
 5. **Stop on test or linter failure** and report the error.
 6. **Preserve existing code style.** Match indentation, naming, and conventions of the repo.
 
+## Code quality rules (Sonar/linter)
+
+Generated code must follow the project's linter rules so SonarQube reports **zero alerts**:
+
+- **No unnecessary comments.** Do not add explanatory or decorative comments to generated code. Only add comments if they document a non-obvious business/technical constraint.
+- **No commented-out code.** Never leave disabled/dead code as comments.
+- **No `TODO`/`FIXME`** without a ticket reference; prefer resolving the issue.
+- **No unused imports, fields, or variables.** Remove anything not used.
+- **No magic numbers.** Extract constants with meaningful names.
+- **Consistent naming** with the existing file and project conventions (English, camelCase, `*Entity`, `*Mapper.MAPPER`, etc.).
+- **No duplicated code.** Reuse existing helpers instead of copy-pasting.
+- **No `System.out`/`printStackTrace`.** Use the project's logging conventions.
+- **Keep methods focused and small.** Avoid long methods that Sonar flags as code smells.
+
 ## Workflow
 
 See [references/workflow.md](references/workflow.md) for the step-by-step process.

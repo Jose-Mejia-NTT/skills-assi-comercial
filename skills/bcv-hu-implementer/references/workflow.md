@@ -40,13 +40,9 @@ Skip repositories marked as `to_confirm` or `omitted` unless the DHU explicitly 
 Before writing the report, discover **all** skills that Copilot Chat can access, both in the workspace and in the user's environment. Use a glob so every `SKILL.md` is picked up:
 
 ```bash
-# Workspace skills (recursive)
 find . -type f -name 'SKILL.md'
-
-# User-level skills (personal folders)
 find "$HOME/skills" -type f -name 'SKILL.md' 2>/dev/null
 find "$HOME/.config/github-copilot/skills" -type f -name 'SKILL.md' 2>/dev/null
-# Or any folder the user declares as their personal skills root
 ```
 
 Also read `.github/copilot-instructions.md` (workspace) and `~/.github/copilot-instructions.md` (user) and collect any skill names mentioned there.
@@ -111,6 +107,8 @@ For each file in the map, generate the required change:
 | Add tests | Create or update unit/integration tests. | `bcv-java-spring-boot` |
 
 Generate snippets, not entire files, unless the file is new.
+
+Apply the **code quality rules** to every generated snippet: no unnecessary comments, no commented-out code, no unused imports, no magic numbers, no `System.out`/`printStackTrace`, and consistent naming — so SonarQube reports zero alerts.
 
 ### 5.4 Apply changes (only in `apply` mode)
 
