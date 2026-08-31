@@ -1,0 +1,41 @@
+hu_slug: ""
+original_request: ""
+workspace: ""
+available_skills: []   # skills descubiertos en workspace + usuario para GitHub Copilot Chat
+
+current_phase: "context-analysis" # context-analysis | dhu-writer | implementation
+status: "in_progress"             # in_progress | blocked | ready_for_execution | completed
+
+phases:
+  context_analysis:
+    skill: "bcv-hu-context-analyzer"
+    status: "pending" # pending | in_progress | completed | blocked
+    artifact: ".context/hu-<code>.md"
+    gate:
+      name: "gate_0_context_ready"
+      status: "pending" # pending | passed | failed
+      blockers: []
+
+  dhu_writer:
+    skill: "bcv-dhu-writer"
+    status: "pending"
+    artifact: "hu-technical-refinement/HU-<identifier>-refined-<timestamp>.md"
+    gate:
+      name: "gate_1_dhu_ready"
+      status: "pending"
+      blockers: []
+    clarification_rounds: 0
+    open_gaps_pending: []
+
+  implementation:
+    skill: "bcv-hu-implementer"
+    status: "pending"
+    artifact: "hu-technical-refinement/HU-<identifier>-implementation-report-<timestamp>.md"
+    mode: "dry-run" # dry-run | apply
+    gate:
+      name: "gate_2_implementation_ready"
+      status: "pending"
+      blockers: []
+
+last_updated: ""
+notes: ""
