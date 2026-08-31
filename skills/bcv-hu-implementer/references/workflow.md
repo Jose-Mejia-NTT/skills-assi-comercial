@@ -110,6 +110,30 @@ Generate snippets, not entire files, unless the file is new.
 
 Apply the **code quality rules** to every generated snippet: **no comments in the generated code** (no `//`, no `/* */`, no `TODO`; remove existing comments on modified lines), no commented-out code, no unused imports, no magic numbers, no `System.out`/`printStackTrace`, and consistent naming — so SonarQube reports zero alerts.
 
+#### Service class conventions
+
+When generating a **service / use case class** that is exposed as a Spring bean, always include these imports and annotations:
+
+```java
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
+
+@Slf4j
+@Component
+@AllArgsConstructor
+public class XxxService {
+}
+```
+
+This applies only to the exposed service (use case). It does **not** apply to DTOs, records, entities, or mappers.
+
+#### SQL table conventions
+
+Every SQL table (JPA entity and its Flyway/Liquibase migration) must always include the standard columns:
+
+`id`, `code`, `name`, `created_by`, `created_on`, `updated_by`, `updated_on`, `version`.
+
 ### 5.4 Apply changes (only in `apply` mode)
 
 In `dry-run` mode, skip this step and show the diff in the report.

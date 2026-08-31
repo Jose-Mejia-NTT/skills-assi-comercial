@@ -118,6 +118,11 @@ Generated code must follow the project's linter rules so SonarQube reports **zer
 - **No `System.out`/`printStackTrace`.** Use the project's logging conventions.
 - **Keep methods focused and small.** Avoid long methods that Sonar flags as code smells.
 
+## Code generation conventions
+
+- **Service / use case classes** exposed as beans must include `@Slf4j`, `@AllArgsConstructor` (Lombok) and `@Component` (Spring), with the corresponding imports. This applies only to the exposed service, not to DTOs/records/entities/mappers.
+- **SQL tables** must always include the standard columns: `id`, `code`, `name`, `created_by`, `created_on`, `updated_by`, `updated_on`, `version`.
+
 ## Workflow
 
 See [references/workflow.md](references/workflow.md) for the step-by-step process.

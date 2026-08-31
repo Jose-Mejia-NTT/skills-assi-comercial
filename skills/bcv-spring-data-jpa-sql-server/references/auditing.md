@@ -27,16 +27,16 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 public abstract class BaseEntity {
 
     @CreatedDate
-    @Column(name = "created_at", nullable = false, updatable = false)
-    private LocalDateTime createdAt;
+    @Column(name = "created_on", nullable = false, updatable = false)
+    private LocalDateTime createdOn;
 
     @CreatedBy
     @Column(name = "created_by", length = 50, nullable = false, updatable = false)
     private String createdBy;
 
     @LastModifiedDate
-    @Column(name = "updated_at", nullable = false)
-    private LocalDateTime updatedAt;
+    @Column(name = "updated_on", nullable = false)
+    private LocalDateTime updatedOn;
 
     @LastModifiedBy
     @Column(name = "updated_by", length = 50, nullable = false)
@@ -89,6 +89,12 @@ public class PaymentPromise extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, updatable = false)
     private Long id;
+
+    @Column(name = "code", length = 50, nullable = false)
+    private String code;
+
+    @Column(name = "name", length = 150, nullable = false)
+    private String name;
 
     @Column(name = "expedient_number", length = 50, nullable = false, unique = true)
     private String expedientNumber;

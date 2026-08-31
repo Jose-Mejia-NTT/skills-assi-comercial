@@ -61,6 +61,20 @@ This skill detects existing project scaffolding and adapts accordingly:
 
 ---
 
+## Standard table columns
+
+Every SQL table (JPA entity and its migration) must **always** include these standard columns:
+
+`id`, `code`, `name`, `created_by`, `created_on`, `updated_by`, `updated_on`, `version`.
+
+- `id` — primary key (generated).
+- `code` — business code.
+- `name` — descriptive name.
+- `created_by` / `created_on` / `updated_by` / `updated_on` — audit fields (in `BaseEntity`).
+- `version` — optimistic locking (`@Version`).
+
+---
+
 ## Inputs
 
 Accept project context in any of these forms:
@@ -493,7 +507,7 @@ import java.time.LocalDateTime;
 
 /**
  * Base audit entity for BCV projects.
- * Provides createdBy, createdAt, updatedBy, updatedAt, and optimistic locking.
+ * Provides createdBy, createdOn, updatedBy, updatedOn, and optimistic locking.
  */
 @Getter
 @Setter
@@ -506,16 +520,16 @@ public abstract class BaseEntity {
     private String createdBy;
 
     @CreatedDate
-    @Column(name = "created_at", nullable = false, updatable = false)
-    private LocalDateTime createdAt;
+    @Column(name = "created_on", nullable = false, updatable = false)
+    private LocalDateTime createdOn;
 
     @LastModifiedBy
     @Column(name = "updated_by", length = 50, nullable = false)
     private String updatedBy;
 
     @LastModifiedDate
-    @Column(name = "updated_at", nullable = false)
-    private LocalDateTime updatedAt;
+    @Column(name = "updated_on", nullable = false)
+    private LocalDateTime updatedOn;
 
     @Version
     @Column(name = "version", nullable = false)
@@ -557,6 +571,12 @@ public class {EntityName} extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
+
+    @Column(name = "code", nullable = false, length = 50)
+    private String code;
+
+    @Column(name = "name", nullable = false, length = 150)
+    private String name;
 
     @Column(name = "expedient_number", nullable = false, length = 50)
     private String expedientNumber;
