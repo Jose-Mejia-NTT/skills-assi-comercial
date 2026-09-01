@@ -7,7 +7,8 @@ description: |
   "Teams alert", "data masking", "bcv-observability-token", "Application Insights", "trazas", "métricas",
   "alerta de Teams", "enmascarar datos", "PII logs", "trace id", "OpenTelemetry", "Micrometer",
   "webhook Teams", "commons.exception.teams.webhook.endpoint", or any incident involving missing traces or alerts.
-  Applies to: bcv-disb-business-service, bcv-h2h-document-management-service, bcv-h2h-expedient-management-service, bcv-h2h-integration-service.
+  Applies to: all bcv-bacc-* services (account-opening-reporting, channel-activity, compliance,
+  current-account, customer, party-lifecycle-management, service-point).
   Do NOT use for: generic observability tutorials unrelated to BCV, or infrastructure-level AKS monitoring.
 metadata:
   version: "1.0.0"
@@ -19,11 +20,9 @@ metadata:
 
 # bcv-commons-observability
 
-## Language rules
+## Language handling and output policy
 
-- Internal processing, generated code and structural reasoning: **English**.
-- Response to the user: **the language of the user's initial message** (default: Spanish).
-- Preserve technical terms, class names, property keys and package names in their original form.
+See [references/language-policy.md](references/language-policy.md).
 
 ## Objective
 
@@ -50,7 +49,7 @@ Natural language request such as:
 
 ## Expected output
 
-1. **Project variant identified** — layered (`bcv-disb-business-service`) or hexagonal/clean (`bcv-h2h-*`).
+1. **Project variant identified** — hexagonal/clean (most `bcv-bacc-*` services) or flat legacy (`service-point-service`).
 2. **Dependency confirmation** — `bcv-commons-observability` in the executable/app module.
 3. **Annotation guidance** — where to place each annotation.
 4. **Configuration snippet(s)** — `application.yml`, `bootstrap.yml`, `application-local.yml`.
@@ -99,7 +98,7 @@ Core placement rule: `@ObservableController` on controllers, `@ObservableService
 
 **Example 1**
 
-Prompt: _¿Cómo agrego @ObservableService a un nuevo servicio en bcv-disb-business-service?_
+Prompt: _¿Cómo agrego @ObservableService a un nuevo servicio en account-opening-reporting-service?_
 
 Response:
 
@@ -205,15 +204,11 @@ logging:
 
 ## Reference files in BCV repositories
 
-- `bcv-disb-business-service/pom.xml` — `bcv-commons-observability` dependency management.
-- `bcv-disb-business-service/bcv-disb-business-service-app/pom.xml`
-- `bcv-disb-business-service/bcv-disb-business-service-app/src/main/resources/application.yml`
-- `bcv-disb-business-service/bcv-disb-business-service-app/src/main/resources/bootstrap.yml`
-- `bcv-disb-business-service/bcv-disb-business-service-app/src/main/java/.../controller/BcvPaymentPromiseController.java`
-- `bcv-disb-business-service/bcv-disb-business-service-app/src/main/java/.../service/impl/BcvPaymentPromiseServiceImpl.java`
-- `bcv-disb-business-service/bcv-disb-business-service-core/src/main/java/.../repository/BcvCommentRepository.java`
-- `bcv-h2h-integration-service/application/src/main/resources/application-local.yml`
-- `bcv-h2h-integration-service/infrastructure/entry-points/event-bus-subscriber/.../IntegrationStartProcessSubscriber.java`
+- `bcv-bacc-account-opening-reporting-service/bcv-bacc-account-opening-reporting-input/pom.xml` — `bcv-commons-observability` dependency.
+- `bcv-bacc-account-opening-reporting-service/bcv-bacc-account-opening-reporting-output/.../out/broker/publisher/BvcEventNotificationPublisher.java` — `@ObservableService` + `@ObservableOperation`.
+- `bcv-bacc-account-opening-reporting-service/bcv-bacc-account-opening-reporting-input/.../in/broker/subscriber/ReportTeradataNaturalPersonSubscriberHandler.java`
+- `bcv-bacc-account-opening-reporting-service/bcv-bacc-account-opening-reporting-app/src/main/resources/bootstrap.yml` — secret wiring for `bcv-observability-token` / `bcv-webhook-url-teams`.
+- `bcv-bacc-party-lifecycle-management-service/bcv-bacc-party-lifecycle-management-output/.../out/broker/publisher/PowersValidationPublisher.java`
 
 ---
 

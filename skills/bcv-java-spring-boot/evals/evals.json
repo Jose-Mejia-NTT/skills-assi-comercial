@@ -50,6 +50,20 @@
         "Incluye condicion explicita de salida de mock a real",
         "Mantiene enfoque SDD/BMAD"
       ]
+    },
+    {
+      "id": 5,
+      "prompt": "Como configuro secretos y datasource en un servicio bcv-bacc-* (por ejemplo account-opening-reporting)? El servicio usa parent ads-spring-boot-dependencies y Java 21.",
+      "expected_output": "Usa interbank.ads.security + interbank.ads.secrets en bootstrap.yml y interbank.ads.persistence-sql.sql-data-sources en application.yml, con launcher Bacc*AppLauncher.",
+      "files": [],
+      "assertions": [
+        "Identifica el parent ads-spring-boot-dependencies y Java 21 para servicios BACC",
+        "Cablea secretos via interbank.ads.security.vaults e interbank.ads.secrets con placeholders ibk-nr_*",
+        "Usa interbank.ads.persistence-sql.sql-data-sources para el datasource (no spring.datasource)",
+        "Nombra el launcher como Bacc*AppLauncher en pe.interbank.bcv.bacc<service>",
+        "No hardcodea connection strings ni secretos",
+        "Distingue bootstrap.yml (config/keyvault) de application.yml (runtime)"
+      ]
     }
   ]
 }

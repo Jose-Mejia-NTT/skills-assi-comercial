@@ -6,10 +6,11 @@ description: |
   configuration, Spring Cloud Config + Azure Key Vault secret handling, startup troubleshooting, and safe
   integration patterns for external dependencies.
   Triggers: "Spring Boot BCV", "ADS BOM", "bcv parent", "multi-module", "bootstrap.yml",
-  "application.yml", "Config Server", "Key Vault", "BcvDisbBusinessService", "DocumentManagementAppLauncher",
-  "ExpedientManagementAppLauncher", "MainApplication", "no arranca en local", "startup error".
-  Applies to: bcv-disb-business-service, bcv-h2h-document-management-service,
-  bcv-h2h-expedient-management-service, bcv-h2h-integration-service.
+  "application.yml", "Config Server", "Key Vault", "BaccAccountreportingOpeningAppLauncher",
+  "BaccChannelActivityAppLauncher", "BaccCustomerAppLauncher", "BcvBaccServicePointServiceApplication",
+  "interbank.ads.security", "interbank.ads.persistence-sql", "no arranca en local", "startup error".
+  Applies to: all bcv-bacc-* services (account-opening-reporting, channel-activity, compliance,
+  current-account, customer, party-lifecycle-management, service-point).
   Do NOT use for: detailed JPA modeling (use bcv-spring-data-jpa-sql-server), Service Bus implementation
   (use bcv-azure-service-bus), or domain-specific rules (use domain skills).
 argument-hint: "project + goal (e.g., add module, fix startup, configure profiles, secure secrets)"
@@ -23,11 +24,9 @@ metadata:
 
 # bcv-java-spring-boot
 
-## Language rules
+## Language handling and output policy
 
-- Internal processing, generated code and structural reasoning: English.
-- Response to the user: the language of the user's initial message (default: Spanish).
-- Preserve class names, artifactIds, property keys, and package names in original form.
+See [references/language-policy.md](references/language-policy.md).
 
 ## Objective
 
@@ -36,7 +35,7 @@ BOM/parent alignment, module boundaries, configuration externalization, secure s
 
 ## Scope
 
-- Parent/BOM setup (`ads-spring-boot-dependencies`, `bcv-commons-starter-parent`)
+- Parent/BOM setup (`ads-spring-boot-dependencies`, `bcv-commons-pomparent`)
 - Multi-module Maven conventions (`-core`, `-input`, `-output`, `-app`)
 - Executable module rules (`spring-boot-maven-plugin` placement)
 - `bootstrap.yml` vs `application.yml` usage
@@ -44,6 +43,21 @@ BOM/parent alignment, module boundaries, configuration externalization, secure s
 - Config Server + Azure Key Vault secret resolution
 - Local startup troubleshooting and safe defaults
 - Mock-first strategy when external dependencies are unavailable
+
+## Project variants
+
+| Service                      | Parent / BOM                                                   | Java | Module layout                        | Launcher                                                                    |
+| ---------------------------- | -------------------------------------------------------------- | ---- | ------------------------------------ | --------------------------------------------------------------------------- |
+| BACC (6 services)            | `pe.interbank.ads:ads-spring-boot-dependencies` 3.5.3 / 3.5.10 | 21   | `-core`, `-input`, `-output`, `-app` | `Bacc*AppLauncher` / `Bacc*Application` in `pe.interbank.bcv.bacc<service>` |
+| BACC `service-point-service` | `pe.interbank.bcv.commons:bcv-commons-pomparent` 2.0.0         | 17   | single module, flat packages         | `BcvBaccServicePointServiceApplication`                                     |
+
+BACC-specific notes (see `references/bacc-spring-boot.md`):
+
+- Secret wiring uses `interbank.ads.security.{property-source-name, vaults}` + `interbank.ads.secrets.*`
+  mapped to `${ibk-nr_*}` placeholders — NOT the generic `spring.cloud.azure.keyvault` block.
+- Datasource uses `interbank.ads.persistence-sql.sql-data-sources.<ds>` — NOT `spring.datasource`.
+- Messaging uses `interbank.ads.messaging.*` (see the `bcv-azure-service-bus` skill).
+- `service-point-service` is legacy: different parent, Java 17, flat package structure.
 
 ## Inputs
 
@@ -67,13 +81,13 @@ Natural language requests such as:
 
 ### SDD - Spec Driven Development
 
-| Phase | Action |
-| --- | --- |
-| Especificar | Parse intent: setup, refactor, startup fix, or configuration hardening. |
-| Validar | Confirm project type and missing constraints. Ask up to 3 clarifying questions. |
-| Disenar | Select BCV-compatible structure, BOM, profile strategy, and secret flow. |
-| Generar | Return smallest complete change set (POM/config/code) in user language. |
-| Verificar | Validate security, module boundaries, and run-readiness checks. |
+| Phase       | Action                                                                          |
+| ----------- | ------------------------------------------------------------------------------- |
+| Especificar | Parse intent: setup, refactor, startup fix, or configuration hardening.         |
+| Validar     | Confirm project type and missing constraints. Ask up to 3 clarifying questions. |
+| Disenar     | Select BCV-compatible structure, BOM, profile strategy, and secret flow.        |
+| Generar     | Return smallest complete change set (POM/config/code) in user language.         |
+| Verificar   | Validate security, module boundaries, and run-readiness checks.                 |
 
 ### BMAD - Build phase detail
 
@@ -102,12 +116,13 @@ Natural language requests such as:
 
 Load only the reference needed for the user request:
 
-| Topic | Reference |
-| --- | --- |
-| Parent/BOM and module conventions | `./references/bom-and-modules.md` |
-| Profiles and config boundaries | `./references/profiles-and-config.md` |
-| Config Server + Key Vault secret flow | `./references/config-server-keyvault.md` |
-| Startup failures and recovery checklist | `./references/startup-troubleshooting.md` |
+| Topic                                                                       | Reference                                 |
+| --------------------------------------------------------------------------- | ----------------------------------------- |
+| Parent/BOM and module conventions                                           | `./references/bom-and-modules.md`         |
+| Profiles and config boundaries                                              | `./references/profiles-and-config.md`     |
+| Config Server + Key Vault secret flow                                       | `./references/config-server-keyvault.md`  |
+| Startup failures and recovery checklist                                     | `./references/startup-troubleshooting.md` |
+| BACC parent, launcher, `interbank.ads.security` + secrets + persistence-sql | `./references/bacc-spring-boot.md`        |
 
 ## Token-efficiency rules
 

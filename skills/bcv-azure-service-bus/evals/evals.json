@@ -47,6 +47,33 @@
         "Maneja excepciones loggeando el error",
         "No hardcodea connection strings"
       ]
+    },
+    {
+      "id": 4,
+      "prompt": "¿Cómo agrego un subscriber de una cola en bcv-bacc-account-opening-reporting-service para procesar reportes PN? La cola es que-bcv-ars-reporting-data-ingestion-pn-req-01.",
+      "expected_output": "Identifica la variante BACC topic/queue de ads-spring-boot-starter-messaging, genera handler MessageListener, registro en SubscriberMessagingConfig y propiedades queue.subscribers.",
+      "files": [],
+      "expectations": [
+        "Identifica el servicio BACC y la variante de configuración topic/queue (ads-spring-boot-starter-messaging)",
+        "El handler implementa MessageListener<T> con @ObservableService y @ObservableOperation",
+        "Registra el subscriber vía MessageSubscriberRegistry.addListenerForSubscriber en SubscriberMessagingConfig",
+        "Incluye propiedades YAML bajo interbank.ads.messaging.queue.subscribers.<name>.queue-name",
+        "Usa la connection string de interbank.ads.secrets.serviceBus.connectionString sin hardcodear",
+        "Coloca el handler en in.broker.subscriber y el config en in.broker.config"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "En bcv-bacc-party-lifecycle-management-service necesito publicar a una cola. ¿Qué prefijo de configuración y anotaciones uso?",
+      "expected_output": "Identifica la variante messages.publishers con la clave queue, usando @Value de interbank.ads.messaging.messages.publishers.<name>.queue.",
+      "files": [],
+      "expectations": [
+        "Identifica que PLM usa la variante messages.publishers (no topic.publishers)",
+        "El @Value lee interbank.ads.messaging.messages.publishers.<name>.queue",
+        "Usa MessagePublisherRegistry.getPublisher(<name>) y Message.Builder con .subject(queue)",
+        "Incluye @ObservableService y @ObservableOperation",
+        "No hardcodea connection strings"
+      ]
     }
   ]
 }

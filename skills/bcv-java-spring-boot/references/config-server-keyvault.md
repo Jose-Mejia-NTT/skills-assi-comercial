@@ -2,6 +2,10 @@
 
 Use this reference for secure externalized configuration.
 
+> **BACC exception:** the `bcv-bacc-*` services do NOT use the `spring.cloud.azure.keyvault` block.
+> They wire Key Vault through `interbank.ads.security.vaults` + `interbank.ads.secrets` (mapped to
+> `${ibk-nr_*}` placeholders). See `./bacc-spring-boot.md` for the exact pattern.
+
 ## Security baseline
 
 - No plain credentials in source control.

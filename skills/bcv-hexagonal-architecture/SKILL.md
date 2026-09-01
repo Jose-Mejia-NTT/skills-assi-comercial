@@ -165,10 +165,9 @@ Prefer detected repository conventions over generic examples.
 5. Request is infrastructure-only (CI/CD, IaC, deployment).
 6. Request requires deep refactor of existing use cases rather than adding one new slice.
 
-## Language rules
+## Language handling and output policy
 
-- Internal processing and generated code: English.
-- User response language: user's initial language (default Spanish).
+See [references/language-policy.md](references/language-policy.md).
 
 ## Evaluation checklist
 

@@ -9,7 +9,7 @@ description: >
   implement workflow and BMAD v6 phased methodology with constitutional compliance
   gates. Produces executable code AND specification artifacts.
   Triggers: "JPA BCV", "SQL Server entity", "Spring Data repository", "HikariCP",
-  "Always Encrypted", "schema Disbursement", "SQLServer2012Dialect", "ddl-auto=none",
+  "Always Encrypted", "schema BcvBacc", "SQLServer2012Dialect", "ddl-auto=none",
   "BaseEntity", "JPA auditing", "BCV persistence", "Interbank SQL Server",
   "bcv datasource", "create entity BCV", "add repository BCV"
 metadata:
@@ -20,24 +20,9 @@ metadata:
   frameworks: ["Spec-Driven Development", "BMAD v6", "Spring Data JPA", "SQL Server"]
 ---
 
-# Language Detection
+# Language handling and output policy
 
-Detect the language used by the user in their request and respond in that language.
-This skill should ALWAYS respond in the language the user uses when invoking it.
-Internal reasoning, tool instructions, and code comments may be in English.
-
-**Language Detection Logic:**
-
-- If user writes in Spanish → respond in Spanish
-- If user writes in English → respond in English
-- If user writes in Portuguese → respond in Portuguese
-- If user writes in any other language → respond in that language
-
-**Implementation:**
-At the start of each response, detect the language from the user's prompt and ensure
-all user-facing output (explanations, artifact descriptions, questions) uses that language.
-Preserve technical terms (class names, Maven coordinates, SQL Server terms) in their
-original form where appropriate.
+See [references/language-policy.md](references/language-policy.md).
 
 ---
 
@@ -85,8 +70,8 @@ Accept project context in any of these forms:
 
 Required information (gathered via questions):
 
-- Base package name (e.g., `pe.interbank.bcv.disb.business`)
-- SQL Server schema name (e.g., `Disbursement`, `H2H`, default: `dbo`)
+- Base package name (e.g., `pe.interbank.bcv.baccaccountopeningreporting`)
+- SQL Server schema name (e.g., `BcvBacc`, default: `dbo`)
 - Entity name and fields (or a domain description to derive them)
 - Whether the entity needs auditing fields (`createdBy`, `updatedBy`, timestamps, `@Version`)
 - Dialect preference (`SQLServer2012Dialect` for legacy, `SQLServerDialect` for modern)
@@ -319,7 +304,7 @@ Question: "What is the JPA entity name?"
 Example: "PaymentPromise"
 
 Question: "Which SQL Server schema should the table use?"
-Options: ["Disbursement", "H2H", "dbo", "Other (specify)"]
+Options: ["BcvBacc", "dbo", "Other (specify)"]
 Default: detected schema or "dbo"
 
 Question: "Describe the entity fields or paste the data model."

@@ -1,0 +1,47 @@
+{
+  "skill_name": "bcv-clean-architecture",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Audita la arquitectura de bcv-bacc-service-point-service. Tiene estructura plana con controller/facade/service/repository y usa @Service/@Component en todas partes.",
+      "expected_output": "Clasifica el servicio como flat legacy, detecta la ausencia de ports y propone un plan de migración incremental a hexagonal.",
+      "files": [],
+      "assertions": [
+        "Clasifica el servicio como flat/legacy (no hexagonal)",
+        "Identifica que no hay módulos -core/-input/-output/-app ni ports",
+        "Detecta fugas de infraestructura (JPA/Spring en el dominio)",
+        "Propone un plan de migración por pasos ordenados por riesgo",
+        "Indica preservar la API REST y los contratos de mensajería",
+        "Recomienda migrar por bounded context, no de una sola vez"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "En un servicio hexagonal BCV, el módulo core importa jakarta.persistence y el input importa una clase de out.database.repository. ¿Qué está mal y cómo lo corrijo?",
+      "expected_output": "Reporta violaciones de reglas de dependencia (core con JPA, input dependiendo de output) y propone fixes preservando comportamiento.",
+      "files": [],
+      "assertions": [
+        "Identifica la violación core -> infraestructura (JPA)",
+        "Identifica la violación input -> output",
+        "Propone mantener dominio puro en core y mapear a entidad JPA en output",
+        "Propone que input dependa de port.in en lugar de repositorio concreto",
+        "No cambia comportamiento, solo estructura",
+        "Incluye verificación de build/tests"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Quiero migrar un servicio flat a hexagonal. Dame el orden de pasos y el cableado de pom.xml de los módulos.",
+      "expected_output": "Entrega el orden core -> output -> input -> app, el mapa de paquetes a módulos y la configuración Maven multi-módulo.",
+      "files": [],
+      "assertions": [
+        "Ordena la migración en pasos incrementales con build/test entre pasos",
+        "Mapea los paquetes flat (controller/facade/repository/publisher) a módulos hexagonales",
+        "Incluye agregar <module> en el pom padre y heredar del parent existente",
+        "Mantiene spring-boot-maven-plugin ejecutable solo en -app",
+        "El use case queda como clase Java plana sin estereotipos",
+        "Los adapters en output implementan port.out"
+      ]
+    }
+  ]
+}

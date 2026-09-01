@@ -19,11 +19,9 @@ metadata:
 
 # bcv-cosmos-db
 
-## Language rules
+## Language handling and output policy
 
-- Internal processing, generated code and structural reasoning: English.
-- Response to the user: the language of the user's initial message (default: Spanish).
-- Preserve BCV package names, library names and document terms as-is.
+See [references/language-policy.md](references/language-policy.md).
 
 ## Objective
 

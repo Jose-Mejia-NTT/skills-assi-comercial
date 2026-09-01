@@ -22,11 +22,9 @@ metadata:
 
 # bcv-openapi-design
 
-## Language rules
+## Language handling and output policy
 
-- Internal processing, structural reasoning and generated technical artifacts: English.
-- Response to the user: the language of the user's initial message (default: Spanish).
-- Preserve BCV business terms, package names and existing public API names when they are already established.
+See [references/language-policy.md](references/language-policy.md).
 
 ## Objective
 
