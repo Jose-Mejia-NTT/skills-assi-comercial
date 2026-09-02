@@ -41,11 +41,11 @@ bcv-hu-implementer        → cambios en repos afectados
 
 ### 3.1 Skills
 
-| Skill | Responsabilidad | Entrada | Salida |
-| --- | --- | --- | --- |
-| `bcv-hu-context-analyzer` | Investiga la HU contra los repos usando graphify CLI | HU de negocio + workspace | `.context/hu-<codigo>.md` |
-| `bcv-dhu-writer` | Escribe la especificación técnica final | `.context/hu-<codigo>.md` | `hu-technical-refinement/HU-...-refined-...md` |
-| `bcv-hu-implementer` | Aplica cambios de implementación en los repos afectados | DHU + contexto | Ramas feature con cambios aplicados |
+| Skill                     | Responsabilidad                                         | Entrada                   | Salida                                         |
+| ------------------------- | ------------------------------------------------------- | ------------------------- | ---------------------------------------------- |
+| `bcv-hu-context-analyzer` | Investiga la HU contra los repos usando graphify CLI    | HU de negocio + workspace | `.context/hu-<codigo>.md`                      |
+| `bcv-dhu-writer`          | Escribe la especificación técnica final                 | `.context/hu-<codigo>.md` | `hu-technical-refinement/HU-...-refined-...md` |
+| `bcv-hu-implementer`      | Aplica cambios de implementación en los repos afectados | DHU + contexto            | Ramas feature con cambios aplicados            |
 
 > **Catálogo completo:** además de estos 3 skills del pipeline, el repo tiene skills de implementación (hexagonal, JPA, ASB, etc.). Ver **[3.5 Skills disponibles en el repo BCV](#35-skills-disponibles-en-el-repo-bcv)** para saber cuándo usar cada uno.
 
@@ -85,12 +85,12 @@ Herramienta CLI que:
 
 Tres niveles de contexto, todos muy pequeños:
 
-| Nivel | Archivo | Propósito | Tamaño |
-| --- | --- | --- | --- |
-| Workspace | `docs/.agent-context/service-map.md` | Índice de todos los servicios: rol, stack, arquitectura, god nodes | < 100 líneas |
-| Workspace | `docs/.agent-context/architecture-conventions.md` | Patrones de arquitectura por servicio | < 80 líneas |
-| Workspace | `docs/.agent-context/cross-service-patterns.md` | Convenciones cross-service: naming, comunicación, colas/topics | < 60 líneas |
-| Servicio (opcional) | `<servicio>/docs/.agent-context/gotchas.md` | Trampas/constraints no obvias del servicio | < 10 líneas |
+| Nivel               | Archivo                                           | Propósito                                                          | Tamaño       |
+| ------------------- | ------------------------------------------------- | ------------------------------------------------------------------ | ------------ |
+| Workspace           | `docs/.agent-context/service-map.md`              | Índice de todos los servicios: rol, stack, arquitectura, god nodes | < 100 líneas |
+| Workspace           | `docs/.agent-context/architecture-conventions.md` | Patrones de arquitectura por servicio                              | < 80 líneas  |
+| Workspace           | `docs/.agent-context/cross-service-patterns.md`   | Convenciones cross-service: naming, comunicación, colas/topics     | < 60 líneas  |
+| Servicio (opcional) | `<servicio>/docs/.agent-context/gotchas.md`       | Trampas/constraints no obvias del servicio                         | < 10 líneas  |
 
 **No hay más.** Ni READMEs completos, ni radiografías, ni caches de servicio obligatorios.
 
@@ -100,11 +100,11 @@ Todos los skills viven en `/Users/joseluis/Ntt/milton skills/skills-assi-comerci
 
 #### Skills del pipeline (en orden de uso)
 
-| Skill | Cuándo usarlo |
-| --- | --- |
-| `bcv-hu-context-analyzer` | **Primero.** Analizar la HU funcional contra los repos (con graphify) y generar `.context/hu-<codigo>.md`. |
-| `bcv-dhu-writer` | **Segundo.** Escribir la DHU técnica a partir del contexto generado. |
-| `bcv-hu-implementer` | **Tercero.** Aplicar la DHU en código: generar el reporte de implementación (dry-run) y crear ramas feature (apply). |
+| Skill                     | Cuándo usarlo                                                                                                        |
+| ------------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| `bcv-hu-context-analyzer` | **Primero.** Analizar la HU funcional contra los repos (con graphify) y generar `.context/hu-<codigo>.md`.           |
+| `bcv-dhu-writer`          | **Segundo.** Escribir la DHU técnica a partir del contexto generado.                                                 |
+| `bcv-hu-implementer`      | **Tercero.** Aplicar la DHU en código: generar el reporte de implementación (dry-run) y crear ramas feature (apply). |
 
 #### Cuándo usar `bcv-hu-implementer`
 
@@ -121,20 +121,109 @@ Todos los skills viven en `/Users/joseluis/Ntt/milton skills/skills-assi-comerci
 
 Estos son los skills que el reporte de implementación referencia en la columna `Skill (cómo codificar)` según la tarea:
 
-| Skill | Cuándo usarlo |
-| --- | --- |
-| `bcv-hexagonal-architecture` | Generar un slice hexagonal completo: controllers, use cases, puertos, mappers, output adapters. |
-| `bcv-clean-architecture` | Auditar/revisar arquitectura, corregir violaciones de dependencias y migrar servicios legacy (p. ej. `service-point-service`) a hexagonal. |
-| `bcv-java-spring-boot` | Setup Spring Boot: ADS BOM, multi-módulo, profiles, Spring Cloud Config + Key Vault, startup. |
-| `bcv-openapi-design` | Contratos REST/OpenAPI: DTOs, requests/responses, errores estandarizados. |
-| `bcv-openfeign` | Clientes HTTP OpenFeign: `@FeignClient`, `FeignConfig`, propagación de headers, `ErrorDecoder`. |
-| `bcv-azure-service-bus` | Mensajería ASB: publishers, subscribers, topics/queues, labels, DLQ, retry. |
-| `bcv-spring-data-jpa-sql-server` | Persistencia JPA + SQL Server: entidades, repositorios, migraciones, Always Encrypted, auditing. |
-| `bcv-cosmos-db` | Persistencia Cosmos DB: containers, documentos, partition key, RU/s, TTL. |
-| `bcv-commons-observability` | Observabilidad: trazas, métricas, alertas de Teams, data masking de PII. |
-| `bcv-testing` | Tests unitarios/integración: JUnit 5, Mockito, AssertJ, `@DataJpaTest`, JaCoCo. |
+| Skill                            | Cuándo usarlo                                                                                                                              |
+| -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| `bcv-hexagonal-architecture`     | Generar un slice hexagonal completo: controllers, use cases, puertos, mappers, output adapters.                                            |
+| `bcv-clean-architecture`         | Auditar/revisar arquitectura, corregir violaciones de dependencias y migrar servicios legacy (p. ej. `service-point-service`) a hexagonal. |
+| `bcv-java-spring-boot`           | Setup Spring Boot: ADS BOM, multi-módulo, profiles, Spring Cloud Config + Key Vault, startup.                                              |
+| `bcv-openapi-design`             | Contratos REST/OpenAPI: DTOs, requests/responses, errores estandarizados.                                                                  |
+| `bcv-openfeign`                  | Clientes HTTP OpenFeign: `@FeignClient`, `FeignConfig`, propagación de headers, `ErrorDecoder`.                                            |
+| `bcv-azure-service-bus`          | Mensajería ASB: publishers, subscribers, topics/queues, labels, DLQ, retry.                                                                |
+| `bcv-spring-data-jpa-sql-server` | Persistencia JPA + SQL Server: entidades, repositorios, migraciones, Always Encrypted, auditing.                                           |
+| `bcv-cosmos-db`                  | Persistencia Cosmos DB: containers, documentos, partition key, RU/s, TTL.                                                                  |
+| `bcv-commons-observability`      | Observabilidad: trazas, métricas, alertas de Teams, data masking de PII.                                                                   |
+| `bcv-testing`                    | Tests unitarios/integración: JUnit 5, Mockito, AssertJ, `@DataJpaTest`, JaCoCo.                                                            |
 
 > **Relación con el pipeline:** los skills de implementación **no reemplazan** a `bcv-hu-implementer`. `bcv-hu-implementer` orquesta los cambios y referencia estos skills para indicar **cómo** debe escribirse el código de cada tarea.
+
+### 3.6 Metodología: SDD + BMAD
+
+Este flujo **es** Spec-Driven Development (SDD): la especificación (DHU) es el artefacto central y va **antes** del código. No es casualidad — todos los skills declaran en su frontmatter `frameworks: ["Spec-Driven Development", "BMAD"]`, por lo que el pipeline HU → DHU → código es una instancia concreta de SDD aplicada al ecosistema BCV.
+
+#### Mapeo del flujo a SDD
+
+| Fase SDD                  | Acción del flujo BCV                                                                        |
+| ------------------------- | ------------------------------------------------------------------------------------------- |
+| Especificar (entrada)     | HU funcional de negocio                                                                     |
+| Research-Driven Context   | `bcv-hu-context-analyzer` investiga el código real con graphify → `.context/hu-<codigo>.md` |
+| Especificar formalmente   | `bcv-dhu-writer` escribe la DHU con criterios de aceptación, endpoints y mapa técnico       |
+| Implementar desde la spec | `bcv-hu-implementer` aplica la DHU en ramas feature (dry-run / apply)                       |
+| Verificar / feedback      | Linter + tests, revisión humana y gotchas que vuelven al contexto                           |
+
+#### Principios SDD aplicados
+
+1. **Spec as Lingua Franca** — la DHU es el contrato único que leen negocio (HU) y desarrollo (implementación).
+2. **Spec first** — no se escribe código sin una DHU aprobada (`bcv-hu-implementer` rechaza DHUs con gaps bloqueantes).
+3. **Research-Driven Context** — el analizador no inventa: consulta el grafo y lee código puntual, no radiografía con LLM.
+4. **Executable Specifications** — la DHU incluye criterios de aceptación técnicos testables y DoD que se traducen en tests.
+5. **Continuous Refinement** — los gaps se resuelven iterativamente (bloque "dudas pendientes" → regenerar DHU).
+6. **Bidirectional Feedback** — lo descubierto en implementación vuelve al contexto (`gotchas.md`, `service-map.md`).
+7. **Branching for Exploration** — `bcv-hu-implementer` explora en ramas `feature/HU-...` sin tocar `main`.
+
+#### Relación con BMAD
+
+SDD va acompañado de **BMAD** (_Understand → Design → Build → Validate_), la metodología de fase de build. Por eso cada SKILL.md define un workflow doble:
+
+```text
+SDD  → Especificar → Validar → Diseñar → Generar → Verificar
+BMAD → Understand → Design → Build → Validate
+```
+
+SDD gobierna **qué** se construye (la spec); BMAD gobierna **cómo** se construye cada cambio.
+
+### 3.7 ¿Por qué no Spec-Kit ni OpenSpec?
+
+Existen frameworks SDD genéricos y populares — [Spec-Kit](https://github.com/github/spec-kit) (toolkit de GitHub con `/speckit.*`) y [OpenSpec](https://github.com/openspec) (spec-first con CLI y deltas) — que resuelven el mismo problema "spec antes que código". Se evaluaron y **se descartaron a favor del flujo custom BCV** por estas razones:
+
+1. **Alineación corporativa.** El DHU debe seguir el template `ibk-hu-technical-refinement` (estándar Interbank/BCV). Spec-Kit y OpenSpec imponen su propio formato de spec (`spec.md` / `specs/` con deltas), lo que rompería la trazabilidad y el compliance corporativo.
+
+2. **Integración con graphify.** El diferenciador del flujo es la investigación local de código vía grafo (casi cero tokens). Spec-Kit y OpenSpec no se integran con graphify: dependen de que el LLM lea archivos directamente, con el costo de tokens que este flujo evita.
+
+3. **Eficiencia de tokens.** El flujo BCV mantiene contexto mínimo (`service-map.md`, `gotchas.md`) y consultas quirúrgicas. Los frameworks genéricos generan artifacts más verbosos (constitution, plan, tasks, deltas) que suman tokens en cada HU.
+
+4. **Multi-servicio / contexto distribuido.** BACC son 7 repos independientes con un workspace compartido. Spec-Kit y OpenSpec son repo-local (la spec vive junto al código de un solo repo); no modelan un workspace con `service-map.md` y `gotchas.md` cross-service.
+
+5. **Control del pipeline.** El flujo BCV tiene gates propios (gaps → dudas pendientes, DoR/DoD, auto-validación del DHU, ramas `feature/HU-...` sin commit automático). Adoptar Spec-Kit/OpenSpec implicaría ceder ese control a un lifecycle ajeno.
+
+#### Comparativa
+
+| Aspecto                 | Flujo BCV (custom)                          | Spec-Kit             | OpenSpec                                   |
+| ----------------------- | ------------------------------------------- | -------------------- | ------------------------------------------ |
+| Formato de spec         | DHU (`ibk-hu-technical-refinement`)         | `spec.md` propio     | `specs/` + deltas (ADDED/MODIFIED/REMOVED) |
+| Investigación de código | graphify (grafo local, ~0 tokens)           | LLM lee archivos     | LLM lee archivos                           |
+| Contexto multi-servicio | workspace + `service-map.md` + `gotchas.md` | repo-local           | repo-local                                 |
+| Alineación corporativa  | Alta (BCV/BACC)                             | Baja (genérico)      | Baja (genérico)                            |
+| Curva de adopción       | Alta (interno, requiere onboard)            | Media                | Media                                      |
+| Mantenimiento           | Interno (equipo BCV)                        | Comunidad / upstream | Comunidad / upstream                       |
+| Cobertura de dominio    | BACC (13 skills especializados)             | Ninguna              | Ninguna                                    |
+
+#### Ventajas del flujo BCV
+
+- Control total del formato, gates y convenciones BACC.
+- Ahorro de tokens real (~85% vs LLM puro) gracias a graphify + contexto mínimo.
+- Conocimiento de dominio codificado (13 skills: hexagonal, ASB, OpenFeign, JPA, Cosmos, etc.).
+- Trazabilidad corporativa (DHU estándar, `catalog-info.yaml`, CODEOWNERS, Backstage).
+
+#### Desventajas del flujo BCV
+
+- Costo de mantenimiento: los skills son internos y el equipo debe mantenerlos.
+- Sin comunidad ni mejoras upstream automáticas.
+- Onboarding: requiere conocer el flujo y los skills (mitigado por esta guía).
+
+#### Ventajas de Spec-Kit / OpenSpec
+
+- Battle-tested, con comunidad y desarrollo activo.
+- Out-of-the-box: constitution, specify, plan, tasks, implement.
+- Agnóstico de lenguaje y stack.
+
+#### Desventajas de Spec-Kit / OpenSpec (para BCV)
+
+- No alineados al template `ibk-hu-technical-refinement` ni al dominio BACC.
+- Sin graphify → mayor consumo de tokens.
+- Repo-local → no modelan el workspace multi-servicio de BACC.
+- Impondrían un lifecycle y formato que el equipo no controla.
+
+> **Conclusión:** Spec-Kit y OpenSpec son excelentes SDD genéricos, pero para BACC el costo de desalineación (formato corporativo + graphify + multi-servicio) supera el beneficio de usar un framework listo. Se optó por un SDD **customizado** que mantiene los principios (spec first, research-driven, executable specs) con los artefactos y gates que el ecosistema ya exige.
 
 ---
 
@@ -256,13 +345,13 @@ graphify-out/cache/
 
 ### 5.5 ¿Por qué separarlos?
 
-| Ventaja | Explicación |
-| --- | --- |
-| Independencia | Los equipos de cada microservicio no se ven afectados por cambios en el workspace. |
-| Permisos | El workspace puede ser público o accesible por arquitectos/analistas; los microservicios mantienen sus permisos. |
-| Tamaño | El workspace es ligero porque no incluye código. |
-| Historial limpio | El Git del workspace solo tiene commits de contexto y DHUs. |
-| Flexibilidad | Cada microservicio puede evolucionar a su ritmo sin depender del workspace. |
+| Ventaja          | Explicación                                                                                                      |
+| ---------------- | ---------------------------------------------------------------------------------------------------------------- |
+| Independencia    | Los equipos de cada microservicio no se ven afectados por cambios en el workspace.                               |
+| Permisos         | El workspace puede ser público o accesible por arquitectos/analistas; los microservicios mantienen sus permisos. |
+| Tamaño           | El workspace es ligero porque no incluye código.                                                                 |
+| Historial limpio | El Git del workspace solo tiene commits de contexto y DHUs.                                                      |
+| Flexibilidad     | Cada microservicio puede evolucionar a su ritmo sin depender del workspace.                                      |
 
 ### 5.6 Crear un nuevo workspace desde el skeleton
 
@@ -602,15 +691,15 @@ Es la entrada. Debe contener:
 
 Este skill convierte la HU funcional en contexto técnico. Sus tareas:
 
-| Tarea | Descripción |
-| --- | --- |
-| Validar | Comprueba que la HU tenga actor, acción, objetivo y criterios mínimos. |
-| Clasificar | Usa `service-map.md` para decidir qué servicios son primary, secondary, omitted o to_confirm. |
-| Recordar gotchas | Lee `gotchas.md` de los servicios afectados. |
-| Investigar | Ejecuta graphify query/path/explain para encontrar conceptos y puntos de inyección. |
-| Confirmar | Lee hasta 3 fragmentos de código de 40 líneas si graphify no es suficiente. |
-| Detectar gaps | Registra decisiones pendientes o conceptos no encontrados. |
-| Escribir contexto | Genera `.context/hu-<codigo>.md` con toda la información técnica descubierta. |
+| Tarea             | Descripción                                                                                   |
+| ----------------- | --------------------------------------------------------------------------------------------- |
+| Validar           | Comprueba que la HU tenga actor, acción, objetivo y criterios mínimos.                        |
+| Clasificar        | Usa `service-map.md` para decidir qué servicios son primary, secondary, omitted o to_confirm. |
+| Recordar gotchas  | Lee `gotchas.md` de los servicios afectados.                                                  |
+| Investigar        | Ejecuta graphify query/path/explain para encontrar conceptos y puntos de inyección.           |
+| Confirmar         | Lee hasta 3 fragmentos de código de 40 líneas si graphify no es suficiente.                   |
+| Detectar gaps     | Registra decisiones pendientes o conceptos no encontrados.                                    |
+| Escribir contexto | Genera `.context/hu-<codigo>.md` con toda la información técnica descubierta.                 |
 
 **No genera:** código, tests, migraciones ni el DHU final.
 
@@ -632,18 +721,18 @@ Sirve como única fuente de verdad técnica antes de escribir el DHU.
 
 Este skill toma el contexto técnico y lo convierte en especificación formal. Sus tareas:
 
-| Tarea | Descripción |
-| --- | --- |
-| Leer contexto | Carga `.context/hu-<codigo>.md`. |
-| Decidir estructura | Determina si la HU requiere un solo DHU o varios. |
-| Seleccionar plantilla | Usa el template extendido por defecto; el base solo si se solicita explícitamente. |
-| Rellenar plantilla | Completa las secciones correspondientes, incluyendo plan de implementación. |
-| Generar CAs técnicos | Convierte los criterios de negocio en criterios técnicos testables. |
-| Documentar endpoints | Agrega rutas, métodos HTTP, requests y responses. |
-| Marcar gaps | Secciones bloqueadas por gaps se marcan como `PENDIENTE` o `BLOQUEADO`. |
-| Auto-validar | Verifica criterios mínimos de calidad antes de entregar el DHU. |
-| Generar bloque de dudas | Al final del DHU, presenta gaps con respuestas sugeridas. |
-| Persistir | Guarda el resultado en `hu-technical-refinement/HU-...-refined-...md`. |
+| Tarea                   | Descripción                                                                        |
+| ----------------------- | ---------------------------------------------------------------------------------- |
+| Leer contexto           | Carga `.context/hu-<codigo>.md`.                                                   |
+| Decidir estructura      | Determina si la HU requiere un solo DHU o varios.                                  |
+| Seleccionar plantilla   | Usa el template extendido por defecto; el base solo si se solicita explícitamente. |
+| Rellenar plantilla      | Completa las secciones correspondientes, incluyendo plan de implementación.        |
+| Generar CAs técnicos    | Convierte los criterios de negocio en criterios técnicos testables.                |
+| Documentar endpoints    | Agrega rutas, métodos HTTP, requests y responses.                                  |
+| Marcar gaps             | Secciones bloqueadas por gaps se marcan como `PENDIENTE` o `BLOQUEADO`.            |
+| Auto-validar            | Verifica criterios mínimos de calidad antes de entregar el DHU.                    |
+| Generar bloque de dudas | Al final del DHU, presenta gaps con respuestas sugeridas.                          |
+| Persistir               | Guarda el resultado en `hu-technical-refinement/HU-...-refined-...md`.             |
 
 **Plantillas:**
 
@@ -790,14 +879,14 @@ Solo cuando:
 
 ### 10.3 Actualizar grafos graphify
 
-| Cambio | Servicio a actualizar |
-| --- | --- |
-| Nuevo controller/subscriber/publisher/use case | El servicio donde se agregó |
-| Nueva entidad/tabla | El dueño de la entidad |
-| Nuevo cliente Feign/integración | El consumidor |
-| Rename/eliminación de god node | El afectado |
-| Refactor grande de paquetes | El afectado |
-| Merge a `main` estructural | Todos los afectados (preferir CI) |
+| Cambio                                         | Servicio a actualizar             |
+| ---------------------------------------------- | --------------------------------- |
+| Nuevo controller/subscriber/publisher/use case | El servicio donde se agregó       |
+| Nueva entidad/tabla                            | El dueño de la entidad            |
+| Nuevo cliente Feign/integración                | El consumidor                     |
+| Rename/eliminación de god node                 | El afectado                       |
+| Refactor grande de paquetes                    | El afectado                       |
+| Merge a `main` estructural                     | Todos los afectados (preferir CI) |
 
 **No actualizar** para bugfixes, nuevos campos en DTOs/entidades existentes, tests nuevos o cambios solo de docs.
 
@@ -853,34 +942,34 @@ graphify-out/cache/
 
 ### Costo del contexto escrito
 
-| Artefacto | Líneas | Tokens aprox. |
-| --- | --- | ---
-| `service-map.md` | < 100 | ~200 |
-| `architecture-conventions.md` | < 80 | ~100 |
-| `cross-service-patterns.md` | < 60 | ~80 |
-| `gotchas.md` por servicio | < 10 | ~80 |
-| Total por HU (workspace + 2-3 servicios) | ~260 | ~540 |
+| Artefacto                                | Líneas | Tokens aprox. |
+| ---------------------------------------- | ------ | ------------- |
+| `service-map.md`                         | < 100  | ~200          |
+| `architecture-conventions.md`            | < 80   | ~100          |
+| `cross-service-patterns.md`              | < 60   | ~80           |
+| `gotchas.md` por servicio                | < 10   | ~80           |
+| Total por HU (workspace + 2-3 servicios) | ~260   | ~540          |
 
 ### Comparación por HU: tres escenarios
 
-| Concepto | Con skills + graphify | Con skills, sin graphify | Sin skills ni graphify |
-| --- | --- | --- | --- |
-| Lectura de READMEs | ~200 tokens | ~15.000 tokens | ~20.000 tokens |
-| Lectura de código | ~1.200 tokens (3 fragmentos) | ~8.000 tokens (6-8 archivos) | ~21.000 tokens |
-| Consultas de exploración | 0 tokens (graphify local) | 0 (lecturas directas) | ~15.000 tokens (iteraciones) |
-| Generación contexto + DHU | ~7.300 tokens | ~9.300 tokens | ~10.500 tokens |
-| **Total estimado** | **~8.000 – 12.000** | **~25.000 – 45.000** | **~50.000 – 90.000** |
-| **Ahorro vs LLM puro** | **~85% menos** | **~50% menos** | baseline |
+| Concepto                  | Con skills + graphify        | Con skills, sin graphify     | Sin skills ni graphify       |
+| ------------------------- | ---------------------------- | ---------------------------- | ---------------------------- |
+| Lectura de READMEs        | ~200 tokens                  | ~15.000 tokens               | ~20.000 tokens               |
+| Lectura de código         | ~1.200 tokens (3 fragmentos) | ~8.000 tokens (6-8 archivos) | ~21.000 tokens               |
+| Consultas de exploración  | 0 tokens (graphify local)    | 0 (lecturas directas)        | ~15.000 tokens (iteraciones) |
+| Generación contexto + DHU | ~7.300 tokens                | ~9.300 tokens                | ~10.500 tokens               |
+| **Total estimado**        | **~8.000 – 12.000**          | **~25.000 – 45.000**         | **~50.000 – 90.000**         |
+| **Ahorro vs LLM puro**    | **~85% menos**               | **~50% menos**               | baseline                     |
 
 ### Conclusión
 
 Para la HU "Agregar oficina registral en canal BCW":
 
-| Escenario | Tokens estimados |
-| --- | --- |
-| **Con skills + graphify** | **~10.000** |
-| **Con skills, sin graphify** | **~33.000** |
-| **Sin skills ni graphify** | **~70.000** |
+| Escenario                    | Tokens estimados |
+| ---------------------------- | ---------------- |
+| **Con skills + graphify**    | **~10.000**      |
+| **Con skills, sin graphify** | **~33.000**      |
+| **Sin skills ni graphify**   | **~70.000**      |
 
 Graphify no solo ahorra tokens, sino que reduce la incertidumbre: el skill sabe exactamente dónde buscar en el grafo en lugar de leer archivos completos.
 
@@ -964,24 +1053,22 @@ Este flujo funciona mejor cuando varios desarrolladores colaboran en crear y man
 
 ### 16.1 Roles sugeridos
 
-| Rol | Responsabilidad | Quién |
-| --- | --- | --- |
-| **Context owner** | Mantiene `docs/.agent-context/service-map.md`, `architecture-conventions.md` y `cross-service-patterns.md` actualizados. | Un arquitecto o lead por workspace. |
-| **Service owner** | Mantiene `<repo>/docs/.agent-context/gotchas.md` de su microservicio. | Un desarrollador del equipo del servicio. |
-| **HU analyst** | Ejecuta los skills, revisa contexto y DHU. | Cualquier desarrollador asignado a la HU. |
-| **Validator** | Revisa que gaps se resuelvan antes de implementar. | Tech lead o arquitecto. |
-| **Implementer** | Revisa el diff generado por `bcv-hu-implementer` y hace commit/push manual. | Desarrollador asignado a la HU. |
+| Rol               | Responsabilidad                                                                                                          | Quién                                     |
+| ----------------- | ------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------- |
+| **Context owner** | Mantiene `docs/.agent-context/service-map.md`, `architecture-conventions.md` y `cross-service-patterns.md` actualizados. | Un arquitecto o lead por workspace.       |
+| **Service owner** | Mantiene `<repo>/docs/.agent-context/gotchas.md` de su microservicio.                                                    | Un desarrollador del equipo del servicio. |
+| **HU analyst**    | Ejecuta los skills, revisa contexto y DHU.                                                                               | Cualquier desarrollador asignado a la HU. |
+| **Validator**     | Revisa que gaps se resuelvan antes de implementar.                                                                       | Tech lead o arquitecto.                   |
+| **Implementer**   | Revisa el diff generado por `bcv-hu-implementer` y hace commit/push manual.                                              | Desarrollador asignado a la HU.           |
 
 ### 16.2 Distribución del trabajo inicial
 
 #### Fase 1: Bootstrap (una sola vez)
 
 1. **Arquitecto/lead** genera los grafos graphify para todos los servicios:
-
    ```bash
    for repo in bcv-bacc-*; do graphify "$repo" --code-only; done
    ```
-
 2. **Arquitecto/lead** crea `docs/.agent-context/service-map.md` con rol, stack y god nodes.
 3. **Arquitecto/lead** crea `docs/.agent-context/architecture-conventions.md` y `docs/.agent-context/cross-service-patterns.md`.
 4. Cada **service owner** revisa su servicio y crea `gotchas.md` si aplica.
@@ -997,15 +1084,15 @@ Este flujo funciona mejor cuando varios desarrolladores colaboran en crear y man
 
 ### 16.3 Convenciones de commit
 
-| Cambio | Mensaje de commit |
-|---|---|---|
-| Actualizar `service-map.md` | `docs: update service map` |
-| Actualizar `architecture-conventions.md` | `docs: update architecture conventions` |
-| Actualizar `cross-service-patterns.md` | `docs: update cross-service patterns` |
-| Agregar/actualizar `gotchas.md` | `docs: add gotchas for <service>` |
-| Contexto de HU | `docs: add context for HU-<code>` |
-| DHU final | `docs: add technical refinement for HU-<code>` |
-| Regenerar grafo | `chore: update graphify graph for <service>` |
+| Cambio                                   | Mensaje de commit                              |
+| ---------------------------------------- | ---------------------------------------------- |
+| Actualizar `service-map.md`              | `docs: update service map`                     |
+| Actualizar `architecture-conventions.md` | `docs: update architecture conventions`        |
+| Actualizar `cross-service-patterns.md`   | `docs: update cross-service patterns`          |
+| Agregar/actualizar `gotchas.md`          | `docs: add gotchas for <service>`              |
+| Contexto de HU                           | `docs: add context for HU-<code>`              |
+| DHU final                                | `docs: add technical refinement for HU-<code>` |
+| Regenerar grafo                          | `chore: update graphify graph for <service>`   |
 
 ### 16.4 Resolución de conflictos
 
@@ -1015,14 +1102,14 @@ Este flujo funciona mejor cuando varios desarrolladores colaboran en crear y man
 
 ### 16.5 Ritmo sugerido
 
-| Actividad | Frecuencia |
-|---|---|---|
-| Revisar `service-map.md` | Cada sprint o cuando cambia un servicio |
-| Revisar `architecture-conventions.md` | Cuando cambia la arquitectura de un servicio |
-| Revisar `cross-service-patterns.md` | Cuando cambian convenciones cross-service (naming, comunicación, colas) |
-| Actualizar `gotchas.md` | Cuando surge un gotcha en una HU |
-| Regenerar grafos | En cada merge a `main` o cuando falla `check-update` |
-| Revisar DHUs generados | En cada refinamiento técnico |
+| Actividad                             | Frecuencia                                                              |
+| ------------------------------------- | ----------------------------------------------------------------------- |
+| Revisar `service-map.md`              | Cada sprint o cuando cambia un servicio                                 |
+| Revisar `architecture-conventions.md` | Cuando cambia la arquitectura de un servicio                            |
+| Revisar `cross-service-patterns.md`   | Cuando cambian convenciones cross-service (naming, comunicación, colas) |
+| Actualizar `gotchas.md`               | Cuando surge un gotcha en una HU                                        |
+| Regenerar grafos                      | En cada merge a `main` o cuando falla `check-update`                    |
+| Revisar DHUs generados                | En cada refinamiento técnico                                            |
 
 ### 16.6 Onboarding de nuevos desarrolladores
 
@@ -1039,10 +1126,10 @@ Para que cualquier agente (GitHub Copilot, Cursor, etc.) sepa cómo trabajar en 
 
 ### 17.1 Archivos recomendados
 
-| Archivo | Audiencia |
-|---|---|---|
-| `.github/copilot-instructions.md` | GitHub Copilot |
-| `.agents.md` | Agentes genéricos |
+| Archivo                           | Audiencia         |
+| --------------------------------- | ----------------- |
+| `.github/copilot-instructions.md` | GitHub Copilot    |
+| `.agents.md`                      | Agentes genéricos |
 
 ### 17.2 ¿Workspace o microservicio?
 
