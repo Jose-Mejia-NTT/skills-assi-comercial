@@ -249,8 +249,8 @@ El equipo dev del banco es la contraparte que valida en la práctica: dispone de
 | ---------- | --------------- | ------------- | ------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **1**      | 13 – 19 ago     | ✅ Completada | Consolidación de repositorios + entorno                             | Se consolidó toda la información de los repos a trabajar (los 7 microservicios BACC) y se configuró el entorno.                                                                                                                                                                                                        |
 | **2**      | 20 – 26 ago     | ✅ Completada | Optimización de tokens → graphify y creación de skills del pipeline | Se adoptó **graphify** como mecanismo de ahorro de tokens, con el flujo de workspace documentado en `docs/hu-dhu-workflow-guide.md`. Se crearon los skills del pipeline: **`bcv-hu-context-analyzer`**, **`bcv-dhu-writer`** y **`bcv-hu-implementer`**. Se acordó con el cliente la entrega de una **HU de negocio**. |
-| **3**      | 27 ago – 02 sep | 🔄 En curso   | Primer ejercicio HU → DHU → código                                  | Se completó un primer ejercicio completo: de una **HU de negocio** se generó la **HU técnica (DHU)**, se implementó en código y se subió al ambiente de **desarrollo**. Validación/prueba en curso con **Fernando Camargo** (equipo dev del banco).                                                                    |
-| **4**      | 03 – 09 sep     | ⬜ Propuesto  | Iteración de skills + HU de negocio                                 | Continuar mejorando los skills con código real. En paralelo, recepción de la HU de negocio y arranque del análisis con `bcv-hu-context-analyzer` (graphify).                                                                                                                                                           |
+| **3**      | 27 ago – 02 sep | 🔄 En curso   | Primer ejercicio HU → DHU → código                                  | Se completó el primer ejercicio end-to-end (ejecutado el **01 sep** con **Fernando Camargo**): se recibió la **HU de negocio**, se ejecutó `bcv-hu-context-analyzer` con graphify, se generó la **HU técnica (DHU)**, se implementó en código y se envió al ambiente de **desarrollo**. Validación/prueba en curso.                                                                    |
+| **4**      | 03 – 09 sep     | ⬜ Propuesto  | Consolidación + iteración de skills                                | Consolidar el primer ejercicio validado en desarrollo, incorporar el feedback de **Fernando Camargo** y continuar la iteración de skills con código real. Preparar el traspaso de Jose Luis (10 sep).                                                                                                                                                           |
 | **5**      | 10 – 16 sep     | ⬜ Propuesto  | Iteración + DHU                                                     | Seguir refinando skills según feedback. Generar la DHU técnica (`bcv-dhu-writer`) y resolver dudas pendientes con el cliente.                                                                                                                                                                                          |
 | **6**      | 17 – 23 sep     | ⬜ Propuesto  | Iteración + implementación                                          | Continuar la mejora de skills. Ejecutar `bcv-hu-implementer` (dry-run → apply): ramas `feature/HU-...` y reporte de implementación.                                                                                                                                                                                    |
 | **7**      | 24 – 30 sep     | ⬜ Propuesto  | Validación con equipo dev del banco                                 | El **equipo dev del banco prueba en su propio entorno (PC)** y devuelve feedback para corregir los skills. Ciclo de corrección: ajustar, regenerar y revalidar.                                                                                                                                                        |
@@ -265,7 +265,7 @@ El equipo dev del banco es la contraparte que valida en la práctica: dispone de
 | ------------------------------------------ | :---------: | -------------------------------------------------------------------- |
 | 🚀 **Kick-off**                            | 13 ago 2026 | Inicio oficial del proyecto                                          |
 | 🧭 **Graphify + skills del pipeline**      | 26 ago 2026 | Decisión de ahorro de tokens + creación de los 3 skills del pipeline |
-| 💻 **Primer ejercicio HU → DHU → código**  | 02 sep 2026 | Primer flujo completo en desarrollo (prueba con Fernando Camargo)    |
+| 💻 **Primer ejercicio HU → DHU → código**  | 01 sep 2026 | Primer flujo completo en desarrollo (ejecutado con Fernando Camargo)    |
 | 🏁 **Culminación Arquitecto IA**           | 10 sep 2026 | Traspaso de Jose Luis; Oscar queda como soporte/afinaciones          |
 | 🧪 **Validación con equipo dev del banco** | 30 sep 2026 | Feedback incorporado a los skills                                    |
 | 🎯 **Cierre del proyecto**                 | 09 oct 2026 | Skills estabilizados + documentación y onboarding                    |
@@ -276,7 +276,7 @@ El equipo dev del banco es la contraparte que valida en la práctica: dispone de
 
 | Dependencia                                |   Responsable    |      Estado       | Impacto si no se resuelve                  |
 | ------------------------------------------ | :--------------: | :---------------: | ------------------------------------------ |
-| Entrega de la HU de negocio por el cliente |    Interbank     |     Acordado      | Sin HU no se valida el pipeline end-to-end |
+| Entrega de la HU de negocio por el cliente |    Interbank     | ✅ Completada (S3) | Sin HU no se valida el pipeline end-to-end |
 | Entorno de trabajo del equipo dev (PC)     | Equipo dev banco |   ✅ Disponible   | Bloquea la validación con feedback         |
 | Grafos graphify de los 7 repos             |    Equipo IA     | ✅ Generados (S1) | Sin grafos, el análisis consume tokens     |
 | Acceso a repositorios BACC                 |    Interbank     |        ✅         | Bloquea análisis e implementación          |
@@ -322,10 +322,13 @@ El equipo dev del banco es la contraparte que valida en la práctica: dispone de
 
 ## 06 · Próximos Pasos Inmediatos
 
-1. **Recibir la HU de negocio** del cliente (acuerdo de la semana 2).
-2. **Ejecutar `bcv-hu-context-analyzer`** con graphify para generar `.context/hu-<codigo>.md`.
-3. **Continuar la iteración de skills** con código real.
-4. **Preparar el traspaso** de Jose Luis (10 sep): cerrar arquitectura, validaciones y acuerdos con el cliente.
+Los pasos 1–3 ya se ejecutaron en la **semana 3** (01 sep, con Fernando Camargo), quedando el flujo HU → DHU → código enviado a desarrollo:
+
+1. ✅ **Recibir la HU de negocio** del cliente.
+2. ✅ **Ejecutar `bcv-hu-context-analyzer`** con graphify → `.context/hu-<codigo>.md`.
+3. ✅ **Iterar los skills** con código real (validación con Fernando Camargo).
+4. ⬜ **Consolidar el feedback** de desarrollo e incorporar las correcciones (semana 4).
+5. ⬜ **Preparar el traspaso** de Jose Luis (10 sep): cerrar arquitectura, validaciones y acuerdos con el cliente.
 
 ---
 
