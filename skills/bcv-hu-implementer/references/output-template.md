@@ -85,6 +85,7 @@ Validación superada → se procede en modo `dry-run`.
 
 - [ ] {task 1}
 - [ ] {task 2}
+- [ ] Configuración externa (secretos Key Vault, tópicos/colas ASB, valores Config Server) — ver sección "Configuración externa / post-implementación" del DHU.
 
 ## Next steps
 

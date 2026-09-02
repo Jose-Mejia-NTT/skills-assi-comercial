@@ -10,7 +10,7 @@
 
 ---
 
-```markdown
+````markdown
 ## DHU - {service_name}: {technical_responsibility}
 
 > **Transformation date:** {YYYY-MM-DD}
@@ -48,7 +48,7 @@
 Yo como {Plataforma Digital / Servicio / Sistema}
 Quiero {acción técnica observable}
 Para que {resultado técnico o dependiente}
-```
+````
 
 ---
 
@@ -60,6 +60,7 @@ Para que {resultado técnico o dependiente}
 > No incluir lenguaje ambiguo como "rápido", "seguro" o "correcto".
 
 **CA 01 - {main validation}**
+
 ```text
 Dado: {precondición}
 Cuando: {acción}
@@ -67,6 +68,7 @@ Entonces: {resultado concreto con códigos, mensajes o estado}
 ```
 
 **CA 02 — {regla de negocio o integración}**
+
 ```text
 Dado: {precondición}
 Cuando: {acción}
@@ -74,6 +76,7 @@ Entonces: {resultado concreto con códigos, mensajes o estado}
 ```
 
 **CA 03 — {caso de error o borde}**
+
 ```text
 Dado: {precondición}
 Cuando: {acción}
@@ -81,6 +84,7 @@ Entonces: {resultado concreto con códigos, mensajes o estado}
 ```
 
 **CA 04 - {optional, if applicable}**
+
 ```text
 Dado: {precondición}
 Cuando: {acción}
@@ -109,6 +113,7 @@ Entonces: {resultado concreto con códigos, mensajes o estado}
 **Descripción:** {Breve descripción de qué hace el endpoint}
 
 **Headers requeridos:**
+
 ```json
 {
   "Content-Type": "application/json",
@@ -118,6 +123,7 @@ Entonces: {resultado concreto con códigos, mensajes o estado}
 ```
 
 **Request body schema (si aplica):**
+
 ```json
 {
   "field1": {
@@ -135,6 +141,7 @@ Entonces: {resultado concreto con códigos, mensajes o estado}
 ```
 
 **Response body schema (HTTP 200):**
+
 ```json
 {
   "status": "success",
@@ -149,16 +156,17 @@ Entonces: {resultado concreto con códigos, mensajes o estado}
 
 **Error responses:**
 
-| HTTP Code | Error Code | Message | Example Payload |
-|---|---|---|---|
-| 400 | `INVALID_REQUEST` | Required or invalid field | `{"status": "error", "error_code": "INVALID_REQUEST", "message": "Field 'field1' is required", "field": "field1"}` |
-| 401 | `UNAUTHORIZED` | Missing, expired or invalid token | `{"status": "error", "error_code": "UNAUTHORIZED", "message": "Invalid or expired token"}` |
-| 403 | `FORBIDDEN` | User has no permission | `{"status": "error", "error_code": "FORBIDDEN", "message": "Insufficient permissions"}` |
-| 404 | `NOT_FOUND` | Resource not found | `{"status": "error", "error_code": "NOT_FOUND", "message": "Resource with id {id} does not exist"}` |
-| 500 | `INTERNAL_ERROR` | Internal server error | `{"status": "error", "error_code": "INTERNAL_ERROR", "message": "Error processing request", "requestId": "{uuid}"}` |
-| 504 | `UPSTREAM_TIMEOUT` | Upstream service timeout | `{"status": "error", "error_code": "UPSTREAM_TIMEOUT", "message": "Service {serviceName} exceeded timeout of {timeoutSec}s", "upstreamService": "{serviceName}", "requestId": "{uuid}"}` |
+| HTTP Code | Error Code         | Message                           | Example Payload                                                                                                                                                                          |
+| --------- | ------------------ | --------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 400       | `INVALID_REQUEST`  | Required or invalid field         | `{"status": "error", "error_code": "INVALID_REQUEST", "message": "Field 'field1' is required", "field": "field1"}`                                                                       |
+| 401       | `UNAUTHORIZED`     | Missing, expired or invalid token | `{"status": "error", "error_code": "UNAUTHORIZED", "message": "Invalid or expired token"}`                                                                                               |
+| 403       | `FORBIDDEN`        | User has no permission            | `{"status": "error", "error_code": "FORBIDDEN", "message": "Insufficient permissions"}`                                                                                                  |
+| 404       | `NOT_FOUND`        | Resource not found                | `{"status": "error", "error_code": "NOT_FOUND", "message": "Resource with id {id} does not exist"}`                                                                                      |
+| 500       | `INTERNAL_ERROR`   | Internal server error             | `{"status": "error", "error_code": "INTERNAL_ERROR", "message": "Error processing request", "requestId": "{uuid}"}`                                                                      |
+| 504       | `UPSTREAM_TIMEOUT` | Upstream service timeout          | `{"status": "error", "error_code": "UPSTREAM_TIMEOUT", "message": "Service {serviceName} exceeded timeout of {timeoutSec}s", "upstreamService": "{serviceName}", "requestId": "{uuid}"}` |
 
 **Ejemplo de solicitud (cURL):**
+
 ```bash
 curl -X POST http://localhost:8080/api/v1/{endpoint} \
   -H "Content-Type: application/json" \
@@ -170,6 +178,7 @@ curl -X POST http://localhost:8080/api/v1/{endpoint} \
 ```
 
 **Ejemplo de respuesta exitosa (HTTP 200):**
+
 ```json
 {
   "status": "success",
@@ -183,6 +192,7 @@ curl -X POST http://localhost:8080/api/v1/{endpoint} \
 ```
 
 **Ejemplo de respuesta con error (HTTP 400):**
+
 ```json
 {
   "status": "error",
@@ -197,12 +207,12 @@ curl -X POST http://localhost:8080/api/v1/{endpoint} \
 
 ### Referencias
 
-| Recurso | Enlace |
-|---|---|
+| Recurso             | Enlace                           |
+| ------------------- | -------------------------------- |
 | HU funcional origen | {identificador o link si existe} |
-| OpenAPI 3.0 | {identificador o link si existe} |
-| Arquitectura | {identificador o link si existe} |
-| Documentación | {identificador o link si existe} |
+| OpenAPI 3.0         | {identificador o link si existe} |
+| Arquitectura        | {identificador o link si existe} |
+| Documentación       | {identificador o link si existe} |
 
 > **Nota:** Las referencias son opcionales. Si no se dispone de URLs reales, basta con el identificador (ej: `Jira-12345`, `RFC-042`). No deben bloquear la aprobación de la DHU.
 
@@ -210,9 +220,9 @@ curl -X POST http://localhost:8080/api/v1/{endpoint} \
 
 ### Control de Versiones
 
-| Versión | Descripción | Fecha | Responsable | Estado |
-|---|---|---|---|---|
-| 1.0 | Versión inicial HU técnica | {date} | GitHub Copilot | EN ELABORACIÓN |
+| Versión | Descripción                | Fecha  | Responsable    | Estado         |
+| ------- | -------------------------- | ------ | -------------- | -------------- |
+| 1.0     | Versión inicial HU técnica | {date} | GitHub Copilot | EN ELABORACIÓN |
 
 ---
 
@@ -227,14 +237,15 @@ curl -X POST http://localhost:8080/api/v1/{endpoint} \
 
 > Desglose por capa y servicio. Una tarea por fila.
 
-| # | Servicio | Capa | Tarea | Estimación | Bloqueada por |
-|---|---|---|---|---|---|
-| 1 | `{service}` | Input / Controller | {tarea concreta} | {Xh} | {gap o N/A} |
-| 2 | `{service}` | Core / Use Case | {tarea concreta} | {Xh} | {gap o N/A} |
-| 3 | `{service}` | Output / Repository | {tarea concreta} | {Xh} | {gap o N/A} |
-| 4 | `{service}` | Mapper / DTO | {tarea concreta} | {Xh} | {gap o N/A} |
+| #   | Servicio    | Capa                | Tarea            | Estimación | Bloqueada por |
+| --- | ----------- | ------------------- | ---------------- | ---------- | ------------- |
+| 1   | `{service}` | Input / Controller  | {tarea concreta} | {Xh}       | {gap o N/A}   |
+| 2   | `{service}` | Core / Use Case     | {tarea concreta} | {Xh}       | {gap o N/A}   |
+| 3   | `{service}` | Output / Repository | {tarea concreta} | {Xh}       | {gap o N/A}   |
+| 4   | `{service}` | Mapper / DTO        | {tarea concreta} | {Xh}       | {gap o N/A}   |
 
 > **Si hay gaps bloqueantes:**
+>
 > ```text
 > ⚠️ BLOQUEADO: No se puede definir el plan de tareas hasta resolver:
 > - [Gap 1]
@@ -250,38 +261,88 @@ curl -X POST http://localhost:8080/api/v1/{endpoint} \
 
 #### {service-name}
 
-| Elemento | Detalle | Estado |
-|---|---|---|
-| **Módulo / capa** | `input` / `core` / `output` | ✅ |
-| **Archivos exactos** | `src/main/java/.../{Class}.java` | ✅ |
-| **Clases y métodos** | `{Class}.{method}()` | ✅ |
-| **DTOs / records** | `{RequestRecord}`, `{ResponseRecord}` | ✅ |
-| **Entidades / repositorios** | `{Entity}.java`, `{Repository}.java` | ✅ |
-| **Endpoints / contratos** | `POST /api/v1/...` | ✅ |
-| **Cambios requeridos** | Agregar campo X, validar catálogo, persistir valor. | ✅ |
-| **Pruebas asociadas** | Unitarias: `{Class}Test`. Integración: `{Flow}IT`. | ✅ |
-| **Dependencias / pendientes** | Ninguna o referencia al gap. | ✅ |
+| Elemento                      | Detalle                                             | Estado |
+| ----------------------------- | --------------------------------------------------- | ------ |
+| **Módulo / capa**             | `input` / `core` / `output`                         | ✅     |
+| **Archivos exactos**          | `src/main/java/.../{Class}.java`                    | ✅     |
+| **Clases y métodos**          | `{Class}.{method}()`                                | ✅     |
+| **DTOs / records**            | `{RequestRecord}`, `{ResponseRecord}`               | ✅     |
+| **Entidades / repositorios**  | `{Entity}.java`, `{Repository}.java`                | ✅     |
+| **Endpoints / contratos**     | `POST /api/v1/...`                                  | ✅     |
+| **Cambios requeridos**        | Agregar campo X, validar catálogo, persistir valor. | ✅     |
+| **Pruebas asociadas**         | Unitarias: `{Class}Test`. Integración: `{Flow}IT`.  | ✅     |
+| **Dependencias / pendientes** | Ninguna o referencia al gap.                        | ✅     |
 
 #### {service-name-2}
 
-| Elemento | Detalle | Estado |
-|---|---|---|
-| **Módulo / capa** | `input` / `core` / `output` | ✅ |
-| **Archivos exactos** | `src/main/java/.../{Class}.java` | ✅ |
-| **Clases y métodos** | `{Class}.{method}()` | ✅ |
-| **DTOs / records** | `{MessageInDto}`, `{MessageOutDto}` | ✅ |
-| **Entidades / repositorios** | N/A (stateless) | ✅ |
-| **Endpoints / contratos** | ASB topic `{topic-name}` | ✅ |
-| **Cambios requeridos** | Incluir campo en payload del evento. | ✅ |
-| **Pruebas asociadas** | Unitarias: `{Handler}Test`. | ✅ |
-| **Dependencias / pendientes** | Ninguna o referencia al gap. | ✅ |
+| Elemento                      | Detalle                              | Estado |
+| ----------------------------- | ------------------------------------ | ------ |
+| **Módulo / capa**             | `input` / `core` / `output`          | ✅     |
+| **Archivos exactos**          | `src/main/java/.../{Class}.java`     | ✅     |
+| **Clases y métodos**          | `{Class}.{method}()`                 | ✅     |
+| **DTOs / records**            | `{MessageInDto}`, `{MessageOutDto}`  | ✅     |
+| **Entidades / repositorios**  | N/A (stateless)                      | ✅     |
+| **Endpoints / contratos**     | ASB topic `{topic-name}`             | ✅     |
+| **Cambios requeridos**        | Incluir campo en payload del evento. | ✅     |
+| **Pruebas asociadas**         | Unitarias: `{Handler}Test`.          | ✅     |
+| **Dependencias / pendientes** | Ninguna o referencia al gap.         | ✅     |
 
 > **Si hay gaps bloqueantes:**
+>
 > ```text
 > ⚠️ PENDIENTE: El mapa técnico queda incompleto hasta resolver:
 > - [Gap 1]
 > - [Gap 2]
 > ```
+
+---
+
+### Configuración externa / post-implementación
+
+> Configuraciones que se hacen **después** de implementar el código (infraestructura/entorno).
+> El código NO hardcodea estos valores: solo los referencia por nombre (variable de entorno, `@Value`, placeholder).
+> La creación real del secret/topic/valor es tarea posterior (DevOps), listada en "Manual tasks remaining" del reporte de implementación.
+
+#### Secretos en Key Vault
+
+| Secret (nombre)               | Qué representa | Usado en     | Parametrizable como            |
+| ----------------------------- | -------------- | ------------ | ------------------------------ |
+| `{bcv-xxx-client-secret}`     | {descripción}  | `{servicio}` | `${BCV_XXX_CLIENT_SECRET}`     |
+| `{bcv-yyy-connection-string}` | {descripción}  | `{servicio}` | `${BCV_YYY_CONNECTION_STRING}` |
+
+**Ejemplo concreto — secret de cliente para Feign:**
+
+| Secret (nombre) | Qué representa | Usado en | Parametrizable como |
+|---|---|---|---|
+| `bcv-bacc-plm-customer-client-secret` | Client secret OAuth2 (client-credentials) para que PLM autentique contra `bcv-bacc-customer-service` vía Feign | `bcv-bacc-party-lifecycle-management-service` | `${BCV_CUSTOMER_CLIENT_SECRET}` |
+
+```yaml
+# application.yml — el código referencia la variable, nunca el valor
+bcv:
+  customer:
+    client-secret: ${BCV_CUSTOMER_CLIENT_SECRET}
+```
+
+```java
+@Value("${bcv.customer.client-secret}")
+private String customerClientSecret;
+```
+
+> **Flujo:** DevOps crea el secret `bcv-bacc-plm-customer-client-secret` en Key Vault y lo expone como variable de entorno `BCV_CUSTOMER_CLIENT_SECRET`. El código solo lo referencia vía `@Value`; jamás se hardcodea el valor.
+
+#### Tópicos / colas / mensajes
+
+| Tópico / cola  | Propósito     | Parametrizable como |
+| -------------- | ------------- | ------------------- |
+| `{topic-name}` | {descripción} | `${bcv.topic.xxx}`  |
+| `{queue-name}` | {descripción} | `${bcv.queue.xxx}`  |
+
+#### Valores configurables (Config Server / application.yml)
+
+| Propiedad           | Descripción   | Valor por defecto | Entorno     |
+| ------------------- | ------------- | ----------------- | ----------- |
+| `{bcv.xxx.enabled}` | {descripción} | `true`            | dev/uat/prd |
+| `{bcv.xxx.timeout}` | {descripción} | `30`              | dev/uat/prd |
 
 ---
 
@@ -304,12 +365,13 @@ curl -X POST http://localhost:8080/api/v1/{endpoint} \
 
 > Impacto por servicio y componente.
 
-| Servicio | Componente | Contrato afectado | Base de datos | Riesgo | Responsable |
-|---|---|---|---|---|---|
-| `{service}` | `{component}` | `{dto/endpoint/queue}` | `{tabla/campo}` | {Alto/Medio/Bajo} | {rol} |
-| `{service}` | `{component}` | `{dto/endpoint/queue}` | `{tabla/campo}` | {Alto/Medio/Bajo} | {rol} |
+| Servicio    | Componente    | Contrato afectado      | Base de datos   | Riesgo            | Responsable |
+| ----------- | ------------- | ---------------------- | --------------- | ----------------- | ----------- |
+| `{service}` | `{component}` | `{dto/endpoint/queue}` | `{tabla/campo}` | {Alto/Medio/Bajo} | {rol}       |
+| `{service}` | `{component}` | `{dto/endpoint/queue}` | `{tabla/campo}` | {Alto/Medio/Bajo} | {rol}       |
 
 > **Si hay gaps bloqueantes:**
+>
 > ```text
 > ⚠️ PENDIENTE: La matriz de impacto queda incompleta hasta resolver [gap].
 > ```
@@ -328,6 +390,7 @@ curl -X POST http://localhost:8080/api/v1/{endpoint} \
 - [ ] Gaps bloqueantes resueltos o aceptados.
 
 > **Si hay gaps abiertos:**
+>
 > ```text
 > ❌ DoR NO CUMPLIDO: faltan definir [gap 1], [gap 2].
 > ```
@@ -343,6 +406,7 @@ curl -X POST http://localhost:8080/api/v1/{endpoint} \
 - [ ] Pruebas de integración del flujo.
 - [ ] Contrato actualizado (OpenAPI, DTO, evento).
 - [ ] Migración de base de datos aplicada (si aplica).
+- [ ] Configuración externa aplicada (Key Vault, tópicos/colas, Config Server).
 - [ ] Documentación técnica actualizada.
 - [ ] Validaciones funcionales ejecutadas.
 - [ ] Gaps resueltos verificados.
@@ -385,18 +449,18 @@ curl -X POST http://localhost:8080/api/v1/{endpoint} \
 
 ### Especificación Técnica [OPTIONAL]
 
-| Aspecto | Detalle |
-|---|---|
-| Lenguaje | {e.g. Java 21} |
-| Framework | {e.g. Spring Boot 3.x} |
-| Puerto | {e.g. 8080} |
-| Contexto | {e.g. /api/v1/documentos} |
-| Base de datos | {aplica / no aplica} |
-| Autenticación | {requerida / no requerida; si aplica, incluir esquema (Bearer, API Key, etc.)} |
-| Timeout (seg) | {e.g. 30} |
-| Rate limiting | {aplica / no aplica; si aplica: {requests/minute}} |
-| Estructura del proyecto | {resumen corto de paquetes / módulos} |
-| Estado | {EN ELABORACIÓN / EN REVISIÓN / APROBADO / FINALIZADO / OBSOLETO} |
+| Aspecto                 | Detalle                                                                        |
+| ----------------------- | ------------------------------------------------------------------------------ |
+| Lenguaje                | {e.g. Java 21}                                                                 |
+| Framework               | {e.g. Spring Boot 3.x}                                                         |
+| Puerto                  | {e.g. 8080}                                                                    |
+| Contexto                | {e.g. /api/v1/documentos}                                                      |
+| Base de datos           | {aplica / no aplica}                                                           |
+| Autenticación           | {requerida / no requerida; si aplica, incluir esquema (Bearer, API Key, etc.)} |
+| Timeout (seg)           | {e.g. 30}                                                                      |
+| Rate limiting           | {aplica / no aplica; si aplica: {requests/minute}}                             |
+| Estructura del proyecto | {resumen corto de paquetes / módulos}                                          |
+| Estado                  | {EN ELABORACIÓN / EN REVISIÓN / APROBADO / FINALIZADO / OBSOLETO}              |
 
 > Esta información es contexto de implementación, no forma parte del contrato observable de la HU.
 
@@ -404,8 +468,8 @@ curl -X POST http://localhost:8080/api/v1/{endpoint} \
 
 > Lista de gaps técnicos pendientes. Deben resolverse antes de considerar el DoR completo.
 
-| ID | Gap | Tipo | Estado | Bloquea |
-|---|---|---|---|---|
+| ID     | Gap           | Tipo                         | Estado                             | Bloquea            |
+| ------ | ------------- | ---------------------------- | ---------------------------------- | ------------------ |
 | GAP-01 | {descripción} | {bloqueante / no bloqueante} | {abierto / en análisis / resuelto} | {sección afectada} |
 | GAP-02 | {descripción} | {bloqueante / no bloqueante} | {abierto / en análisis / resuelto} | {sección afectada} |
 
@@ -441,4 +505,7 @@ Si no hay gaps pendientes, reemplazar por:
 ```text
 ✅ No hay dudas pendientes. Esta DHU está lista para refinamiento final.
 ```
+
+```
+
 ```
