@@ -1,7 +1,6 @@
 ---
 name: bcv-hu-dhu-orchestrator
 description: Conductor híbrido del pipeline BCV HU → DHU → implementación. Ejecuta las fases en secuencia (contexto → DHU → reporte) leyendo y siguiendo los skills. Se detiene solo ante gaps bloqueantes y antes de aplicar código (apply).
-tools: ["read", "search", "edit", "write", "bash"]
 ---
 
 ## Idioma / Language (MÁXIMA prioridad)
