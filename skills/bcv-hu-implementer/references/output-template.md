@@ -81,6 +81,19 @@ Validación superada → se procede en modo `dry-run`.
 
 ---
 
+## Build / run commands
+
+Comandos Maven (raíz del repo, usa `./mvnw`; en multi-módulo usa `-pl <module>` para apuntar a un módulo):
+
+| Acción | Comando |
+|---|---|
+| Compilar | `./mvnw clean compile` |
+| Tests unitarios | `./mvnw test` |
+| Tests + integración + linter + empaquetar | `./mvnw verify` |
+| Empaquetar sin tests | `./mvnw clean package -DskipTests` |
+| Ejecutar la app (módulo `-app`) | `./mvnw -pl {app-module} spring-boot:run` |
+| Ejecutar el jar | `java -jar {app-module}/target/{app-module}-*.jar` |
+
 ## Manual tasks remaining
 
 - [ ] {task 1}

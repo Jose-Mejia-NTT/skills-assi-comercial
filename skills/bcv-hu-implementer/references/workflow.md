@@ -128,15 +128,22 @@ In `apply` mode:
 2. Create new files.
 3. Do not delete existing code unless explicitly required by the DHU.
 
-### 5.5 Run linter and tests
+### 5.5 Build, test and run (Maven)
 
-```bash
-./mvnw verify
-```
+Use the Maven wrapper (`./mvnw`) from the repository root. Multi-module projects target a single module with `-pl <module>`.
 
-Or the equivalent command for the repo's build tool.
+| Acción | Comando |
+| --- | --- |
+| Compilar | `./mvnw clean compile` |
+| Tests unitarios | `./mvnw test` |
+| Tests + integración + linter + empaquetar | `./mvnw verify` |
+| Empaquetar sin tests | `./mvnw clean package -DskipTests` |
+| Ejecutar la app (módulo `-app`) | `./mvnw -pl <nombre>-app spring-boot:run` |
+| Ejecutar el jar empaquetado | `java -jar <nombre>-app/target/<nombre>-app-*.jar` |
 
-If linter or tests fail, stop and report the error. Do not proceed to the next repo.
+If `verify` (linter/tests) fails, stop and report the error. Do not proceed to the next repo.
+
+In `apply` mode, run `./mvnw verify` per repository and record the result in the report. Include the exact `spring-boot:run` / `java -jar` command for the `-app` module in the "Build / run commands" section of the report.
 
 ---
 
