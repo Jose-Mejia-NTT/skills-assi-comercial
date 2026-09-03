@@ -1,0 +1,47 @@
+{
+  "skill_name": "bcv-testing",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Genera tests unitarios para un adapter (CceServiceAdapter) que llama a un puerto externo CustomerSpecialStatusServicePort en bcv-bacc-compliance-service.",
+      "expected_output": "Usa @ExtendWith(MockitoExtension.class), @Mock el puerto, @InjectMocks el adapter, stubs con when/verify y aserciones AssertJ.",
+      "files": [],
+      "assertions": [
+        "Usa @ExtendWith(MockitoExtension.class)",
+        "Mockea el puerto con @Mock e inyecta con @InjectMocks",
+        "Stubs con when(...).thenReturn(...)",
+        "Verifica la interacción con verify(...)",
+        "Usa assertThat/assertEquals",
+        "Sigue estructura Given/When/Then",
+        "No hace I/O real"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Escribe un test para PowersValidationPublisher que verifica que el mensaje se publica con el subject correcto y que no propaga excepciones.",
+      "expected_output": "Mockea MessagePublisherRegistry y MessagePublisher, inyecta el label por reflection, captura Message con ArgumentCaptor y cubre el caso de excepción.",
+      "files": [],
+      "assertions": [
+        "Mockea MessagePublisherRegistry y MessagePublisher",
+        "Stubs registry.getPublisher(...) para devolver el publisher mock",
+        "Inyecta el campo @Value (label/queue) por reflection",
+        "Usa ArgumentCaptor<Message> y verify(publisher).publish(captor.capture())",
+        "Aserta el subject capturado",
+        "Cubre que publish con excepción no propaga (assertDoesNotThrow)"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "¿Cómo testo el repository de expedientes? Dame la estrategia recomendada en BACC.",
+      "expected_output": "Recomienda @DataJpaTest solo para verificar semántica de queries, y preferir mock del puerto para testear el adapter.",
+      "files": [],
+      "assertions": [
+        "Recomienda @DataJpaTest para verificar semántica de queries",
+        "Prefiere mockear el puerto con Mockito para tests de adapter",
+        "Menciona ddl-auto=none y la necesidad de datasource de test",
+        "Menciona JaCoCo y cobertura por servicio",
+        "No sugiere I/O real contra SQL Server/Cosmos"
+      ]
+    }
+  ]
+}

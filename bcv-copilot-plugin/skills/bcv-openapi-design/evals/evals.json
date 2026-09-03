@@ -1,0 +1,35 @@
+{
+  "skill_name": "bcv-openapi-design",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Como desarrollador, quiero completar el archivo rest-api.yaml vacío del servicio de gestión de documentos (document-management-service) para que refleje tres endpoints: alta de documento, consulta de documento por ID, y rechazo de documento con motivo.",
+      "expected_output": "Un archivo rest-api.yaml con los paths POST /documents, GET /documents/{documentId}, y POST /documents/{documentId}:reject, cada uno con sus request y response bodies, ejemplos, códigos de error, y esquema de error consistente.",
+      "assertions": [
+        "El yaml contiene los tres endpoints solicitados con métodos y paths correctos",
+        "Las request y response de cada endpoint están definidas con ejemplos",
+        "Incluye estructura de error compartida ErrorResponse según la referencia del skill"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Como arquitecto, quiero extraer la documentación OpenAPI de los controllers existentes de expedient-management-service y completar la definición de DTOs y principales errores de negocio para el endpoint de creación de expediente.",
+      "expected_output": "OpenAPI spec con el endpoint POST /expedients, DTO de entrada bien definido, response con location header, y errores de negocio como EXPEDIENT_ALREADY_EXISTS y INVALID_CUSTOMER_DATA.",
+      "assertions": [
+        "POST /expedients está presente con requestBody, response correcta y errors listados",
+        "DTO de entrada define todos required fields explícitamente",
+        "Errores EXPEDIENT_ALREADY_EXISTS y INVALID_CUSTOMER_DATA están modelados como posibles responses"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Como usuario, quiero que el skill me ayude a validar un contrato openapi existente señalando ausencias típicas: paths sin response, DTOs sin required, o errores incompletos.",
+      "expected_output": "Reporte estructurado que lista: endpoints sin response, DTOs que no marcan required fields, y errores no modelados según la convención común del skill.",
+      "assertions": [
+        "Genera un informe listando paths sin response",
+        "Enumera DTOs sin required[] explícito",
+        "Reporta si alguna respuesta de error no sigue el esquema ErrorResponse"
+      ]
+    }
+  ]
+}

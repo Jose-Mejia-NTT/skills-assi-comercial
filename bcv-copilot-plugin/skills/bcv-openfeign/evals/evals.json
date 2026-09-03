@@ -1,0 +1,47 @@
+{
+  "skill_name": "bcv-openfeign",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "¿Cómo creo un cliente Feign en party-lifecycle-management-service para consultar clientes por RUC? El servicio externo expone GET /customers?ruc=... y requiere propagar Authorization.",
+      "expected_output": "Genera @FeignClient con url configurable interbank.ads.httpclient.feign.customer.base-url, path configurable, records de request/response, FeignConfig con RequestInterceptor y test con Mockito.",
+      "files": [],
+      "assertions": [
+        "Usa @FeignClient(name=..., url=${interbank.ads.httpclient.feign.<client>.base-url}, configuration=FeignConfig.class)",
+        "El path es configurable, no hardcodeado",
+        "Los payloads son Java records",
+        "FeignConfig expone un RequestInterceptor que copia Authorization y headers de trazabilidad",
+        "Incluye propiedades YAML interbank.ads.httpclient.feign.<client>.*",
+        "Incluye snippet de test con Mockito mockeando el cliente",
+        "No hardcodea URLs ni secretos"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Las llamadas Feign a un servicio externo devuelven FeignException genérica. ¿Cómo mapeo los errores 4xx/5xx a una excepción de dominio y evito filtrar PII en los logs?",
+      "expected_output": "Propone un ErrorDecoder custom que mapea status a ExternalServiceException y sanea el body antes de loguear.",
+      "files": [],
+      "assertions": [
+        "Implementa feign.codec.ErrorDecoder",
+        "Mapea status codes a una excepción de dominio (ExternalServiceException)",
+        "Sanea campos sensibles (token, password, pan, cvv) antes de loguear",
+        "Trata 503/504 como reintentable y 4xx como no reintentable",
+        "Se registra como @Bean en FeignConfig",
+        "Lee el body una sola vez con try-with-resources"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "El servicio externo no recibe el Authorization ni el trace id en las llamadas Feign. ¿Qué reviso?",
+      "expected_output": "Revisa el RequestInterceptor en FeignConfig, la propagación de headers y el contexto de request.",
+      "files": [],
+      "assertions": [
+        "Verifica que FeignConfig tenga un RequestInterceptor que copie Authorization/X-Trace-Id/X-Span-Id/traceparent",
+        "No sobrescribe un Authorization ya presente en el template",
+        "Omite valores vacíos (StringUtils.hasText)",
+        "No lanza excepción cuando no hay request context (flujos scheduler/subscriber)",
+        "Confirma que el cliente usa configuration=FeignConfig.class"
+      ]
+    }
+  ]
+}

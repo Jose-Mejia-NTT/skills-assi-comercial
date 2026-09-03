@@ -1,0 +1,39 @@
+{
+  "skill_name": "bcv-cosmos-db",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Guardar tracking de workflow en Cosmos para un expediente y consultar por estado y fecha.",
+      "expected_output": "Especificación estructurada con contenedor, modelo documental, claves id y negocio, consultas con particionamiento y TTL.",
+      "files": [],
+      "assertions": [
+        "Se define claramente la partition key optativa y no asumida.",
+        "Se indica que debe usarse mocks si Cosmos no está disponible.",
+        "Se sugieren modelos event log, snapshot o híbrido.",
+        "Se entrega implementación para Spring Data Cosmos y SDK directo."
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "El servicio usa Azure Cosmos SDK directamente y requiere control detallado de RU/s y retries.",
+      "expected_output": "Propuesta de configuración con CosmosAsyncClient, manejo de rate limiting y backoff, serialización con versionado.",
+      "files": [],
+      "assertions": [
+        "Configuración de CosmosClient o CosmosAsyncClient propuesta.",
+        "Políticas de retries y backoff para error 429.",
+        "Validación de consumo RU/s incluida."
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "El servicio usa Spring Data Cosmos reactive con wrapper bcv-commons-cosmos y necesita mock para desarrollo local.",
+      "expected_output": "Generación de adapter/reactive repository con mocks en memoria y tests de contrato simples.",
+      "files": [],
+      "assertions": [
+        "Se genera adapter fake con búsquedas por trackingId.",
+        "Se comprende la integración con wrapper bcv-commons-cosmos.",
+        "Se incluye tests de contrato para mocks."
+      ]
+    }
+  ]
+}

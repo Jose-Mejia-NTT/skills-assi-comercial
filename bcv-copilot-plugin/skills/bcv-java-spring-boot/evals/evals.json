@@ -1,0 +1,69 @@
+{
+  "skill_name": "bcv-java-spring-boot",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Como agrego un nuevo modulo Maven en un proyecto BCV que usa ADS BOM sin romper el build?",
+      "expected_output": "Identifica estructura multi-modulo, propone cambio en pom padre y pom del modulo, mantiene spring-boot-maven-plugin ejecutable solo en app y agrega checklist de verificacion.",
+      "files": [],
+      "assertions": [
+        "Identifica si el proyecto es multi-modulo o no antes de proponer cambios",
+        "Incluye agregar <module> en el pom padre",
+        "El nuevo modulo hereda del parent existente",
+        "Evita activar spring-boot-maven-plugin en modulos libreria",
+        "Incluye checklist de build/arranque"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "El servicio BCV no inicia en local cuando Config Server esta caido. Dame una estrategia segura para desarrolladores.",
+      "expected_output": "Entrega diagnostico por pasos, separa bootstrap/application, valida variables de entorno y propone fallback local sin hardcodear secretos.",
+      "files": [],
+      "assertions": [
+        "Menciona diferencia de responsabilidades entre bootstrap.yml y application.yml",
+        "Incluye validacion de variables de entorno de Key Vault/Config Server",
+        "No sugiere hardcodear credenciales",
+        "Incluye estrategia local de fallback o mock",
+        "Incluye checklist de troubleshooting"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "How should I secure BCV Spring Boot configuration for secrets and profile management across local/dev/uat/prd?",
+      "expected_output": "Devuelve guia de perfiles, externalizacion de secretos via Key Vault/env vars, y pasos de verificacion para evitar secretos en repositorio.",
+      "files": [],
+      "assertions": [
+        "Incluye perfiles local/dev/uat/stg/prd o equivalentes del proyecto",
+        "Externaliza secretos en Key Vault o variables de entorno",
+        "Incluye advertencia explicita contra secretos en git",
+        "Incluye pasos de verificacion operativa"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Necesito crear un nuevo microservicio BCV, pero la base de datos y el broker aun no estan disponibles. Como avanzamos sin bloquear al equipo?",
+      "expected_output": "Aplica el principio mock-first, propone contratos y mocks para dependencias externas, y define criterios para habilitar endpoints reales.",
+      "files": [],
+      "assertions": [
+        "Aplica mock-first para dependencias externas no disponibles",
+        "Define validacion de contrato antes de endpoint productivo",
+        "Incluye condicion explicita de salida de mock a real",
+        "Mantiene enfoque SDD/BMAD"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Como configuro secretos y datasource en un servicio bcv-bacc-* (por ejemplo account-opening-reporting)? El servicio usa parent ads-spring-boot-dependencies y Java 21.",
+      "expected_output": "Usa interbank.ads.security + interbank.ads.secrets en bootstrap.yml y interbank.ads.persistence-sql.sql-data-sources en application.yml, con launcher Bacc*AppLauncher.",
+      "files": [],
+      "assertions": [
+        "Identifica el parent ads-spring-boot-dependencies y Java 21 para servicios BACC",
+        "Cablea secretos via interbank.ads.security.vaults e interbank.ads.secrets con placeholders ibk-nr_*",
+        "Usa interbank.ads.persistence-sql.sql-data-sources para el datasource (no spring.datasource)",
+        "Nombra el launcher como Bacc*AppLauncher en pe.interbank.bcv.bacc<service>",
+        "No hardcodea connection strings ni secretos",
+        "Distingue bootstrap.yml (config/keyvault) de application.yml (runtime)"
+      ]
+    }
+  ]
+}

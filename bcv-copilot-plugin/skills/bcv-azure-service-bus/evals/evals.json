@@ -1,0 +1,79 @@
+{
+  "skill_name": "bcv-azure-service-bus",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "¿Cómo agrego un nuevo publisher de Azure Service Bus en bcv-disb-business-service para notificar cuando se crea una promesa de pago? El topic es bcv.disbursement y el label debe ser disbursement.payment-promise-created.",
+      "expected_output": "Identifica la variante bcv-commons-pubsub, genera interfaz + implementación del publisher, registro de bean en PublisherConfig, propiedades YAML y snippet de test.",
+      "files": [],
+      "expectations": [
+        "Identifica el proyecto como bcv-disb-business-service y la librería bcv-commons-pubsub",
+        "Muestra una interfaz publisher con un método descriptivo",
+        "La implementación inyecta PublisherClient con @Qualifier",
+        "Usa JSONUtil.convertToJSONString y publisherClient.publish(..., label, Optional.empty())",
+        "Incluye @ObservableOperation y @ObservableService",
+        "Maneja la excepción loggeando el error en lugar de tragarla silenciosamente",
+        "La connection string se lee de Key Vault (bootstrap.yml) y no está hardcodeada",
+        "Incluye propiedades YAML con prefijo bcv.disb.prop",
+        "Incluye snippet de unit test con Mockito para PublisherClient"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "El subscriber de bcv-h2h-integration-service no está procesando mensajes del topic h2h.integration. ¿Qué debo revisar?",
+      "expected_output": "Proporciona una checklist de troubleshooting: suscripción, label, maxConcurrentCalls, connection string, excepciones silenciosas, DLQ y logs.",
+      "files": [],
+      "expectations": [
+        "Menciona verificar que la suscripción existe en Azure Service Bus",
+        "Verifica que el label en application-local.yml coincide con el configurado en la suscripción",
+        "Revisa que maxConcurrentCalls sea mayor a 0",
+        "Confirma que la connection string se resuelve desde Key Vault",
+        "Advierte contra tragar excepciones sin log en el handler",
+        "Explica cómo inspeccionar la DLQ",
+        "Muestra cómo habilitar logs de com.microsoft.azure.servicebus"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Add a new publisher in bcv-h2h-expedient-management-service that publishes an event when an expedient changes status. The topic is h2h.tracking and the label is tracking.status-changed.",
+      "expected_output": "Usa el patrón ADS messaging con MessagePublisherRegistry, propiedades bajo interbank.ads.messaging.topic.publishers y componente @Component.",
+      "files": [],
+      "expectations": [
+        "Identifica el proyecto como bcv-h2h-expedient-management-service y el patrón ADS messaging",
+        "Muestra uso de MessagePublisherRegistry.getPublisher(...)",
+        "Usa Message.Builder con .subject(label)",
+        "Incluye @Value para leer la propiedad interbank.ads.messaging.topic.publishers.statusChangePublisher.label",
+        "Incluye propiedades YAML bajo interbank.ads.messaging.topic.publishers.statusChangePublisher",
+        "Maneja excepciones loggeando el error",
+        "No hardcodea connection strings"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "¿Cómo agrego un subscriber de una cola en bcv-bacc-account-opening-reporting-service para procesar reportes PN? La cola es que-bcv-ars-reporting-data-ingestion-pn-req-01.",
+      "expected_output": "Identifica la variante BACC topic/queue de ads-spring-boot-starter-messaging, genera handler MessageListener, registro en SubscriberMessagingConfig y propiedades queue.subscribers.",
+      "files": [],
+      "expectations": [
+        "Identifica el servicio BACC y la variante de configuración topic/queue (ads-spring-boot-starter-messaging)",
+        "El handler implementa MessageListener<T> con @ObservableService y @ObservableOperation",
+        "Registra el subscriber vía MessageSubscriberRegistry.addListenerForSubscriber en SubscriberMessagingConfig",
+        "Incluye propiedades YAML bajo interbank.ads.messaging.queue.subscribers.<name>.queue-name",
+        "Usa la connection string de interbank.ads.secrets.serviceBus.connectionString sin hardcodear",
+        "Coloca el handler en in.broker.subscriber y el config en in.broker.config"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "En bcv-bacc-party-lifecycle-management-service necesito publicar a una cola. ¿Qué prefijo de configuración y anotaciones uso?",
+      "expected_output": "Identifica la variante messages.publishers con la clave queue, usando @Value de interbank.ads.messaging.messages.publishers.<name>.queue.",
+      "files": [],
+      "expectations": [
+        "Identifica que PLM usa la variante messages.publishers (no topic.publishers)",
+        "El @Value lee interbank.ads.messaging.messages.publishers.<name>.queue",
+        "Usa MessagePublisherRegistry.getPublisher(<name>) y Message.Builder con .subject(queue)",
+        "Incluye @ObservableService y @ObservableOperation",
+        "No hardcodea connection strings"
+      ]
+    }
+  ]
+}
