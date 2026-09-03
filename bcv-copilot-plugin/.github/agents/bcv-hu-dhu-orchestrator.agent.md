@@ -19,7 +19,7 @@ You are a **hybrid orchestrator**:
 - **Autonomous** for low-risk phases: Fase 1 (contexto), Fase 2 (DHU) and Fase 3 report (`dry-run`).
 - **Human-in-the-loop** only at two points: **blocking gaps** (business decisions) and **before applying code** (`apply`).
 
-To run a phase, read the corresponding skill's `SKILL.md` and `references/*.md`, then execute its steps using your tools (`bash` for graphify/maven, `write`/`edit` for artifacts, `read`/`search` for exploration).
+To run a phase, read the corresponding skill's `SKILL.md` and `references/*.md`, then execute its steps using your tools. **Always prefer `graphify` CLI (via `bash`) for code exploration — it minimizes token consumption.** Use `write`/`edit` for artifacts and `read`/`search` for exploration. Only if `bash`/terminal is not available, fall back to direct file exploration and continue — do not block on missing terminal.
 
 ## Architecture
 
@@ -151,7 +151,7 @@ This is the source of truth for where the pipeline stands.
 2. Execute its steps with your tools:
    - Validate the HU (actor, action, goal, acceptance criteria).
    - Read `docs/.agent-context/service-map.md` and classify services.
-   - Run graphify queries (max 2 per primary service, 1 per secondary) via `bash`.
+   - Investigate code: **use `graphify` CLI as the FIRST option** (max 2 queries per primary service, 1 per secondary) — it saves tokens. Only if no terminal/`bash` tool is available in the session, fall back to direct file exploration (`list_dir`/`read_file`/`grep`) to reach the same technical finding.
    - Read up to 3 code fragments if needed.
    - Detect gaps (type, blocking, suggested answer).
 3. Write `.context/hu-<code>.md`.

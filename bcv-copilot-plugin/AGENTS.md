@@ -10,7 +10,7 @@ Instrucciones para agentes IA que trabajan en este repositorio (y en los workspa
 
 ## Reglas obligatorias
 
-1. Usa `graphify` para toda exploración de código. Prohibida la radiografía LLM.
+1. **Prioridad a `graphify`** para exploración de código (ahorra tokens). Úsalo siempre que haya terminal disponible. Solo si no hay herramienta de terminal, usa exploración directa de archivos (`list_dir`/`read_file`/`grep`). Evita la radiografía LLM de repos completos.
 2. Lee el `SKILL.md` de un skill antes de usarlo; aplica sus `references/`.
 3. Solo backend: no generes gaps de frontend/UI. Mapea canales a APIs, eventos o DTOs.
 4. No leas READMEs completos. Usa `service-map.md`, `architecture-conventions.md`, `cross-service-patterns.md` y `gotchas.md`.
@@ -39,7 +39,7 @@ Los skills viven en `skills/`. Un agente puede usar otro skill leyendo su `SKILL
 
 ## Cómo un agente usa otro skill
 
-1. Descubre los skills disponibles (glob `find . -type f -name 'SKILL.md'` o carpeta `skills/`).
+1. Descubre los skills disponibles (glob `find . -type f -name 'SKILL.md'` si hay terminal, o la carpeta `skills/` directamente).
 2. Para cada tarea, selecciona el skill cuyo scope mejor encaje.
 3. Lee su `SKILL.md` + `references/` y aplica sus convenciones al generar código.
 4. Si el skill no está disponible, marca la tarea como `not available in Copilot Chat`.
