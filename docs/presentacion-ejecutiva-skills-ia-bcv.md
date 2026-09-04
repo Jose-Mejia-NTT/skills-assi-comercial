@@ -67,6 +67,31 @@ El proyecto sigue **Spec-Driven Development (SDD)** y **BMAD**:
 | Implementar desde la spec | `bcv-hu-implementer` aplica la DHU en ramas feature (dry-run / apply)                       |
 | Verificar / feedback      | Linter + tests, revisión humana y gotchas que vuelven al contexto                           |
 
+#### Flujo visual (cómo SDD se aplica en BCV)
+
+La metodología SDD nos pide *especificar primero, codificar después*. El flujo BCV lo implementa añadiendo **graphify** (investigación local) para minimizar tokens:
+
+```mermaid
+flowchart LR
+    HU["HU funcional<br/>(requerimiento de negocio)"]
+    R["bcv-hu-context-analyzer<br/>investiga código con graphify"]
+    CTX["Contexto técnico<br/>.context/hu-codigo.md"]
+    D["bcv-dhu-writer<br/>escribe la especificación"]
+    DHU["DHU<br/>(spec estándar ibk-hu-technical-refinement)"]
+    I["bcv-hu-implementer<br/>implementa desde la spec"]
+    COD["Código<br/>ramas feature + tests"]
+    V["Verificar / feedback<br/>linter + tests + gotchas"]
+
+    HU --> R --> CTX --> D --> DHU --> I --> COD --> V
+    V -. "feedback a skills y contexto" .-> R
+
+    style R fill:#e3f2fd
+    style D fill:#e8f5e9
+    style I fill:#fff3e0
+```
+
+> **Qué dice SDD y cómo lo cumplimos:** la especificación (DHU, template `ibk-hu-technical-refinement`) es el artefacto central y va **antes** del código; el paso de *research* usa **graphify** (consulta el código real localmente, ~0 tokens de LLM) en vez de que el LLM lea repositorios completos.
+
 ---
 
 ### 1.5 ¿Por qué no Spec-Kit ni OpenSpec?
@@ -74,17 +99,94 @@ El proyecto sigue **Spec-Driven Development (SDD)** y **BMAD**:
 Se evaluaron los frameworks SDD genéricos [Spec-Kit](https://github.com/github/spec-kit) y [OpenSpec](https://github.com/openspec) y se **descartaron a favor del flujo custom BCV** por:
 
 1. **Alineación corporativa** — el DHU debe seguir el template `ibk-hu-technical-refinement` (estándar Interbank/BCV).
-2. **Integración con graphify** — investigación local de código con ~0 tokens.
+2. **Integración con graphify** — investigación local de código con ~0 tokens. Spec-Kit/OpenSpec **no integran graphify**: su investigación es el LLM leyendo archivos, lo que no logra el ahorro de ~85 %.
 3. **Eficiencia de tokens** — contexto mínimo (`service-map.md`, `gotchas.md`) y consultas quirúrgicas.
-4. **Multi-servicio** — BACC son 7 repos independientes con un workspace compartido.
+4. **Multi-servicio** — BACC son 7 repos independientes con un workspace compartido; Spec-Kit/OpenSpec son repo-local.
 5. **Control del pipeline** — gates propios (gaps, DoR/DoD, ramas `feature/HU-...` sin commit automático).
+6. **Estamos sentando las bases** — el objetivo no es adoptar una herramienta genérica, sino construir una capa de skills y contexto propia del ecosistema BCV, extensible a otros servicios de Interbank.
 
 | Aspecto                 | Flujo BCV (custom)                          | Spec-Kit / OpenSpec                  |
 | ----------------------- | ------------------------------------------- | ------------------------------------ |
 | Formato de spec         | DHU (`ibk-hu-technical-refinement`)         | `spec.md` propio / `specs/` + deltas |
-| Investigación de código | graphify (grafo local, ~0 tokens)           | LLM lee archivos                     |
+| Investigación de código | graphify (grafo local, ~0 tokens)           | LLM lee archivos (no usa graphify)   |
 | Contexto multi-servicio | workspace + `service-map.md` + `gotchas.md` | repo-local                           |
 | Alineación corporativa  | Alta (BCV/BACC)                             | Baja (genérico)                      |
+| Ahorro de tokens        | ~85 % (con graphify)                        | No logra el mismo ahorro             |
+
+#### ¿En qué punto coincidimos con graphify? (paso a paso)
+
+Todos los flujos SDD tienen un paso donde **se investiga el código existente** antes de especificar. BCV hace esa investigación con **graphify**; Spec-Kit y OpenSpec la hacen con el **LLM leyendo archivos** (más caro). Ese es el punto de coincidencia y de diferencia.
+
+**Spec-Kit**
+
+```mermaid
+flowchart TB
+    subgraph SK["Spec-Kit"]
+        direction LR
+        sk1["1 · Constitution"]
+        sk2["2 · Specify<br/>(escribe la spec)"]
+        sk3["3 · Plan"]
+        sk4["4 · Tasks → código"]
+    end
+    sk1 --> sk2 --> sk3 --> sk4
+
+    subgraph BCV["Flujo BCV — skill por paso"]
+        direction LR
+        bc0["Convenciones BCV ≈ Constitution:<br/>workflow-guide + .agents.md<br/>+ .agent-context/* (SDD/BMAD)"]
+        bc1["bcv-hu-context-analyzer<br/>🔍 research con graphify → .context"]
+        bc2["bcv-dhu-writer<br/>📝 escribe la DHU = spec + plan"]
+        bc3["bcv-hu-implementer<br/>⚙️ dry-run → apply → ramas"]
+    end
+    bc0 --> bc1 --> bc2 --> bc3
+
+    sk1 -. "≈" .-> bc0
+    sk2 -. "≈" .-> bc1
+    sk2 -. "≈" .-> bc2
+    sk3 -. "≈" .-> bc2
+    sk4 -. "≈" .-> bc3
+```
+
+> **Nota:** en BCV, la **DHU extendida** (`bcv-dhu-writer`) agrupa la *spec* y el *plan* en un solo artefacto (CAs + plan de tareas + mapa técnico). Por eso *Specify* y *Plan* apuntan a `bcv-dhu-writer`; `bcv-hu-context-analyzer` es solo el research previo con graphify.
+
+Paso a paso (Spec-Kit → cómo lo hace BCV):
+
+1. **Constitution** — reglas/metodología del proyecto. BCV lo cubre con sus **convenciones estáticas**: `docs/hu-dhu-workflow-guide.md`, `.agents.md` / `.github/copilot-instructions.md` y `docs/.agent-context/*.md` (service-map, architecture-conventions, cross-service-patterns). Definen cómo se trabaja (SDD/BMAD, arquitectura, contexto) y no cambian por HU.
+2. **Specify** — es el punto clave: para escribir la spec hay que entender el código. BCV lo hace en dos pasos: `bcv-hu-context-analyzer` investiga con **graphify** (~0 tokens → `.context`) y `bcv-dhu-writer` escribe la **DHU** (spec). Spec-Kit por defecto usa el LLM leyendo archivos.
+3. **Plan** — BCV lo cubre con el **plan de tareas / mapa técnico** que `bcv-dhu-writer` incluye en la DHU extendida.
+4. **Tasks → código** — BCV lo hace con `bcv-hu-implementer` en ramas `feature/HU-...`.
+
+**OpenSpec**
+
+```mermaid
+flowchart TB
+    subgraph OS["OpenSpec"]
+        direction LR
+        os1["1 · Change proposal<br/>(specs/ + deltas)"]
+        os2["2 · Tasks"]
+        os3["3 · Implementación"]
+    end
+    os1 --> os2 --> os3
+
+    subgraph BCV["Flujo BCV — qué skill usamos en cada paso y cómo"]
+        direction LR
+        bc1["bcv-hu-context-analyzer<br/>🔍 investiga con graphify → .context"]
+        bc2["bcv-dhu-writer<br/>📝 escribe la DHU (spec + plan)"]
+        bc3["bcv-hu-implementer<br/>⚙️ dry-run → apply → ramas feature"]
+    end
+    bc1 --> bc2 --> bc3
+
+    os1 -. "≈" .-> bc1
+    os2 -. "≈" .-> bc2
+    os3 -. "≈" .-> bc3
+```
+
+Paso a paso (OpenSpec → cómo lo hace BCV):
+
+1. **Change proposal** — proponer el cambio requiere analizar el código. BCV lo hace con `bcv-hu-context-analyzer` (graphify → `.context`) y `bcv-dhu-writer` escribe la propuesta como **DHU** (spec + plan).
+2. **Tasks** — BCV lo cubre con el **plan de tareas / mapa técnico** que `bcv-dhu-writer` genera en la DHU, y `bcv-hu-implementer` lo ejecuta.
+3. **Implementación** — BCV lo hace con `bcv-hu-implementer` (dry-run → apply).
+
+> **Conclusión:** en el punto donde todos deben *entender el código*, BCV usa **graphify** (grafo local, ~0 tokens, reutilizable entre HUs). Spec-Kit y OpenSpec dependen del LLM leyendo archivos en cada ejecución → no logran el ahorro de ~85 %.
 
 ---
 
