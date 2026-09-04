@@ -151,3 +151,4 @@ Return a concise summary with:
 - Number of files modified/created.
 - Linter and test results.
 - Next steps for the developer (review, commit, push).
+- **Graphify update note:** tell the user whether the graph must be updated, with the exact commands — `graphify check-update <repo>` to verify, `graphify <repo> --code-only` to update. Update only on structural changes (new controllers/subscribers/publishers/use cases, new entities/tables, new Feign clients, god node renames/deletions, large package refactors). Do NOT update for bugfixes, new fields on existing DTOs/entities, new tests, or docs-only changes.

@@ -280,16 +280,13 @@ bcv-bacc-workspace/                    ← repo Git independiente
 
 ### 5.2 Repositorios de microservicios (independientes)
 
-Cada microservicio es un **repositorio Git propio**:
+Cada microservicio es un **repositorio Git propio**. La lista actual de servicios vive en `docs/.agent-context/service-map.md` (fuente de verdad); aquí solo se ilustra el patrón de nombres:
 
 ```text
-bcv-bacc-party-lifecycle-management-service/    ← repo Git independiente
-bcv-bacc-channel-activity-service/              ← repo Git independiente
-bcv-bacc-compliance-service/                    ← repo Git independiente
-bcv-bacc-current-account-service/               ← repo Git independiente
-bcv-bacc-customer-service/                      ← repo Git independiente
-bcv-bacc-account-opening-reporting-service/     ← repo Git independiente
-bcv-bacc-service-point-service/                 ← repo Git independiente
+bcv-bacc-<servicio-1>/    ← repo Git independiente
+bcv-bacc-<servicio-2>/    ← repo Git independiente
+bcv-bacc-<servicio-3>/    ← repo Git independiente
+...
 ```
 
 Cada uno tiene su propio `docs/.agent-context/gotchas.md` versionado en su repo. El workspace comparte `service-map.md`, `architecture-conventions.md` y `cross-service-patterns.md`.
@@ -303,9 +300,9 @@ Para trabajar localmente, un desarrollador puede clonar todo junto en una misma 
 ```text
 /home/dev/bcv/
 ├── bcv-bacc-workspace/              ← repo del workspace
-├── bcv-bacc-party-lifecycle-management-service/
-├── bcv-bacc-channel-activity-service/
-└── ...
+├── bcv-bacc-<servicio-1>/
+├── bcv-bacc-<servicio-2>/
+└── ... (según service-map.md)
 ```
 
 O puede clonar los microservicios dentro del workspace, pero **ignorados por Git**:
@@ -314,21 +311,16 @@ O puede clonar los microservicios dentro del workspace, pero **ignorados por Git
 bcv-bacc-workspace/
 ├── docs/
 ├── .context/
-├── bcv-bacc-party-lifecycle-management-service/   ← ignorado por .gitignore
-└── bcv-bacc-channel-activity-service/             ← ignorado por .gitignore
+├── bcv-bacc-<servicio-1>/   ← ignorado por .gitignore
+└── bcv-bacc-<servicio-2>/   ← ignorado por .gitignore
 ```
 
 ### 5.4 `.gitignore` del workspace
 
 ```gitignore
-# Microservicios: son repos independientes, no se versionan aquí
-bcv-bacc-party-lifecycle-management-service/
-bcv-bacc-channel-activity-service/
-bcv-bacc-compliance-service/
-bcv-bacc-current-account-service/
-bcv-bacc-customer-service/
-bcv-bacc-account-opening-reporting-service/
-bcv-bacc-service-point-service/
+# Microservicios: son repos independientes, no se versionan aquí.
+# Usa un glob para no tener que listar cada servicio nuevo.
+bcv-bacc-*/
 
 # graphify cache regenerable
 graphify-out/cache/
@@ -857,6 +849,19 @@ graphify explain "ExpedientDomain" --max 5 \
 
 ## 10. Mantenimiento
 
+### 10.0 Agregar un nuevo microservicio/proyecto al workspace
+
+Cuando un microservicio nuevo entra al workspace, sigue este checklist **en orden**:
+
+1. **`docs/.agent-context/service-map.md`** — agregar la fila del servicio (Role, Stack, Architecture, God Nodes). **Obligatorio.**
+2. **`.gitignore`** — agregar el directorio del servicio si se clona dentro del workspace. **Obligatorio.**
+3. **Grafos graphify** — `graphify <servicio> --code-only`. **Obligatorio.**
+4. **`docs/.agent-context/architecture-conventions.md`** — solo si introduce una arquitectura distinta (ej. layered).
+5. **`docs/.agent-context/cross-service-patterns.md`** — solo si introduce nuevas convenciones de naming, comunicación o colas/topics.
+6. **`<servicio>/docs/.agent-context/gotchas.md`** — solo si hay constraints no obvias (máx 10 líneas).
+
+> **¿Y esta guía?** No es necesario tocarla. Es documentación genérica; el flujo lee `service-map.md` y los archivos de contexto, no los ejemplos ilustrativos de las secciones 5.2/5.3/5.4. Si quieres que esos ejemplos sigan reflejando el número actual de servicios, puedes actualizarlos, pero **no afecta al funcionamiento**.
+
 ### 10.1 Actualizar `service-map.md`
 
 Solo cuando:
@@ -878,6 +883,15 @@ Solo cuando:
 **No por cada cambio de código.**
 
 ### 10.3 Actualizar grafos graphify
+
+Comandos:
+
+| Acción | Comando |
+| ------ | ------- |
+| Verificar si está desactualizado | `graphify check-update <repo>` |
+| Actualizar / regenerar el grafo | `graphify <repo> --code-only` |
+
+Actualiza **solo si hubo cambios estructurales**:
 
 | Cambio                                         | Servicio a actualizar             |
 | ---------------------------------------------- | --------------------------------- |

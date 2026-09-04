@@ -134,6 +134,8 @@ El **equipo de desarrollo del banco** es la contraparte que valida en la prácti
 | **8** | 01 – 07 oct | ⬜ Propuesto | Estabilización y cierre | Estabilización final de los skills con el feedback consolidado, documentación/onboarding, demo con el cliente y lecciones aprendidas. |
 | **Cierre** | 08 – 09 oct | ⬜ Propuesto | Cierre de entregables | Cierre final y traspaso a cargo de **Oscar** (Jose Luis finalizó el 10 sep). |
 
+> **Actualización de grafos graphify:** se regeneran (`graphify <repo> --code-only`) cuando un feat implica un **cambio estructural grande** (nuevos controllers, entidades, integraciones o refactors de paquetes). El skill `bcv-hu-implementer` lo indica en el reporte de implementación, o el equipo decide a criterio al finalizar el sprint.
+
 ### 4.1 Hitos de disponibilidad
 
 - **10 sep 2026** — Jose Luis Mejia Rojas finaliza su participación. Su trabajo queda **culminado y traspasado** en esta fecha. A partir de aquí, **Oscar** queda como único recurso, en rol de **soporte y afinaciones** finales.

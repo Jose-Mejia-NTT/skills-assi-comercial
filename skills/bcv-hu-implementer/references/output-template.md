@@ -93,6 +93,11 @@ Validación superada → se procede en modo `dry-run`.
 2. Ejecutar el skill en modo **`apply`** (`bcv-hu-implementer --apply`) para crear ramas y aplicar cambios.
 3. Tras `apply`, se ejecuta `./mvnw verify` por repositorio; si falla, se detiene y reporta.
 4. Revisar el diff, commitear y crear PRs manualmente (el skill nunca commitea/pushea).
+5. **Actualizar el grafo graphify** — solo si hubo cambios estructurales:
+   - Verifica si está desactualizado: `graphify check-update <repo>`
+   - Actualiza el grafo: `graphify <repo> --code-only`
+   - ✅ Actualiza si: nuevo controller / subscriber / publisher / use case (ese servicio); nueva entidad / tabla (el dueño); nuevo cliente Feign / integración (el consumidor); rename / eliminación de god node o refactor grande de paquetes (el afectado).
+   - ❌ NO actualices por: bugfixes, nuevos campos en DTOs/entidades existentes, tests nuevos o cambios de docs.
 ```
 
 ---

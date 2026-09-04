@@ -282,6 +282,8 @@ El equipo dev del banco es la contraparte que valida en la práctica: dispone de
 | Acceso a repositorios BACC                 |    Interbank     |        ✅         | Bloquea análisis e implementación          |
 | Continuidad tras el 10 sep                 |    Equipo IA     |    Planificado    | Oscar asume soporte y afinaciones          |
 
+> **Actualización de grafos graphify:** se regeneran (`graphify <repo> --code-only`) cuando un feat implica un **cambio estructural grande** (nuevos controllers, entidades, integraciones o refactors de paquetes). El skill `bcv-hu-implementer` lo indica en el reporte, o el equipo decide a criterio al finalizar el sprint.
+
 ---
 
 ### 4.5 Riesgos
