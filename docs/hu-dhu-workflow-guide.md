@@ -96,7 +96,7 @@ Tres niveles de contexto, todos muy pequeños:
 
 ### 3.5 Skills disponibles en el repo BCV
 
-Todos los skills viven en `/Users/joseluis/Ntt/milton skills/skills-assi-comercial/skills`. Se dividen en dos grupos: los **del pipeline** (HU → DHU → implementación) y los **de implementación** (capacidades especializadas que se usan dentro de la Fase 3).
+Se dividen en dos grupos: los **del pipeline** (HU → DHU → implementación) y los **de implementación** (capacidades especializadas que se usan dentro de la Fase 3).
 
 #### Skills del pipeline (en orden de uso)
 
@@ -1080,9 +1080,11 @@ Este flujo funciona mejor cuando varios desarrolladores colaboran en crear y man
 #### Fase 1: Bootstrap (una sola vez)
 
 1. **Arquitecto/lead** genera los grafos graphify para todos los servicios:
+
    ```bash
    for repo in bcv-bacc-*; do graphify "$repo" --code-only; done
    ```
+
 2. **Arquitecto/lead** crea `docs/.agent-context/service-map.md` con rol, stack y god nodes.
 3. **Arquitecto/lead** crea `docs/.agent-context/architecture-conventions.md` y `docs/.agent-context/cross-service-patterns.md`.
 4. Cada **service owner** revisa su servicio y crea `gotchas.md` si aplica.
