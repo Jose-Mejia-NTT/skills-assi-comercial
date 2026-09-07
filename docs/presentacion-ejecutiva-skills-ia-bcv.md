@@ -5,7 +5,7 @@
 > **Proyecto:** Adaptación de skills de agente (IA) para los microservicios backend de Apertura de Cuentas Comerciales
 > **Ecosistema:** BCV/BACC — Interbank
 > **Fecha:** Septiembre 2026
-> **Estado:** Semana 3 en curso · Inicio 13 ago 2026 · Fin 09 oct 2026
+> **Estado:** Semana 4 en curso · Inicio 13 ago 2026 · Fin 09 oct 2026
 
 ---
 
@@ -350,9 +350,9 @@ El equipo dev del banco es la contraparte que valida en la práctica: dispone de
 | Semana     | Fechas          | Estado        | Hito                                                                | Detalle / Entregable                                                                                                                                                                                                                                                                                                   |
 | ---------- | --------------- | ------------- | ------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **1**      | 13 – 19 ago     | ✅ Completada | Consolidación de repositorios + entorno                             | Se consolidó toda la información de los repos a trabajar (los 7 microservicios BACC) y se configuró el entorno.                                                                                                                                                                                                        |
-| **2**      | 20 – 26 ago     | ✅ Completada | Optimización de tokens → graphify y creación de skills del pipeline | Se adoptó **graphify** como mecanismo de ahorro de tokens, con el flujo de workspace documentado en `docs/hu-dhu-workflow-guide.md`. Se crearon los skills del pipeline: **`bcv-hu-context-analyzer`**, **`bcv-dhu-writer`** y **`bcv-hu-implementer`**. Se acordó con el cliente la entrega de una **HU de negocio**. |
-| **3**      | 27 ago – 02 sep | 🔄 En curso   | Primer ejercicio HU → DHU → código                                  | Se completó el primer ejercicio end-to-end (ejecutado el **01 sep** con **Fernando Camargo**): se recibió la **HU de negocio**, se ejecutó `bcv-hu-context-analyzer` con graphify, se generó la **HU técnica (DHU)**, se implementó en código y se envió al ambiente de **desarrollo**. Validación/prueba en curso.                                                                    |
-| **4**      | 03 – 09 sep     | ⬜ Propuesto  | Consolidación + iteración de skills                                | Consolidar el primer ejercicio validado en desarrollo, incorporar el feedback de **Fernando Camargo** y continuar la iteración de skills con código real. Preparar el traspaso de Jose Luis (10 sep).                                                                                                                                                           |
+| **2**      | 20 – 26 ago     | ✅ Completada | Optimización de tokens → graphify y creación de skills del pipeline + primer ejercicio | Se adoptó **graphify** como mecanismo de ahorro de tokens, con el flujo de workspace documentado en `docs/hu-dhu-workflow-guide.md`. Se crearon los skills del pipeline: **`bcv-hu-context-analyzer`**, **`bcv-dhu-writer`** y **`bcv-hu-implementer`**. Se realizó un **primer ejercicio con Fernando Camargo**: con la metodología ~**2 h**, frente a ~**8 h (1 día)** de forma tradicional. Se acordó con el cliente la entrega de una **HU de negocio**. |
+| **3**      | 27 ago – 02 sep | ✅ Completada | Primer ejercicio con el equipo dev (EVT)                               | Se realizó la **primera prueba con Lionel Gonzales** (equipo dev del banco). No fue una HU de negocio sino un **EVT**, pero el flujo funcionó igual: `bcv-hu-context-analyzer` (graphify) → DHU → implementación → ambiente de desarrollo. **Resultado: satisfactoria**, ahorrando a Lionel **casi 4 días de implementación**.                                                                         |
+| **4**      | 03 – 09 sep     | 🔄 En curso   | Consolidación + iteración de skills                                 | Consolidar el resultado de la prueba EVT de la semana 3, incorporar el feedback de **Lionel Gonzales** y continuar la iteración de skills con código real. Preparar el traspaso de Jose Luis (10 sep).                                                                                                                                                          |
 | **5**      | 10 – 16 sep     | ⬜ Propuesto  | Iteración + DHU                                                     | Seguir refinando skills según feedback. Generar la DHU técnica (`bcv-dhu-writer`) y resolver dudas pendientes con el cliente.                                                                                                                                                                                          |
 | **6**      | 17 – 23 sep     | ⬜ Propuesto  | Iteración + implementación                                          | Continuar la mejora de skills. Ejecutar `bcv-hu-implementer` (dry-run → apply): ramas `feature/HU-...` y reporte de implementación.                                                                                                                                                                                    |
 | **7**      | 24 – 30 sep     | ⬜ Propuesto  | Validación con equipo dev del banco                                 | El **equipo dev del banco prueba en su propio entorno (PC)** y devuelve feedback para corregir los skills. Ciclo de corrección: ajustar, regenerar y revalidar.                                                                                                                                                        |
@@ -367,7 +367,7 @@ El equipo dev del banco es la contraparte que valida en la práctica: dispone de
 | ------------------------------------------ | :---------: | -------------------------------------------------------------------- |
 | 🚀 **Kick-off**                            | 13 ago 2026 | Inicio oficial del proyecto                                          |
 | 🧭 **Graphify + skills del pipeline**      | 26 ago 2026 | Decisión de ahorro de tokens + creación de los 3 skills del pipeline |
-| 💻 **Primer ejercicio HU → DHU → código**  | 01 sep 2026 | Primer flujo completo en desarrollo (ejecutado con Fernando Camargo)    |
+| 💻 **Primera prueba con equipo dev (EVT)** | 01 sep 2026 | Flujo completo validado con Lionel Gonzales — ahorro de ~4 días de implementación |
 | 🏁 **Culminación Arquitecto IA**           | 10 sep 2026 | Traspaso de Jose Luis; Oscar queda como soporte/afinaciones          |
 | 🧪 **Validación con equipo dev del banco** | 30 sep 2026 | Feedback incorporado a los skills                                    |
 | 🎯 **Cierre del proyecto**                 | 09 oct 2026 | Skills estabilizados + documentación y onboarding                    |
@@ -426,12 +426,12 @@ El equipo dev del banco es la contraparte que valida en la práctica: dispone de
 
 ## 06 · Próximos Pasos Inmediatos
 
-Los pasos 1–3 ya se ejecutaron en la **semana 3** (01 sep, con Fernando Camargo), quedando el flujo HU → DHU → código enviado a desarrollo:
+Los pasos 1–3 se ejecutaron en la **semana 3** con **Lionel Gonzales** sobre un **EVT** (no una HU de negocio), con resultado **satisfactorio** (~4 días de implementación ahorrados). El flujo quedó validado end-to-end:
 
-1. ✅ **Recibir la HU de negocio** del cliente.
+1. ✅ **Probar el pipeline sobre un EVT** (validación con Lionel Gonzales, semana 3).
 2. ✅ **Ejecutar `bcv-hu-context-analyzer`** con graphify → `.context/hu-<codigo>.md`.
-3. ✅ **Iterar los skills** con código real (validación con Fernando Camargo).
-4. ⬜ **Consolidar el feedback** de desarrollo e incorporar las correcciones (semana 4).
+3. ✅ **Iterar los skills** con código real (feedback de la prueba EVT).
+4. 🔄 **Consolidar el feedback** de desarrollo e incorporar las correcciones (semana 4, en curso).
 5. ⬜ **Preparar el traspaso** de Jose Luis (10 sep): cerrar arquitectura, validaciones y acuerdos con el cliente.
 
 ---
