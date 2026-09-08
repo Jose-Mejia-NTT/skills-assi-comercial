@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Inventario de Skills IA — Interbank BCV/BACC</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* Paleta Interbank + solo lo necesario (mínimo CSS, ~2 KB) */
+:root{
+  --blue:#0039A6; --blue-l:#3361B8;
+  --green:#05BE50; --green-dark:#00A94F;
+  --ink:#0F191E; --bg:#FBFBFB; --line:#ECEDED; --line2:#D9DADB;
+  --muted:#5b6b78; --soft:#eef1f2; --softg:#e8f6ee;
+}
+*{box-sizing:border-box}
+body{margin:0;font:14px/1.6 Montserrat,Arial,sans-serif;color:var(--ink);background:var(--bg)}
+h1,h2,h3{margin:0;font-weight:800;color:var(--blue)}
+h2{font-size:22px;margin-bottom:4px}
+p{margin:0}
+code{background:var(--soft);padding:1px 5px;border-radius:4px;font-size:.92em}
+.wrap{max-width:1100px;margin:0 auto;padding:0 20px}
+
+/* Top bar */
+.top{background:var(--blue);color:#fff;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.6px}
+.top .wrap{display:flex;gap:22px;padding-top:7px;padding-bottom:7px}
+.top span+span{opacity:.6}
+
+/* Header */
+header{background:var(--blue);color:#fff;border-bottom:4px solid var(--green)}
+.brand{display:flex;align-items:center;gap:12px;padding-top:22px}
+.mark{width:42px;height:42px;border-radius:9px;background:var(--green);position:relative;flex:none}
+.mark:before,.mark:after{content:"";position:absolute;background:#fff}
+.mark:before{inset:9px 19px}                  /* brazo vertical de la X */
+.mark:after{left:19px;top:9px;bottom:9px;width:4px;transform:rotate(0)} 
+.bname{font-weight:800;letter-spacing:.3px}
+.bsub{font-size:12px;color:#c9d8f2}
+header h1{margin-top:18px;color:#fff;font-size:clamp(22px,3vw,32px);line-height:1.15}
+.tag{color:#dfe9fb;max-width:760px;margin-top:8px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 26px}
+.chip{border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.15);border-radius:999px;padding:3px 12px;font-size:12px;font-weight:600}
+
+main{padding:30px 0}
+section{margin:0 0 42px}
+.lead{color:var(--muted);margin:6px 0 18px;max-width:820px}
+
+/* Acordeones */
+details{background:#fff;border:1px solid var(--line);border-left:5px solid var(--green);border-radius:9px;margin-bottom:11px;box-shadow:0 1px 3px rgba(15,25,30,.05)}
+summary{cursor:pointer;list-style:none;padding:14px 16px;font-weight:600;display:flex;flex-wrap:wrap;align-items:center;gap:9px}
+summary::-webkit-details-marker{display:none}
+summary .n{color:var(--green);font-weight:800}
+summary .s{color:var(--blue);font-weight:800}
+.pill{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:#fff;background:var(--green);border-radius:999px;padding:2px 9px}
+.pill.blu{background:var(--blue)}
+.when{color:var(--muted);font-weight:500}
+.body{padding:0 16px 15px;display:grid;grid-template-columns:1fr 1fr;gap:16px;border-top:1px dashed var(--line)}
+.h4{font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--blue);margin:12px 0 5px}
+ol{margin:0;padding-left:18px;color:#33414d}
+li{margin-bottom:2px}
+.io{background:var(--softg);border:1px solid #d4ecd9;border-radius:6px;padding:8px 10px;font-size:13px}
+
+/* Tarjetas */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:13px}
+.card{background:#fff;border:1px solid var(--line);border-radius:9px;padding:15px}
+.card h3{font-size:14.5px;color:var(--blue);margin-bottom:5px}
+.card p{color:#4a5864;font-size:13px}
+
+pre{background:var(--ink);color:#dff7e7;border-radius:9px;padding:14px 16px;overflow-x:auto;font-size:12.5px;margin:16px 0 0;line-height:1.8}
+pre .g{color:var(--green);font-weight:700}
+pre .c{opacity:.55}
+
+/* Tabla */
+.tblwrap{background:#fff;border:1px solid var(--line);border-radius:9px;overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:13px;min-width:640px}
+th{background:#eef3ff;color:var(--blue);text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.4px;padding:10px 12px}
+td{padding:10px 12px;border-top:1px solid var(--line);vertical-align:top}
+tr:nth-child(even) td{background:#fcfdff}
+td.mono{font-weight:700;color:var(--blue)}
+footer{background:var(--blue);color:#c9d8f2;font-size:12px}
+footer .wrap{padding:18px 20px}
+@media(max-width:720px){.body{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div class="top"><div class="wrap"><span>Personas</span><span>Negocios</span><span>Empresas e Instituciones</span></div></div>
+
+<header>
+  <div class="wrap">
+    <div class="brand">
+      <div class="mark"></div>
+      <div><div class="bname">Interbank</div><div class="bsub">BCV/BACC · Skills IA para microservicios backend</div></div>
+    </div>
+    <h1>Inventario de Skills IA</h1>
+    <p class="tag">Catálogo de los <strong>13 skills</strong> y <strong>cómo se implementa cada uno</strong> en el flujo HU → DHU → código, con <strong>graphify</strong> (~85&nbsp;% menos tokens).</p>
+    <div class="chips">
+      <span class="chip">7 microservicios</span><span class="chip">Pipeline HU → DHU → código</span>
+      <span class="chip">graphify · ~85 % ahorro</span><span class="chip">4 sprints · 13 ago → 09 oct</span>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section>
+    <h2>A · Cómo se implementa el pipeline (3 skills)</h2>
+    <p class="lead">Cada skill del pipeline ejecuta pasos concretos y genera un artefacto. El paso de investigación usa <strong>graphify</strong> (grafo local, ~0 tokens).</p>
+
+    <details open>
+      <summary><span class="n">01</span><span class="s">bcv-hu-context-analyzer</span><span class="pill">Pipeline · paso 1</span><span class="when">HU funcional → contexto técnico</span></summary>
+      <div class="body"><div>
+        <div class="h4">Cómo se implementa</div>
+        <ol>
+          <li>Valida la HU (actor, acción, objetivo, CAs).</li>
+          <li>Clasifica servicios (primary / secondary / omitted) con <code>service-map.md</code>.</li>
+          <li>Investiga el código con <strong>graphify</strong> (máx 2 queries por servicio primario).</li>
+          <li>Lee fragmentos puntuales y detecta gaps (tipo · bloquea · sugerencia).</li>
+          <li>Escribe el artefacto.</li>
+        </ol>
+      </div><div>
+        <div class="h4">Entrada → Salida</div>
+        <p class="io"><code>HU funcional + workspace</code> → <code>.context/hu-&lt;codigo&gt;.md</code></p>
+        <p style="margin-top:8px;font-size:12px;color:var(--muted)">Rol: genera la base técnica de todo el flujo.</p>
+      </div></div>
+    </details>
+
+    <details>
+      <summary><span class="n">02</span><span class="s">bcv-dhu-writer</span><span class="pill">Pipeline · paso 2</span><span class="when">contexto → Historia Técnica (DHU)</span></summary>
+      <div class="body"><div>
+        <div class="h4">Cómo se implementa</div>
+        <ol>
+          <li>Lee el contexto <code>.context/hu-&lt;codigo&gt;.md</code>.</li>
+          <li>Rellena el template extendido (<em>ibk-hu-technical-refinement</em>): CAs, endpoints, mapa técnico, config externa, DoR/DoD.</li>
+          <li>Documenta gaps y dudas con respuestas sugeridas (no pregunta en vivo).</li>
+          <li>Auto-valida: ≥3 CAs, mapa técnico no vacío, DoR completo.</li>
+          <li>Escribe el artefacto.</li>
+        </ol>
+      </div><div>
+        <div class="h4">Entrada → Salida</div>
+        <p class="io"><code>.context/hu-*.md</code> → <code>hu-technical-refinement/HU-...-refined-....md</code></p>
+        <p style="margin-top:8px;font-size:12px;color:var(--muted)">Rol: convierte el análisis en una spec accionable y estándar.</p>
+      </div></div>
+    </details>
+
+    <details>
+      <summary><span class="n">03</span><span class="s">bcv-hu-implementer</span><span class="pill">Pipeline · paso 3</span><span class="when">DHU → código (reporte y ramas feature)</span></summary>
+      <div class="body"><div>
+        <div class="h4">Cómo se implementa</div>
+        <ol>
+          <li>Pre-valida la DHU (sin gaps bloqueantes, ≥3 CAs, mapa técnico).</li>
+          <li>Descubre los skills disponibles en el workspace/usuario.</li>
+          <li>Genera el <strong>reporte</strong> (dry-run por defecto) con columna <em>Skill</em> por tarea.</li>
+          <li>En <code>--apply</code>: crea ramas <code>feature/HU-...</code> y aplica cambios.</li>
+          <li>Ejecuta linter + tests (<code>./mvnw verify</code>).</li>
+          <li>Indica si toca regenerar el grafo graphify (solo cambios estructurales).</li>
+          <li>Nunca commitea ni pushea (revisión humana).</li>
+        </ol>
+      </div><div>
+        <div class="h4">Entrada → Salida</div>
+        <p class="io"><code>DHU</code> → <code>reporte + ramas feature + código</code></p>
+        <p style="margin-top:8px;font-size:12px;color:var(--muted)">Rol: ejecuta la spec; delega el “cómo codificar” a los skills de implementación.</p>
+      </div></div>
+    </details>
+  </section>
+
+  <section>
+    <h2>B · Uso de graphify</h2>
+    <p class="lead">Motor de investigación local que hace el flujo BCV eficiente en tokens.</p>
+    <div class="cards">
+      <div class="card"><h3>🔍 Qué hace</h3><p>Indexa el código en un grafo local (AST). <code>bcv-hu-context-analyzer</code> lo consulta con <code>query / path / explain</code>.</p></div>
+      <div class="card"><h3>💰 Por qué</h3><p>~85&nbsp;% menos tokens (~70k → ~10k por HU). Consultas locales que no consumen LLM.</p></div>
+      <div class="card"><h3>🔄 Cuándo actualizar</h3><p>Solo en cambios estructurales: <code>graphify &lt;repo&gt; --code-only</code>; verifica con <code>graphify check-update &lt;repo&gt;</code>.</p></div>
+    </div>
+<pre><span class="g">$</span> graphify query "registryOffice" --max 5 --graph &lt;repo&gt;/graphify-out/graph.json
+<span class="g">$</span> graphify check-update &lt;repo&gt;   <span class="c"># ¿grafo desactualizado?</span>
+<span class="g">$</span> graphify &lt;repo&gt; --code-only     <span class="c"># regenerar grafo</span></pre>
+  </section>
+
+  <section>
+    <h2>C · Inventario de skills (13)</h2>
+    <p class="lead">Los skills de <strong>implementación</strong> son las capacidades que <code>bcv-hu-implementer</code> lee y aplica según la tarea.</p>
+    <div class="tblwrap">
+      <table>
+        <thead><tr><th>Skill</th><th>Grupo</th><th>Qué hace</th><th>Implementación (cómo se usa)</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">bcv-hu-context-analyzer</td><td><span class="pill">Pipeline</span></td><td>HU → contexto con graphify</td><td>Paso 1 del flujo; investiga y clasifica.</td></tr>
+          <tr><td class="mono">bcv-dhu-writer</td><td><span class="pill">Pipeline</span></td><td>Contexto → DHU</td><td>Paso 2; escribe la spec estándar.</td></tr>
+          <tr><td class="mono">bcv-hu-implementer</td><td><span class="pill">Pipeline</span></td><td>DHU → código</td><td>Paso 3; reporte + ramas feature.</td></tr>
+          <tr><td class="mono">bcv-hexagonal-architecture</td><td><span class="pill blu">Arquitectura</span></td><td>Slice hexagonal</td><td>Lo usa el implementer al crear use cases/controllers/puertos.</td></tr>
+          <tr><td class="mono">bcv-clean-architecture</td><td><span class="pill blu">Arquitectura</span></td><td>Auditar/refactorizar a clean</td><td>Corrige violaciones de dependencia y migra servicios legacy.</td></tr>
+          <tr><td class="mono">bcv-java-spring-boot</td><td><span class="pill blu">Backend</span></td><td>Setup Spring Boot</td><td>Configura BOM, módulos, profiles y Key Vault.</td></tr>
+          <tr><td class="mono">bcv-openapi-design</td><td><span class="pill blu">Contratos</span></td><td>REST / OpenAPI</td><td>Define DTOs, endpoints y errores RFC 9457.</td></tr>
+          <tr><td class="mono">bcv-openfeign</td><td><span class="pill blu">Integración</span></td><td>Clientes HTTP</td><td>Crea/arregla @FeignClient, headers y ErrorDecoder.</td></tr>
+          <tr><td class="mono">bcv-azure-service-bus</td><td><span class="pill blu">Mensajería</span></td><td>ASB</td><td>Genera publishers/subscribers, topics y DLQ.</td></tr>
+          <tr><td class="mono">bcv-spring-data-jpa-sql-server</td><td><span class="pill blu">Persistencia</span></td><td>JPA + SQL Server</td><td>Crea entidades, repos y migraciones (columnas estándar).</td></tr>
+          <tr><td class="mono">bcv-cosmos-db</td><td><span class="pill blu">Persistencia</span></td><td>Cosmos DB</td><td>Modela containers, partition key y queries.</td></tr>
+          <tr><td class="mono">bcv-commons-observability</td><td><span class="pill blu">Observabilidad</span></td><td>Trazas / métricas / alertas</td><td>Aplica @Observable*, data masking y alertas Teams.</td></tr>
+          <tr><td class="mono">bcv-testing</td><td><span class="pill blu">Testing</span></td><td>Tests</td><td>Genera unit/integración (JUnit 5, Mockito, @DataJpaTest).</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+</main>
+
+<footer><div class="wrap"><strong style="color:#fff">Interbank</strong> · Skills IA — Ecosistema BCV/BACC · NTT Data.<br>
+Detalle completo en <code style="background:rgba(255,255,255,.15);color:#fff">docs/hu-dhu-workflow-guide.md</code></div></footer>
+
+</body>
+</html>
