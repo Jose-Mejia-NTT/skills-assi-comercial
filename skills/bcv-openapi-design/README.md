@@ -23,13 +23,13 @@ Este skill se enfoca en:
 ## ¿Cuándo NO usarlo?
 
 - Para implementación de la lógica de negocio.
-- Para generación de tests (use `bcv-testing`).
+- Para generación de tests (use `bcv-unit-integration-testing`).
 - Para configuración de infraestructura.
 
 ## Skills relacionados
 
 - `bcv-hexagonal-architecture` — para alinear el contrato con los controladores del slice.
-- `bcv-testing` — para generar tests basados en el contrato.
+- `bcv-unit-integration-testing` — para generar tests basados en el contrato.
 
 ## Información requerida
 

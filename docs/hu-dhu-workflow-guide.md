@@ -132,7 +132,7 @@ Estos son los skills que el reporte de implementación referencia en la columna 
 | `bcv-spring-data-jpa-sql-server` | Persistencia JPA + SQL Server: entidades, repositorios, migraciones, Always Encrypted, auditing.                                           |
 | `bcv-cosmos-db`                  | Persistencia Cosmos DB: containers, documentos, partition key, RU/s, TTL.                                                                  |
 | `bcv-commons-observability`      | Observabilidad: trazas, métricas, alertas de Teams, data masking de PII.                                                                   |
-| `bcv-testing`                    | Tests unitarios/integración: JUnit 5, Mockito, AssertJ, `@DataJpaTest`, JaCoCo.                                                            |
+| `bcv-unit-integration-testing`                    | Tests unitarios/integración: JUnit 5, Mockito, AssertJ, `@DataJpaTest`, JaCoCo.                                                            |
 
 > **Relación con el pipeline:** los skills de implementación **no reemplazan** a `bcv-hu-implementer`. `bcv-hu-implementer` orquesta los cambios y referencia estos skills para indicar **cómo** debe escribirse el código de cada tarea.
 

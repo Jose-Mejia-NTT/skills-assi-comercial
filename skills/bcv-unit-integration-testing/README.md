@@ -1,4 +1,4 @@
-# bcv-testing
+# bcv-unit-integration-testing
 
 Skill BCV/BACC para generar, revisar y mejorar tests unitarios e de integración en servicios Java/Spring Boot.
 

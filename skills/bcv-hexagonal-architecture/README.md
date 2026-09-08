@@ -22,7 +22,7 @@ Este skill se enfoca en:
 ## ¿Cuándo NO usarlo?
 
 - Para diseño de contratos OpenAPI (use `bcv-openapi-design`).
-- Para generación de tests (use `bcv-testing`).
+- Para generación de tests (use `bcv-unit-integration-testing`).
 - Para cambios puramente de infraestructura.
 
 ## Skills relacionados
@@ -30,7 +30,7 @@ Este skill se enfoca en:
 - `bcv-openapi-design` — para definir el contrato REST antes del slice.
 - `bcv-spring-data-jpa-sql-server` — para adaptadores de persistencia.
 - `bcv-azure-service-bus` — para adaptadores de mensajería.
-- `bcv-testing` — para agregar tests al slice después de generado.
+- `bcv-unit-integration-testing` — para agregar tests al slice después de generado.
 
 ## Información requerida
 

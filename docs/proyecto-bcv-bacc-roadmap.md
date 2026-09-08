@@ -180,7 +180,7 @@ Paso a paso (OpenSpec → cómo lo hace BCV):
 
 - **13 skills de agente**, divididos en dos grupos:
   - **Pipeline (3):** `bcv-hu-context-analyzer`, `bcv-dhu-writer`, `bcv-hu-implementer`.
-  - **Implementación (10):** `bcv-hexagonal-architecture`, `bcv-clean-architecture`, `bcv-java-spring-boot`, `bcv-openapi-design`, `bcv-openfeign`, `bcv-azure-service-bus`, `bcv-spring-data-jpa-sql-server`, `bcv-cosmos-db`, `bcv-commons-observability`, `bcv-testing`.
+  - **Implementación (10):** `bcv-hexagonal-architecture`, `bcv-clean-architecture`, `bcv-java-spring-boot`, `bcv-openapi-design`, `bcv-openfeign`, `bcv-azure-service-bus`, `bcv-spring-data-jpa-sql-server`, `bcv-cosmos-db`, `bcv-commons-observability`, `bcv-unit-integration-testing`.
 
 - **Flujo completo HU → DHU → implementación**, incluyendo:
   - Investigación de código con graphify (local, ~0 tokens).

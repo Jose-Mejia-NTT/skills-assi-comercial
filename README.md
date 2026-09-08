@@ -265,7 +265,7 @@ Guía el uso de `bcv-commons-observability` para trazas, métricas, alertas de T
 
 ---
 
-#### `bcv-testing`
+#### `bcv-unit-integration-testing`
 
 Genera y revisa tests unitarios e de integración con JUnit 5 + Mockito + AssertJ.
 

@@ -1,5 +1,5 @@
 ---
-name: bcv-testing
+name: bcv-unit-integration-testing
 description: |
   Use this skill to generate, review or improve unit and integration tests for BCV/BACC Java Spring
   Boot services, following the ecosystem conventions: JUnit 5, Mockito (@ExtendWith(MockitoExtension.class)),
@@ -20,7 +20,7 @@ metadata:
   frameworks: ["Spec-Driven Development", "BMAD"]
 ---
 
-# bcv-testing
+# bcv-unit-integration-testing
 
 ## Language handling and output policy
 
