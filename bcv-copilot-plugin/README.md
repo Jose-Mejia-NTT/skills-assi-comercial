@@ -9,6 +9,8 @@ bcv-copilot-plugin/
 ├── .github/
 │   ├── copilot-instructions.md          ← system prompt (instrucciones a nivel repo)
 │   ├── instructions/                    ← instrucciones por ruta (opcional)
+│   ├── prompts/                          ← prompts reutilizables de Copilot Chat
+│   │   └── ejecutar-pipeline-hu.prompt.md
 │   └── agents/
 │       └── bcv-hu-dhu-orchestrator.agent.md   ← agente personalizado (frontmatter + prompt)
 ├── skills/                              ← skills reutilizables (13)
@@ -37,6 +39,7 @@ bcv-copilot-plugin/
 | Skills               | `skills/` (cada uno con `SKILL.md`)                     |
 | Instrucciones        | `AGENTS.md` + `.github/instructions/*.instructions.md`  |
 | Agente               | `.github/agents/*.agent.md` (frontmatter YAML + prompt) |
+| Prompt reutilizable  | `.github/prompts/*.prompt.md` (frontmatter YAML + prompt) |
 
 ## Cómo importarlo
 
@@ -46,12 +49,18 @@ bcv-copilot-plugin/
 2. GitHub Copilot detectará automáticamente:
    - `.github/copilot-instructions.md` (instrucciones globales).
    - `.github/agents/*.agent.md` (agentes personalizados).
+   - `.github/prompts/*.prompt.md` (prompts reutilizables como comandos `/`).
    - `skills/` (skills reutilizables).
    - `AGENTS.md` (instrucciones para agentes).
 
 ### Agentes personalizados
 
 En VS Code / JetBrains, los agentes aparecen en el dropdown de agentes de Copilot Chat (`.github/agents/`). El agente `bcv-hu-dhu-orchestrator` orquesta el flujo por fases.
+
+### Prompts reutilizables
+
+El prompt `.github/prompts/ejecutar-pipeline-hu.prompt.md` aparece en Copilot Chat como el comando `/ejecutar-pipeline-hu`.
+Su frontmatter selecciona automáticamente el agente `bcv-hu-dhu-orchestrator`. Reemplaza `[HU completa]` por la historia de usuario antes de enviarlo.
 
 ## Cómo el agente usa otros skills
 
