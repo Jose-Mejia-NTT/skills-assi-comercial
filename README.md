@@ -4,6 +4,16 @@ Repositorio de skills de agente para los microservicios **BCV / BACC** (Business
 
 Cada skill en esta carpeta guía a un agente de código para generar, mantener o diagnosticar componentes Java/Spring Boot siguiendo las convenciones, librerías internas y arquitectura de los servicios BACC (Java 21, Spring Boot 3.x, hexagonal, Azure Service Bus, SQL Server + Cosmos DB, OpenFeign, Key Vault).
 
+## 🌐 GitHub Pages — Inventario de Skills
+
+La web con el **inventario de skills, el flujo HU → DHU → código y el uso de graphify** está publicada en GitHub Pages:
+
+🔗 **https://jose-mejia-ntt.github.io/skills-assi-comercial/**
+
+- **Fuente:** `docs/index.html` (también `docs/skills-inventario.html`).
+- **Deploy:** el workflow `.github/workflows/pages.yml` publica la carpeta `docs/` en cada push a `main`.
+- Para activar/desactivar: **Settings → Pages → Source: GitHub Actions**.
+
 ## Convenciones del repositorio
 
 - Cada skill vive en su propia carpeta bajo `skills/`.
