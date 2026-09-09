@@ -50,6 +50,17 @@ El proyecto consiste en **construir y adaptar un conjunto de skills de agente** 
 - **Onboarding acelerado** del equipo de desarrollo en el uso de asistentes de IA.
 - **Trazabilidad corporativa** vía DHU estándar y contexto versionado (`service-map.md`, `gotchas.md`).
 
+### 1.3.1 Resultados destacados de los ejercicios (hitos medidos)
+
+Los dos primeros ejercicios con el equipo dev del banco validaron el flujo y cuantificaron el ahorro frente a la forma tradicional:
+
+| Usuario | HU / EVT | Complejidad | Tradicional (h) | Copilot (h) | Skill+Graphify (h) | Ahorro vs Tradicional |
+| ------- | -------- | ----------- | :-------------: | :---------: | :----------------: | :-------------------: |
+| Fernando Camargo | Identificación de canal OneAPP en trama Postmortem | Baja | 8 | 4 | 2 | **75 %** |
+| Lionel Gonzales | [EVT] Implementación de arquitectura cluster-to-cluster – Paquete 1 | Media | 48 | 40 | 10 | **79 %** |
+
+> 💡 **Lectura:** con la metodología (skills + graphify) el trabajo se reduce a una fracción del tiempo tradicional. En el caso de mayor complejidad (Lionel Gonzales), pasar de **48 h a 10 h** equivale a un ahorro de **~79 %** (~4 días de implementación).
+
 ---
 
 ### 1.4 Metodología: SDD + BMAD
