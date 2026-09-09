@@ -10,7 +10,7 @@ Writes the final technical HU (DHU) Markdown document from a technical context f
 ## When NOT to use
 
 - For repository investigation (use `bcv-hu-context-analyzer`).
-- For business/functional resolution (use `bcv-business-resolution`).
+- For resolving business/functional ambiguities (that is a product/user decision, not a technical analysis).
 - For implementation or test generation.
 
 ## Companion skill

@@ -10,7 +10,7 @@ Investigates a BCV business user story across one or more microservice repositor
 
 ## When NOT to use
 
-- For business/functional resolution (use `bcv-business-resolution`).
+- For resolving business/functional ambiguities (that is a product/user decision, not a technical analysis).
 - For final DHU writing (use `bcv-dhu-writer`).
 - For implementation or test generation.
 

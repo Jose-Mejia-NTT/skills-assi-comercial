@@ -2,7 +2,7 @@
 
 Repositorio de skills para el ecosistema BCV (Interbank). Este documento explica qué skills existen, qué hace cada uno y cómo se encadenan en el flujo HU → DHU → implementación.
 
-## 1. Árbol de jerarquía (11 skills)
+## 1. Árbol de jerarquía (13 skills)
 
 ```text
 Skills BCV
@@ -20,20 +20,23 @@ Skills BCV
     │   └── bcv-java-spring-boot         ← setup Spring Boot (BOM, módulos, Key Vault)
     ├── Contratos / API
     │   └── bcv-openapi-design           ← contratos REST/OpenAPI, DTOs, RFC 9457
-    ├── Mensajería
+    ├── Integración
+    │   ├── bcv-openfeign                ← clientes HTTP OpenFeign (headers, ErrorDecoder)
     │   └── bcv-azure-service-bus        ← publishers/subscribers, topics, DLQ
     ├── Persistencia
     │   ├── bcv-spring-data-jpa-sql-server ← entidades, repos, migraciones SQL Server
     │   └── bcv-cosmos-db                ← Cosmos DB (partition key, RU/s, TTL)
-    └── Observabilidad
-        └── bcv-commons-observability    ← trazas, métricas, alertas, data masking
+    ├── Observabilidad
+    │   └── bcv-commons-observability    ← trazas, métricas, alertas, data masking
+    └── Testing
+        └── bcv-unit-integration-testing ← tests unit/integración (JUnit 5, Mockito, @DataJpaTest)
 ```
 
 ## 2. Diagrama de jerarquía (Mermaid)
 
 ```mermaid
 flowchart TD
-    ROOT["Skills BCV (11)"]
+    ROOT["Skills BCV (13)"]
 
     ROOT --> P["PIPELINE<br/>(orquestación)"]
     ROOT --> I["IMPLEMENTACIÓN<br/>(capacidades)"]
@@ -45,18 +48,21 @@ flowchart TD
     I --> ARQ["Arquitectura"]
     I --> BCK["Backend"]
     I --> API["Contratos"]
-    I --> MSG["Mensajería"]
+    I --> INT["Integración"]
     I --> PER["Persistencia"]
     I --> OBS["Observabilidad"]
+    I --> TES["Testing"]
 
     ARQ --> H["bcv-hexagonal-architecture"]
     ARQ --> CL["bcv-clean-architecture<br/>auditar/refactorizar a clean"]
     BCK --> SB["bcv-java-spring-boot"]
     API --> OA["bcv-openapi-design"]
-    MSG --> ASB["bcv-azure-service-bus"]
+    INT --> OF["bcv-openfeign"]
+    INT --> ASB["bcv-azure-service-bus"]
     PER --> JPA["bcv-spring-data-jpa-sql-server"]
     PER --> COS["bcv-cosmos-db"]
     OBS --> OBSV["bcv-commons-observability"]
+    TES --> UNI["bcv-unit-integration-testing"]
 
     style P fill:#e3f2fd,stroke:#1976d2
     style I fill:#fff3e0,stroke:#f57c00
@@ -80,10 +86,12 @@ flowchart TD
 | `bcv-clean-architecture` | Audita, revisa y refactoriza un servicio BCV hacia clean/hexagonal: corrige violaciones de dependencia entre capas y genera plan de migración para servicios legacy (p. ej. `service-point-service`). | Auditar/migrar arquitectura. |
 | `bcv-java-spring-boot` | Setup Spring Boot (ADS BOM, módulos, profiles, Key Vault). | Configurar el servicio. |
 | `bcv-openapi-design` | Contratos REST/OpenAPI, DTOs, errores RFC 9457. | Diseñar endpoints. |
+| `bcv-openfeign` | Clientes HTTP OpenFeign (@FeignClient, headers, ErrorDecoder). | Llamadas síncronas entre servicios. |
 | `bcv-azure-service-bus` | Mensajería ASB (publishers, subscribers, topics, DLQ). | Eventos/colas. |
 | `bcv-spring-data-jpa-sql-server` | Persistencia JPA + SQL Server (entidades, repos, migraciones). | Guardar en SQL Server. |
 | `bcv-cosmos-db` | Persistencia Cosmos DB (partition key, RU/s, TTL). | Guardar en Cosmos. |
 | `bcv-commons-observability` | Trazas, métricas, alertas Teams, data masking. | Observar el servicio. |
+| `bcv-unit-integration-testing` | Tests unitarios e integración (JUnit 5, Mockito, AssertJ, @DataJpaTest, JaCoCo). | Cubrir el código con pruebas. |
 
 ## 4. Flujo del pipeline (paso a paso)
 
@@ -112,4 +120,4 @@ flowchart LR
 | Grupo | Skills | Rol |
 |---|---|---|
 | **Pipeline** (3) | context-analyzer, dhu-writer, implementer | Orquestan la transformación HU → código. |
-| **Implementación** (8) | hexagonal, clean, spring-boot, openapi, service-bus, jpa-sql-server, cosmos, observability | Capacidades especializadas que el implementer referencia para **cómo** escribir el código. |
+| **Implementación** (10) | hexagonal, clean, spring-boot, openapi, openfeign, service-bus, jpa-sql-server, cosmos, observability, unit-integration-testing | Capacidades especializadas que el implementer referencia para **cómo** escribir el código. |

@@ -112,7 +112,7 @@ The change types and their typical reference skills are:
 | Update controller | Add endpoint or modify existing one. | `bcv-openapi-design` |
 | Add repository | Create new repository interface if needed. | `bcv-spring-data-jpa-sql-server` |
 | Add migration | Create Flyway/Liquibase script if needed. | `bcv-spring-data-jpa-sql-server` |
-| Add tests | Create or update unit/integration tests. | `bcv-java-spring-boot` |
+| Add tests | Create or update unit/integration tests. | `bcv-unit-integration-testing` |
 
 Generate snippets, not entire files, unless the file is new.
 

@@ -40,9 +40,8 @@ The `Dictates (how to code)` column tells the developer/Copilot Chat the concret
 | Implement SQL Server persistence with Spring Data JPA     | `bcv-spring-data-jpa-sql-server`  | Entities, repositories, queries, transactions, Flyway/Liquibase migrations.                                    | Entidades `@Entity` + `@Column`; repositorios Spring Data; migraciones Flyway versionadas `V{ts}__`.                                                            |
 | Implement Cosmos DB persistence                           | `bcv-cosmos-db`                   | Cosmos containers, documents, repositories, queries, SDK usage.                                                | Partición por clave definida; POJOs con `@PartitionKey`; no queries entre particiones.                                                                          |
 | Add observability (logs, metrics, tracing)                | `bcv-commons-observability`       | Micrometer, OpenTelemetry, structured logging, correlation IDs.                                                | Logs estructurados JSON; metrics con Micrometer; propaga `traceId`/`correlationId`.                                                                             |
-| Resolve business rules or decision tables                 | `bcv-business-resolution`         | Complex business rules, conditions, decision services.                                                         | Reglas en clase de dominio o servicio de resolución; sin lógica de negocio en controladores.                                                                    |
-| Estimate impact and split stories                         | `bcv-technical-impact-and-story`  | When the draft reveals that the HU should be split or re-scoped.                                               | Divide HUs por responsabilidad; máximo 8 CAs por HU.                                                                                                            |
-| Orchestrate multi-service implementation                  | `bcv-implementation-orchestrator` | When changes span several services and need coordination.                                                      | Una rama `feature/HU-<code>` por repo; misma convención de commits; PRs coordinados.                                                                            |
+| Create or review OpenFeign HTTP clients                   | `bcv-openfeign`                   | Feign clients, FeignConfig, headers, ErrorDecoder, mocking.                                                     | Interfaces `@FeignClient` con base-url configurable; `RequestInterceptor` propaga headers; `ErrorDecoder` tipado sin PII.                                          |
+| Write unit & integration tests                           | `bcv-unit-integration-testing`    | Tests de use cases, adapters, publishers, subscribers, repos, coverage.                                        | JUnit 5, Mockito (`@ExtendWith(MockitoExtension.class)`), AssertJ, `@DataJpaTest`, JaCoCo.                                                                      |
 
 ## How the referenced skill is used (Camino B)
 
@@ -64,7 +63,7 @@ In the implementation draft, each task row must include a `Skill` column:
 | # | Service | Layer | Task | Skill | Blocked by |
 |---|---|---|---|---|---|
 | 1 | plm | input | Add `registryOffice` to request record | `bcv-openapi-design` | N/A |
-| 2 | plm | core | Validate office against catalog | `bcv-business-resolution` | GAP-01 |
+| 2 | plm | core | Validate office against catalog | `bcv-hexagonal-architecture` | GAP-01 |
 | 3 | plm | output | Persist selection in `BusinessAccountRecord` | `bcv-spring-data-jpa-sql-server` | N/A |
 | 4 | cas | subscriber | Include `registryOffice` in SPL payload | `bcv-azure-service-bus` | N/A |
 ```
