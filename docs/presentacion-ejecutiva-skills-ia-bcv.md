@@ -68,7 +68,7 @@ Los dos primeros ejercicios con el equipo dev del banco validaron el flujo y cua
 El proyecto sigue **Spec-Driven Development (SDD)** y **BMAD**:
 
 - **SDD** — la especificación (DHU) es el artefacto central y va **antes** del código.
-- **BMAD** — `Understand → Design → Build → Validate` para la construcción de cada cambio.
+- **BMAD** — `Understand → Design → Build → Validate`, el ciclo interno que cada skill sigue al construir algo.
 
 | Fase SDD                  | Acción del flujo BCV                                                                        |
 | ------------------------- | ------------------------------------------------------------------------------------------- |

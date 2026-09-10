@@ -23,7 +23,7 @@ El núcleo de valor es el **pipeline HU → DHU → código**, que convierte una
 El proyecto sigue **Spec-Driven Development (SDD)** y **BMAD** como metodologías de trabajo:
 
 - **SDD** — la especificación (DHU) es el artefacto central y va **antes** del código.
-- **BMAD** — `Understand → Design → Build → Validate` para la fase de construcción de cada cambio.
+- **BMAD** — `Understand → Design → Build → Validate`, el ciclo interno que cada skill sigue al construir algo.
 
 | Fase SDD | Acción del flujo BCV |
 | --- | --- |

@@ -21,12 +21,12 @@ El ecosistema **BCV/BACC** de Interbank opera sobre 7 microservicios backend Jav
 
 El proyecto sigue **Spec-Driven Development (SDD)** y **BMAD**:
 
-- **SDD** — la especificación (**DHU**) es el artefacto central y va **antes** del código; no se escribe código sin una spec validada.
-- **BMAD** — `Understand → Design → Build → Validate` para la construcción de cada cambio, en **sprints iterativos de 2 semanas**, con **graphify** como motor de research local (código real, ~0 tokens de LLM) en vez de que el LLM lea repositorios completos.
+- **SDD** — framework de desarrollo guiado por especificaciones: antes de escribir código se produce y aprueba una spec (la **DHU**) con criterios de aceptación y mapa técnico. `bcv-hu-implementer` no genera código si la DHU tiene gaps sin resolver.
+- **BMAD** — `Understand → Design → Build → Validate`, el ciclo interno que **cada skill** sigue al construir algo. El pipeline en sí corre en **sprints iterativos de 2 semanas**, con **graphify** como motor de research local (código real, ~0 tokens de LLM) en vez de que el LLM lea repositorios completos.
 
 | Fase SDD                  | Acción del flujo BCV                                                                        |
 | ------------------------- | ------------------------------------------------------------------------------------------- |
-| Especificar (entrada)     | HU funcional de negocio                                                                     |
+| Intención de entrada      | HU funcional de negocio                                                                     |
 | Research-Driven Context   | `bcv-hu-context-analyzer` investiga el código real con graphify → `.context/hu-<codigo>.md` |
 | Especificar formalmente   | `bcv-dhu-writer` escribe la DHU (criterios de aceptación, endpoints, mapa técnico)          |
 | Implementar desde la spec | `bcv-hu-implementer` aplica la DHU en ramas feature (dry-run / apply)                       |
@@ -45,6 +45,10 @@ Se identificó y construyó un **pipeline de 3 skills principales**, uno por cad
 | Implementación   | `bcv-hu-implementer`        | Aplica la DHU en ramas feature (dry-run → apply)            |
 
 **Flujo:** HU funcional → `bcv-hu-context-analyzer` (graphify) → contexto técnico → `bcv-dhu-writer` → DHU → `bcv-hu-implementer` → código.
+
+**Primera entrega: un plan de tareas validado**
+
+> `bcv-hu-context-analyzer` (research con graphify) y `bcv-dhu-writer` (especificación) ejecutan la primera parte del pipeline y entregan un **plan de tareas (la DHU) validado**. Desde ahí, `bcv-hu-implementer` aplica el plan y genera el código, iterando con el feedback del equipo dev.
 
 ---
 
