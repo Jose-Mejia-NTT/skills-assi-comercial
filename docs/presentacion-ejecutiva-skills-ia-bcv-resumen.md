@@ -71,10 +71,10 @@ Los dos primeros ejercicios con el equipo dev del banco cuantificaron el ahorro 
 
 | Sprint       | Período         | Estado         | Resumen                                                                 |
 | ------------ | --------------- | -------------- | ------------------------------------------------------------------------ |
-| **Sprint 1** | 13 – 26 ago     | ✅ Completado   | Consolidación de repos + adopción de graphify + creación del pipeline (3 skills) + primer ejercicio con equipo dev. |
-| **Sprint 2** | 27 ago – 09 sep | 🔄 En curso     | Validación EVT con equipo dev + consolidación de feedback.               |
-| **Sprint 3** | 10 – 23 sep     | ⬜ Propuesto    | Skills adicionales: `bcv-hexagonal-architecture` y `bcv-openapi-design` (+ `bcv-spring-data-jpa-sql-server`) + generación de la DHU técnica. |
-| **Sprint 4** | 24 sep – 09 oct | ⬜ Propuesto    | Validación con equipo dev del banco + estabilización; cierre de entregables y traspaso a cargo de Oscar. |
+| **Sprint 1** | 13 – 28 ago     | ✅ Completado   | Consolidación de repos + adopción de graphify + creación del pipeline (3 skills) + primer ejercicio con equipo dev. |
+| **Sprint 2** | 31 ago – 11 sep | 🔄 En curso     | Validación EVT con equipo dev + consolidación de feedback + skills adicionales (`bcv-hexagonal-architecture`, `bcv-openapi-design`, `bcv-spring-data-jpa-sql-server`). |
+| **Sprint 3** | 14 – 25 sep     | ⬜ Propuesto    | Iteración y ajustes de skills definidos con HUs/EVTs + métricas obtenidas de ejecución. |
+| **Sprint 4** | 28 sep – 09 oct | ⬜ Propuesto    | Iteración y ajustes (continúa) + elaboración de informe final y recomendaciones. |
 
 ---
 
