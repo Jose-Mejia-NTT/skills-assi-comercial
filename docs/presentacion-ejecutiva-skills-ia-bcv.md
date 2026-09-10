@@ -331,7 +331,7 @@ El equipo dev del banco es la contraparte que valida en la práctica: dispone de
 
 ### 4.1 Metodología y Estimación
 
-**Metodología:** iterativa (SDD + BMAD), en **sprints de 2 semanas** desde el 13 ago. Equipo de 2 personas durante ~8 semanas (4 sprints + cierre).
+**Metodología:** iterativa (SDD + BMAD), en **sprints de 2 semanas** desde el 13 ago. Equipo de 2 personas durante ~8 semanas (4 sprints).
 
 #### Resumen de Esfuerzo por Bloque (estimación inicial)
 
@@ -385,7 +385,7 @@ Sprints de 2 semanas desde el **13 ago 2026**.
 | **S3** | Sem 6  | 17 – 23 sep     | ⬜ Propuesto  | Sprint 3 · completar los 13 skills + implementación                     | **Sprint 3 (skills 11–13):** `bcv-cosmos-db`, `bcv-commons-observability`, `bcv-unit-integration-testing` → se completan los 13 skills. Ejecutar `bcv-hu-implementer` (dry-run → apply) sobre la HU: ramas `feature/HU-...` + reporte. |
 | **S4** | Sem 7  | 24 – 30 sep     | ⬜ Propuesto  | Sprint 4 · validación con equipo dev del banco                          | Sin skills nuevos. El **equipo dev del banco prueba en su propio entorno (PC)** y devuelve feedback para corregir los skills. Ciclo de corrección: ajustar, regenerar y revalidar. |
 | **S4** | Sem 8  | 01 – 07 oct     | ⬜ Propuesto  | Sprint 4 · estabilización y cierre                                      | Estabilización final de los skills con el feedback consolidado, documentación/onboarding, demo con el cliente y lecciones aprendidas. |
-| **Cierre** | —   | 08 – 09 oct     | ⬜ Propuesto  | Cierre de entregables                                                   | Cierre final y traspaso a cargo de **Oscar** (Jose Luis finalizó el 11 sep). |
+| **S4** | Sem C  | 08 – 09 oct     | ⬜ Propuesto  | Cierre de entregables                                                   | Cierre final y traspaso a cargo de **Oscar** (Jose Luis finalizó el 11 sep). |
 
 ---
 

@@ -67,23 +67,23 @@ Los dos primeros ejercicios con el equipo dev del banco cuantificaron el ahorro 
 
 ## 5. Roadmap
 
-4 sprints de 2 semanas + cierre, del **13 ago** al **09 oct 2026**:
+4 sprints de 2 semanas, del **13 ago** al **09 oct 2026**:
 
 | Sprint       | Período         | Estado         | Resumen                                                                 |
 | ------------ | --------------- | -------------- | ------------------------------------------------------------------------ |
 | **Sprint 1** | 13 – 26 ago     | ✅ Completado   | Consolidación de repos + adopción de graphify + creación del pipeline (3 skills) + primer ejercicio con equipo dev. |
 | **Sprint 2** | 27 ago – 09 sep | 🔄 En curso     | Validación EVT con equipo dev + consolidación de feedback.               |
-| **Sprint 3** | 10 – 23 sep     | ⬜ Propuesto    | Iteración de skills con código real + generación de la DHU técnica.      |
-| **Sprint 4** | 24 sep – 07 oct | ⬜ Propuesto    | Validación con equipo dev del banco + estabilización.                    |
-| **Cierre**   | 08 – 09 oct     | ⬜ Propuesto    | Cierre de entregables y traspaso a cargo de Oscar.                       |
+| **Sprint 3** | 10 – 23 sep     | ⬜ Propuesto    | Skills adicionales: `bcv-hexagonal-architecture` y `bcv-openapi-design` (+ `bcv-spring-data-jpa-sql-server`) + generación de la DHU técnica. |
+| **Sprint 4** | 24 sep – 09 oct | ⬜ Propuesto    | Validación con equipo dev del banco + estabilización; cierre de entregables y traspaso a cargo de Oscar. |
 
 ---
 
 ## 6. Próximos Pasos
 
-1. **Iterar los skills en las próximas Historias de Usuario** reales del banco, ampliando su cobertura con casos de uso adicionales.
-2. **Oscar queda a cargo** del proyecto tras el traspaso del Arquitecto IA (11 sep): soporte continuo y afinación de los skills.
-3. **Refinar** los skills con más código real y el feedback del equipo dev del banco.
+1. **Skills adicionales: `bcv-hexagonal-architecture` y `bcv-openapi-design`.** Complementan el pipeline: `hexagonal-architecture` define el patrón de todo el código, y `openapi-design` define lo que se expone y valida la HU contra su contrato. `bcv-spring-data-jpa-sql-server` (persistencia SQL Server, usada por casi toda HU) se suma como tercer complemento.
+2. **Iterar los skills en las próximas Historias de Usuario** reales del banco, ampliando su cobertura con casos de uso adicionales.
+3. **Oscar queda a cargo** del proyecto tras el traspaso del Arquitecto IA (11 sep): soporte continuo y afinación de los skills.
+4. **Refinar** los skills con más código real y el feedback del equipo dev del banco.
 
 ---
 
