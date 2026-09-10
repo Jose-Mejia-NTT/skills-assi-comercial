@@ -285,8 +285,8 @@ Incluye además el **flujo completo HU → DHU → implementación** con graphif
 
 | Nombre                           | Rol           | Disponibilidad       | Responsabilidad principal                                                                                                                                                             |
 | -------------------------------- | ------------- | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Jose Luis Mejia Rojas**        | Arquitecto IA | 13 ago – 10 sep 2026 | Arquitectura del flujo HU → DHU, decisiones de contexto y adopción de graphify, diseño del workspace, validación de DHUs e interlocución con el cliente.                              |
-| **Oscar Fabian Castro Severino** | Ingeniero IA  | 13 ago – 09 oct 2026 | Implementación y refinamiento de skills, grafos graphify, ejecución del pipeline (análisis, DHU, implementación), pruebas y reportes. A partir del 10 sep: **soporte y afinaciones**. |
+| **Jose Luis Mejia Rojas**        | Arquitecto IA | 13 ago – 11 sep 2026 | Arquitectura del flujo HU → DHU, decisiones de contexto y adopción de graphify, diseño del workspace, validación de DHUs e interlocución con el cliente.                              |
+| **Oscar Fabian Castro Severino** | Ingeniero IA  | 13 ago – 09 oct 2026 | Implementación y refinamiento de skills, grafos graphify, ejecución del pipeline (análisis, DHU, implementación), pruebas y reportes. A partir del 11 sep: **soporte y afinaciones**. |
 
 ---
 
@@ -321,7 +321,7 @@ El equipo dev del banco es la contraparte que valida en la práctica: dispone de
 
 ### 3.4 Riesgo de Dotación
 
-- **10 sep 2026** — Jose Luis finaliza su participación (mitad del proyecto). Su trabajo queda **culminado y traspasado** en esta fecha; a partir de aquí **Oscar** queda como único recurso, en rol de **soporte y afinaciones** finales.
+- **11 sep 2026** — Jose Luis finaliza su participación (mitad del proyecto). Su trabajo queda **culminado y traspasado** en esta fecha; a partir de aquí **Oscar** queda como único recurso, en rol de **soporte y afinaciones** finales.
 
 ---
 
@@ -380,12 +380,12 @@ Sprints de 2 semanas desde el **13 ago 2026**.
 | **S1** | Sem 1  | 13 – 19 ago     | ✅ Completada | Consolidación de repositorios + entorno                                 | Se consolidó la información de los 7 microservicios BACC y se configuró el entorno. |
 | **S1** | Sem 2  | 20 – 26 ago     | ✅ Completada | Sprint 1 · pipeline + primer ejercicio (Fernando)                       | **Sprint 1 (skills 1–5):** se adoptó **graphify** y se crearon los skills del pipeline (`bcv-hu-context-analyzer`, `bcv-dhu-writer`, `bcv-hu-implementer`) + arranque de `bcv-hexagonal-architecture` y `bcv-java-spring-boot`. **Primer ejercicio con Fernando Camargo**: ~**2 h** con la metodología vs ~**8 h (1 día)** tradicional. |
 | **S2** | Sem 3  | 27 ago – 02 sep | ✅ Completada | Sprint 2 · validación EVT (Lionel)                                      | **Sprint 2 (skills 6–10):** se validó el pipeline con **Lionel Gonzales** sobre un **EVT** — resultado **satisfactorio**, ~4 días ahorrados. |
-| **S2** | Sem 4  | 03 – 09 sep     | 🔄 En curso   | Sprint 2 · consolidación + iteración (skills 6–10)                      | Consolidar el feedback de la prueba EVT e incorporar las correcciones. Continuar `bcv-clean-architecture`, `bcv-openapi-design`, `bcv-openfeign`, `bcv-azure-service-bus`, `bcv-spring-data-jpa-sql-server`. Preparar el traspaso de Jose Luis (10 sep). |
+| **S2** | Sem 4  | 03 – 09 sep     | 🔄 En curso   | Sprint 2 · consolidación + iteración (skills 6–10)                      | Consolidar el feedback de la prueba EVT e incorporar las correcciones. Continuar `bcv-clean-architecture`, `bcv-openapi-design`, `bcv-openfeign`, `bcv-azure-service-bus`, `bcv-spring-data-jpa-sql-server`. Preparar el traspaso de Jose Luis (11 sep). |
 | **S3** | Sem 5  | 10 – 16 sep     | ⬜ Propuesto  | Sprint 2 · completar (skills 6–10) + iteración                          | Completar los 5 skills del Sprint 2 refinándolos con código real y feedback. En paralelo, avanzar el pipeline con la DHU (`bcv-dhu-writer`). |
 | **S3** | Sem 6  | 17 – 23 sep     | ⬜ Propuesto  | Sprint 3 · completar los 13 skills + implementación                     | **Sprint 3 (skills 11–13):** `bcv-cosmos-db`, `bcv-commons-observability`, `bcv-unit-integration-testing` → se completan los 13 skills. Ejecutar `bcv-hu-implementer` (dry-run → apply) sobre la HU: ramas `feature/HU-...` + reporte. |
 | **S4** | Sem 7  | 24 – 30 sep     | ⬜ Propuesto  | Sprint 4 · validación con equipo dev del banco                          | Sin skills nuevos. El **equipo dev del banco prueba en su propio entorno (PC)** y devuelve feedback para corregir los skills. Ciclo de corrección: ajustar, regenerar y revalidar. |
 | **S4** | Sem 8  | 01 – 07 oct     | ⬜ Propuesto  | Sprint 4 · estabilización y cierre                                      | Estabilización final de los skills con el feedback consolidado, documentación/onboarding, demo con el cliente y lecciones aprendidas. |
-| **Cierre** | —   | 08 – 09 oct     | ⬜ Propuesto  | Cierre de entregables                                                   | Cierre final y traspaso a cargo de **Oscar** (Jose Luis finalizó el 10 sep). |
+| **Cierre** | —   | 08 – 09 oct     | ⬜ Propuesto  | Cierre de entregables                                                   | Cierre final y traspaso a cargo de **Oscar** (Jose Luis finalizó el 11 sep). |
 
 ---
 
@@ -396,7 +396,7 @@ Sprints de 2 semanas desde el **13 ago 2026**.
 | 🚀 **Kick-off**                            | 13 ago 2026 | Inicio oficial del proyecto                                          |
 | 🧭 **Graphify + skills del pipeline**      | 26 ago 2026 | Decisión de ahorro de tokens + creación de los 3 skills del pipeline |
 | 💻 **Primera prueba con equipo dev (EVT)** | 01 sep 2026 | Flujo completo validado con Lionel Gonzales — ahorro de ~4 días de implementación |
-| 🏁 **Culminación Arquitecto IA**           | 10 sep 2026 | Traspaso de Jose Luis; Oscar queda como soporte/afinaciones          |
+| 🏁 **Culminación Arquitecto IA**           | 11 sep 2026 | Traspaso de Jose Luis; Oscar queda como soporte/afinaciones          |
 | 🧪 **Validación con equipo dev del banco** | 30 sep 2026 | Feedback incorporado a los skills                                    |
 | 🎯 **Cierre del proyecto**                 | 09 oct 2026 | Skills estabilizados + documentación y onboarding                    |
 
@@ -410,7 +410,7 @@ Sprints de 2 semanas desde el **13 ago 2026**.
 | Entorno de trabajo del equipo dev (PC)     | Equipo dev banco |   ✅ Disponible   | Bloquea la validación con feedback         |
 | Grafos graphify de los 7 repos             |    Equipo IA     | ✅ Generados (S1) | Sin grafos, el análisis consume tokens     |
 | Acceso a repositorios BACC                 |    Interbank     |        ✅         | Bloquea análisis e implementación          |
-| Continuidad tras el 10 sep                 |    Equipo IA     |    Planificado    | Oscar asume soporte y afinaciones          |
+| Continuidad tras el 11 sep                 |    Equipo IA     |    Planificado    | Oscar asume soporte y afinaciones          |
 
 > **Actualización de grafos graphify:** se regeneran (`graphify <repo> --code-only`) cuando un feat implica un **cambio estructural grande** (nuevos controllers, entidades, integraciones o refactors de paquetes). El skill `bcv-hu-implementer` lo indica en el reporte, o el equipo decide a criterio al finalizar el sprint.
 
@@ -420,7 +420,7 @@ Sprints de 2 semanas desde el **13 ago 2026**.
 
 | Severidad | Riesgo                                                              | Mitigación                                                                                |
 | --------- | ------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
-| Alto      | Salida de Jose Luis (Arquitecto IA) el 10 sep, a mitad del proyecto | Traspaso planificado; trabajo culminado antes del 10 sep; Oscar cubre soporte/afinaciones |
+| Alto      | Salida de Jose Luis (Arquitecto IA) el 11 sep, a mitad del proyecto | Traspaso planificado; trabajo culminado antes del 11 sep; Oscar cubre soporte/afinaciones |
 | Medio     | Dependencia de una HU real del cliente para validar el pipeline     | Acuerdo de entrega de HU ya conversado con el cliente                                     |
 | Medio     | Feedback del equipo dev del banco fuera de tiempo                   | El equipo dev ya dispone del entorno en su PC; canal de iteración definido                |
 | Medio     | `service-point-service` legacy (Java 17, estructura plana)          | Skill `bcv-clean-architecture` para migrar; no bloquea el resto                           |
@@ -460,7 +460,7 @@ Los pasos 1–3 se ejecutaron en el **Sprint 2** con **Lionel Gonzales** sobre u
 2. ✅ **Ejecutar `bcv-hu-context-analyzer`** con graphify → `.context/hu-<codigo>.md`.
 3. ✅ **Iterar los skills** con código real (feedback de la prueba EVT).
 4. 🔄 **Consolidar el feedback** de desarrollo e incorporar las correcciones (Sprint 2, en curso).
-5. ⬜ **Preparar el traspaso** de Jose Luis (10 sep): cerrar arquitectura, validaciones y acuerdos con el cliente.
+5. ⬜ **Preparar el traspaso** de Jose Luis (11 sep): cerrar arquitectura, validaciones y acuerdos con el cliente.
 
 ---
 

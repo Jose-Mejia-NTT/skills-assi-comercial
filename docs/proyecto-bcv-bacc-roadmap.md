@@ -197,14 +197,14 @@ Paso a paso (OpenSpec → cómo lo hace BCV):
 - **Inicio:** 13 de agosto de 2026.
 - **Fin:** 09 de octubre de 2026 (~8 semanas).
 - **Disponibilidad del equipo:**
-  - **Jose Luis Mejia Rojas** — hasta el 10 de septiembre de 2026.
+  - **Jose Luis Mejia Rojas** — hasta el 11 de septiembre de 2026.
   - **Oscar Fabian Castro Severino** — hasta el 09 de octubre de 2026.
 
 ## 3. Equipo de trabajo (responsabilidades)
 
 | Nombre | Rol | Disponibilidad | Responsabilidades |
 | --- | --- | --- | --- |
-| **Jose Luis Mejia Rojas** | Arquitecto IA | 13 ago – 10 sep 2026 | Definición de la arquitectura de la solución de skills y del flujo HU → DHU. Decisiones de contexto y adopción de graphify. Diseño del workspace y las convenciones cross-service. Validación de DHUs y criterios de calidad. Interacción con el cliente (acuerdos de alcance y entrega de HU de negocio). *(detalle por confirmar)* |
+| **Jose Luis Mejia Rojas** | Arquitecto IA | 13 ago – 11 sep 2026 | Definición de la arquitectura de la solución de skills y del flujo HU → DHU. Decisiones de contexto y adopción de graphify. Diseño del workspace y las convenciones cross-service. Validación de DHUs y criterios de calidad. Interacción con el cliente (acuerdos de alcance y entrega de HU de negocio). *(detalle por confirmar)* |
 | **Oscar Fabian Castro Severino** | Ingeniero IA | 13 ago – 09 oct 2026 | Implementación y refinamiento de los skills. Generación y mantenimiento de grafos graphify. Ejecución del pipeline (análisis de HU, generación de DHU, implementación). Pruebas, reportes de implementación y actualización de gotchas/contexto. *(detalle por confirmar)* |
 
 > **Nota:** las responsabilidades detalladas son una propuesta basada en los roles de la sección 16 del workflow guide (Context owner, Service owner, HU analyst, Validator, Implementer). Se ajustan según lo que validemos.
@@ -234,13 +234,13 @@ El **equipo de desarrollo del banco** es la contraparte que valida en la prácti
 | **6** | 17 – 23 sep | ⬜ Propuesto | Iteración + implementación | Continuar la mejora de skills. Ejecutar `bcv-hu-implementer` (dry-run → apply) sobre la HU: ramas `feature/HU-...` y reporte de implementación. |
 | **7** | 24 – 30 sep | ⬜ Propuesto | Validación con equipo dev del banco | El **equipo dev del banco prueba en su propio entorno (PC)** y devuelve feedback para corregir los skills. Ciclo de corrección: ajustar skills, regenerar y revalidar. |
 | **8** | 01 – 07 oct | ⬜ Propuesto | Estabilización y cierre | Estabilización final de los skills con el feedback consolidado, documentación/onboarding, demo con el cliente y lecciones aprendidas. |
-| **Cierre** | 08 – 09 oct | ⬜ Propuesto | Cierre de entregables | Cierre final y traspaso a cargo de **Oscar** (Jose Luis finalizó el 10 sep). |
+| **Cierre** | 08 – 09 oct | ⬜ Propuesto | Cierre de entregables | Cierre final y traspaso a cargo de **Oscar** (Jose Luis finalizó el 11 sep). |
 
 > **Actualización de grafos graphify:** se regeneran (`graphify <repo> --code-only`) cuando un feat implica un **cambio estructural grande** (nuevos controllers, entidades, integraciones o refactors de paquetes). El skill `bcv-hu-implementer` lo indica en el reporte de implementación, o el equipo decide a criterio al finalizar el sprint.
 
 ### 4.1 Hitos de disponibilidad
 
-- **10 sep 2026** — Jose Luis Mejia Rojas finaliza su participación. Su trabajo queda **culminado y traspasado** en esta fecha. A partir de aquí, **Oscar** queda como único recurso, en rol de **soporte y afinaciones** finales.
+- **11 sep 2026** — Jose Luis Mejia Rojas finaliza su participación. Su trabajo queda **culminado y traspasado** en esta fecha. A partir de aquí, **Oscar** queda como único recurso, en rol de **soporte y afinaciones** finales.
 - **09 oct 2026** — Oscar Fabian Castro Severino finaliza su participación; cierre del proyecto.
 
 > **Semana 3 en adelante:** la constante de las semanas 4–8 es la **iteración continua sobre los skills**. La validación con el **equipo dev del banco** ya empezó en la semana 3 (prueba EVT con Lionel Gonzales, satisfactoria). A partir de la semana 7 el equipo dev prueba en su entorno (PC) de forma más amplia y devuelve feedback que se traduce en correcciones. El flujo HU → DHU corre en paralelo como validación del pipeline, no como único foco.
